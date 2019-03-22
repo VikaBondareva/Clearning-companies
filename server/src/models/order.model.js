@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 require("mongoose-double")(mongoose);
 const SchemaTypes = mongoose.Schema.Types;
 var mongoosePaginate = require("mongoose-paginate");
+const Reccurent = require("../enums/reccurent.enum");
 
 const schema = new mongoose.Schema(
   {
@@ -16,7 +17,13 @@ const schema = new mongoose.Schema(
       required: true
     },
     address: { type: String, required: true },
-    recurrent: { type: Boolean, required: true, default: false },
+    recurrent: {
+      type: Number,
+      required: true,
+      default: Reccurent.onlyOne,
+      max: 4,
+      min: 1
+    },
     days: [{ type: String, required: true }],
     startTime: { type: String, required: true },
     services: [

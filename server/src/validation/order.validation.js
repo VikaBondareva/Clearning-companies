@@ -1,12 +1,16 @@
 const Joi = require("joi");
 const { Time } = require("../enums/validies.enum");
 const Status = require("../enums/status.enum");
+const Reccurent = require("../enums/reccurent.enum");
 
 const schemas = {
   orderPOST: Joi.object().keys({
     executor: Joi.string().required(),
     address: Joi.string().required(),
-    recurrent: Joi.bool().required(),
+    recurrent: Joi.number()
+      .required()
+      .min(1)
+      .max(4),
     days: Joi.array()
       .required()
       .items(
