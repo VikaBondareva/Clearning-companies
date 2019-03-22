@@ -3,7 +3,10 @@ const Status = require("../../enums/status.enum");
 const Company = require("../../models").company;
 const Role = require("../../enums/roles.enum");
 const emailService = require("../../services/email.service");
-const { mailForChangeStatus } = require("../../config/email");
+const {
+  mailForChangeStatus,
+  mailForCreateOrder
+} = require("../../config/email");
 const { pricingPrice, pricingTime } = require("../../config/pricingFunction");
 
 async function createOrder(
@@ -41,7 +44,14 @@ async function createOrder(
     cleanTime,
     status: Status.Pending
   });
-  await order.save();
+  await order.save((err, data) => {
+    if (err) throw err;
+
+    emailService.sendGMail(
+      company.email,
+      mailForCreateOrder(company.name, order._id)
+    );
+  });
   return true;
 }
 
@@ -98,7 +108,8 @@ async function changeStatus(executor, orderId, { status }) {
   order.save((err, data) => {
     if (err) throw err;
 
-    if (order.customer.email) {
+    const { customer } = order;
+    if (customer.isNotify && customer.email) {
       emailService.sendGMail(
         order.customer.email,
         mailForChangeStatus(order._id, status)

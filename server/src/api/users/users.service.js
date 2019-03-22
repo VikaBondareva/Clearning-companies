@@ -70,12 +70,14 @@ async function blockUser({ message, block }, _id) {
     const user = await User.findByIdAndUpdate(_id, {
       $set: { status: StatusUser.locked, lockMessage: `${message}` }
     });
-    emailService.sendGMail(user.email, mailForBlocked(user.name, message));
+    if (user.isNotify)
+      emailService.sendGMail(user.email, mailForBlocked(user.name, message));
   } else {
     const user = await User.findByIdAndUpdate(_id, {
       $set: { status: StatusUser.verified }
     });
-    emailService.sendGMail(user.email, mailForUnblocked(user.name));
+    if (user.isNotify)
+      emailService.sendGMail(user.email, mailForUnblocked(user.name));
   }
   return true;
 }

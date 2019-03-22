@@ -54,3 +54,11 @@ module.exports.mailForBlocked = (name, message) => {
   const subject = `Ваш профиль заблокировали`;
   return { content, subject };
 };
+
+module.exports.mailForCreateOrder = (name, orderId) => {
+  const content = `${name}, У вас новый заказ. Перейтиде по ссылке что бы посмотреть: http://localhost:${
+    process.env.PORT
+  }/api/orders/${orderId}`;
+  const subject = `Новый заказ`;
+  return { content, subject };
+};
