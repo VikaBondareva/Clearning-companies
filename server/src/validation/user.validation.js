@@ -34,7 +34,10 @@ const schemas = {
       then: Joi.string()
         .required()
         .regex(Password)
-    })
+    }),
+    isNotify: Joi.boolean()
+      .default(false)
+      .required()
   })
 };
 

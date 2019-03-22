@@ -24,14 +24,14 @@ async function getAllUsers({ page, perPage }) {
 
 async function update(
   { _id },
-  { name, surname, email, addresses, oldPassword, newPassword }
+  { name, surname, email, addresses, oldPassword, newPassword, isNotify }
 ) {
   try {
     let user;
     if (!oldPassword) {
       await User.findByIdAndUpdate(
         _id,
-        { $set: { name, surname, addresses } },
+        { $set: { name, surname, addresses, isNotify } },
         { new: true }
       );
     } else {
@@ -46,6 +46,7 @@ async function update(
       user.surname = surname;
       user.addresses = addresses;
       user.password = newPassword;
+      user.isNotify = isNotify;
       await user.save(err => {
         if (err) throw err;
       });

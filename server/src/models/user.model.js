@@ -32,6 +32,7 @@ const schema = new mongoose.Schema(
     googleId: { type: String, unique: true },
     vkontakteId: { type: String, unique: true },
     role: { type: String, required: true, lowercase: true },
+    isNotify: { type: Boolean, required: true, default: false },
     lockMessage: { type: String }
   },
   {

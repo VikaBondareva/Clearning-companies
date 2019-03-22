@@ -78,7 +78,7 @@ async function logout() {
 }
 
 async function register(
-  { name, surname, password, email, phone, addresses },
+  { name, surname, password, email, phone, addresses, isNotify },
   role
 ) {
   try {
@@ -90,7 +90,8 @@ async function register(
       email,
       phone,
       role,
-      addresses
+      addresses,
+      isNotify
     });
     await user.save();
     const token = authHelper.verifiedToken(role, user._id);
