@@ -1,0 +1,8 @@
+export const REGISTER_USER = 'REGISTER_USER';
+export const REGISTER_COMPANY = 'REGISTER_COMPANY';
+export const AUTH_LOGIN = 'AUTH_LOGIN';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const CHANGE_FILTER  = 'CHANGE_FILTER';
+
+export const GET_COMPANIES = "GET_COMPANIES";
+export const EDIT_COMPANY = "EDIT_COMPANY";
