@@ -23,7 +23,7 @@ const schemas = {
     ),
     email: Joi.string().email(),
     phone: Joi.when("email", {
-      is: Joi.string(),
+      is: null,
       then: Joi.string()
         .trim()
         .regex(PhoneNumber)
@@ -35,9 +35,7 @@ const schemas = {
         .required()
         .regex(Password)
     }),
-    isNotify: Joi.boolean()
-      .default(false)
-      .required()
+    isNotify: Joi.boolean().default(false)
   })
 };
 

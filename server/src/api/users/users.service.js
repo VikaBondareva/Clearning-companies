@@ -82,7 +82,7 @@ async function blockUser({ message, block }, _id) {
   return true;
 }
 
-async function deleteUser(_id, { isDeleted }) {
+async function deleteUser(_id) {
   const user = User.findByIdAndUpdate(_id, {
     $set: { status: StatusUser.deleted }
   });

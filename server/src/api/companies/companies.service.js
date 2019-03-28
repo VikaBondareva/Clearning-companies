@@ -19,7 +19,7 @@ async function getCompanies({
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
-    select: "name address ratting services workPlan",
+    select: "name address ratting services workPlan rooms",
     sort: "-created_at"
   };
   const query = {
@@ -93,7 +93,7 @@ async function updateCompany(
   }
 }
 
-async function deleteCompany(_id, { isDeleted }) {
+async function deleteCompany(_id) {
   try {
     Company.findByIdAndUpdate(_id, { $set: { status: StatusUser.deleted } });
     return true;

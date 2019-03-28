@@ -28,7 +28,7 @@ module.exports.registerUser = (req, res, next) => {
     .register(req.body, Role.Customer)
     .then(result => {
       result
-        ? res.status(httpStatus.OK).json("created user")
+        ? res.status(httpStatus.CREATED).json("created user")
         : res.status(httpStatus.BAD_REQUEST).json("BAD REQUEST");
     })
     .catch(err => next(err));
@@ -39,7 +39,7 @@ module.exports.registerCompany = (req, res, next) => {
     .registerCompany(req.body, Role.Executor)
     .then(result => {
       result
-        ? res.status(httpStatus.OK).json("created company")
+        ? res.status(httpStatus.CREATED).json("created company")
         : res.status(httpStatus.BAD_REQUEST).json("BAD REQUEST");
     })
     .catch(err => next(err));
