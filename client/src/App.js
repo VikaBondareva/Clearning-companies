@@ -1,12 +1,10 @@
 import React from 'react';
-import Header from './components/Header/HeaderComponent';
-import Home from './components/Home/HomeComponent';
+import Root from './routes/routes';
 
 const App  = ()=>{
   return (
       <>
-        <Header/>
-        <Home/>
+        <Root/>
       </>
   )
 }

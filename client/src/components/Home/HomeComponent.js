@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import CardCompanyComponent from '../CompanyCard/CardCompanyComponent';
-import apiService from '../../api/companies.api';
+import LeftLayout   from '../LeftLayout/LeftLayout';
+import apiService from '../../services/companies.service';
+import Grid from '@material-ui/core/Grid';
 
 export default class HomeComponent extends Component {
 
@@ -17,16 +19,24 @@ export default class HomeComponent extends Component {
     }
 
     renderCompany(company){
-        return <CardCompanyComponent key={company._id} company={company}/>
+        return (
+                <CardCompanyComponent key={company._id} company={company}/>
+        );
     }
 
     render(){
-        // const {companies} = this.props;
-
         return (
-            <>
-                {this.state.companies.map(this.renderCompany)}
-            </>
+             <Grid container>
+                <Grid item xs={9}>
+                    <div style={{margin: "20px 50px"}}>
+                        {this.state.companies.map(this.renderCompany)}
+                    </div>
+                </Grid>
+                <Grid container  
+                item xs={2} >
+                    <LeftLayout/>
+                </Grid>
+            </Grid>
         );
     }
 }

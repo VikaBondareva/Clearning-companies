@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 import store from './store/store';
+import App from './App';
+
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+
 
 const theme = createMuiTheme({ 
   typography: { useNextVariants: true },
@@ -19,17 +21,17 @@ const theme = createMuiTheme({
       paper:"rgba(214, 225, 149, 1)",
       default:"rgba(255, 255, 255, 1)"
     },
-    "primary":{
-      "light":"rgba(21, 95, 36, 1)",
-      "main":"rgba(26, 134, 104, 1)",
-      "dark":"rgba(61, 88, 72, 1)",
-      "contrastText":"#fff"
+    primary:{
+      light:"#e0f2f1",
+      main:"rgba(26, 134, 104, 1)",
+      dark:"#e0f2f1",
+      contrastText:"#fff"
     },
-    "secondary":{
-      "light":"rgba(29, 194, 75, 1)",
-      "main":"rgba(60, 128, 54, 1)",
-      "dark":"rgba(62, 39, 49, 1)",
-      "contrastText":"#fff"
+    secondary:{
+      light:"rgba(29, 194, 75, 1)",
+      main:"rgba(60, 128, 54, 1)",
+      dark:"rgba(62, 39, 49, 1)",
+      contrastText:"#fff"
     },
     "error":{
       "light":"#e57373",
@@ -49,9 +51,11 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      {/* <Router history={history}> */}
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      {/* </Router> */}
     </Provider>,
      document.getElementById('root')
 );

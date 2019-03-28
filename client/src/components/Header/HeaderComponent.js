@@ -13,6 +13,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
+import {Link} from 'react-router-dom';
+
 const styles = theme => ({
     root: {
       width: '100%',
@@ -82,8 +84,12 @@ const styles = theme => ({
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My orders</MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <p><Link to='/login' >Login</Link></p>
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose}>
+          <p><Link to='/register' >Регистрация</Link></p>
+        </MenuItem>
       </Menu>
     );
   
@@ -99,15 +105,13 @@ const styles = theme => ({
             <IconButton color="inherit">
               <AccountCircle />
             </IconButton>
-            <p>Profile</p>
+            <p><Link to='/register' >Регистрация</Link></p>
         </MenuItem>
         <MenuItem>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
               <MailIcon />
-            </Badge>
           </IconButton>
-          <p>My orders</p>
+          <Link to='/login' >Войти</Link>
         </MenuItem>
         <MenuItem>
           <IconButton color="inherit">
@@ -123,7 +127,7 @@ const styles = theme => ({
             <AppBar position="static" className={classes.navbar}>
                 <Toolbar>
                     <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                        Клининговые компании
+                        <Link to="/">Клининговые компании</Link> 
                     </Typography>
                     <SearchFormComponent/>
                     <div className={classes.grow} />
