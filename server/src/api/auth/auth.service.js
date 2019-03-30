@@ -42,21 +42,17 @@ async function activation(_id, role, email) {
   } else return null;
 }
 
-async function authenticate({ email, phone, password }) {
+async function authenticate({ identifier, password }) {
   let data;
-  if (phone && !email) {
-    data = await User.findOne({ phone })
+  data = await User.findOne({
+    $or: [{ email: identifier }, { phone: identifier }]
+  })
+    .select("+password")
+    .exec();
+  if (data === null) {
+    data = await Company.findOne({ email: identifier })
       .select("+password")
       .exec();
-  } else if (email && !phone) {
-    data = await User.findOne({ email })
-      .select("+password")
-      .exec();
-    if (data === null) {
-      data = await Company.findOne({ email })
-        .select("+password")
-        .exec();
-    }
   }
 
   if (data === null) return false;
@@ -97,9 +93,10 @@ async function register(
     const token = authHelper.verifiedToken(role, user._id);
     if (email) {
       emailService.sendGMail(user.email, mailForVerified(user, token));
-    } else if (phone) {
-      user.sendSMS("Ваш код подтверждения: 25864");
     }
+    // else if (phone) {
+    //   user.sendSMS("Ваш код подтверждения: 25864");
+    // }
     return true;
   } catch (err) {
     throw err;
