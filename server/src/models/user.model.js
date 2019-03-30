@@ -17,16 +17,17 @@ const schema = new mongoose.Schema(
     email: { type: String, unique: true, validate: emailValidator },
     phone: { type: String, unique: true, validate: pnumberValidator },
     password: { type: String, select: false, validate: passwordValidator },
-    addresses: [
-      {
-        country: { type: String, require: true },
-        city: { type: String, require: true },
-        district: { type: String },
-        street: { type: String, require: true },
-        house: { type: Number, require: true },
-        apartment: { type: Number }
-      }
-    ],
+    addresses: [{ type: String, required: true }],
+    // addresses: [
+    //   {
+    //     country: { type: String, require: true },
+    //     city: { type: String, require: true },
+    //     district: { type: String },
+    //     street: { type: String, require: true },
+    //     house: { type: Number, require: true },
+    //     apartment: { type: Number }
+    //   }
+    // ],
     status: { type: Number, required: true, default: StatusUser.notVerified },
     githubId: { type: String, unique: true },
     googleId: { type: String, unique: true },

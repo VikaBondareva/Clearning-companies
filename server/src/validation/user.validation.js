@@ -11,16 +11,17 @@ const schemas = {
       .required()
       .min(3)
       .max(50),
-    addresses: Joi.array().items(
-      Joi.object({
-        country: Joi.string().required(),
-        city: Joi.string().required(),
-        district: Joi.string(),
-        street: Joi.string().required(),
-        house: Joi.number().required(),
-        apartment: Joi.number()
-      })
-    ),
+    addresses: Joi.array().items(Joi.string()),
+    // addresses: Joi.array().items(
+    //   Joi.object({
+    //     country: Joi.string().required(),
+    //     city: Joi.string().required(),
+    //     district: Joi.string(),
+    //     street: Joi.string().required(),
+    //     house: Joi.number().required(),
+    //     apartment: Joi.number()
+    //   })
+    // ),
     email: Joi.string().email(),
     phone: Joi.when("email", {
       is: null,
@@ -35,7 +36,7 @@ const schemas = {
         .required()
         .regex(Password)
     }),
-    isNotify: Joi.boolean().default(false)
+    isNotify: Joi.boolean().default(true)
   })
 };
 

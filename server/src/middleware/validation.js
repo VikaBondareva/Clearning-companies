@@ -14,7 +14,7 @@ const validation = (schema, property) => {
 
       console.log("error", message);
       res.status(httpStatus.BAD_REQUEST).json({
-        error: message
+        message
       });
     }
   };
