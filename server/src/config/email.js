@@ -19,26 +19,22 @@ module.exports.GmailTransport = nodemailer.createTransport({
 });
 
 module.exports.mailForVerified = ({ name, email }, token) => {
-  const content = `Уважаемый, ${name}. Для подтверждения регистации пройтите по ссылке:\n
-    http://localhost:${
-      process.env.PORT
-    }/api/auth/activation?token=${token}&email=${email}`;
+  const content = `Уважаемый, ${name}. Для подтверждения регистации пройдите по ссылке:\n
+  ${process.env.CLIENT_URL}/activation?token=${token}&email=${email}`;
   const subject = "Подтверждение регистрации";
   return { content, subject };
 };
 
 module.exports.mailVerifiedEmail = (name, email, token) => {
   const content = `Уважаемый, ${name}. Для подтверждения почты пройтите по ссылке:\n
-    http://localhost:${
-      process.env.PORT
-    }/api/auth/activation?token=${token}&email=${email}`;
+    ${process.env.CLIENT_URL}/activation?token=${token}&email=${email}`;
   const subject = "Подтверждение почты";
   return { content, subject };
 };
 
 module.exports.mailForChangeStatus = (orderId, status) => {
   const content = `Ваш заказ ${status} \nПерейдите по ссылке, чтобы посмотреть
-    http://localhost:${process.env.PORT}/api/orders/${orderId}`;
+  ${process.env.CLIENT_URL}/orders/${orderId}`;
   const subject = `Ваш заказ ${status}`;
   return { content, subject };
 };
@@ -56,9 +52,9 @@ module.exports.mailForBlocked = (name, message) => {
 };
 
 module.exports.mailForCreateOrder = (name, orderId) => {
-  const content = `${name}, У вас новый заказ. Перейтиде по ссылке что бы посмотреть: http://localhost:${
-    process.env.PORT
-  }/api/orders/${orderId}`;
+  const content = `${name}, У вас новый заказ. Перейтиде по ссылке что бы посмотреть:  ${
+    process.env.CLIENT_URL
+  }/orders/${orderId}`;
   const subject = `Новый заказ`;
   return { content, subject };
 };
