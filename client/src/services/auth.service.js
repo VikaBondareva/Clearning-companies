@@ -15,6 +15,13 @@ export default {
             url: '/auth/vkontakte',
         })
     },
+    confirmEmail(token, email){
+        return Axios.request({
+            method: 'POST',
+            url: `/auth/activation/${token}`,
+            data: email
+        })
+    },
     authGoogle(){
         return Axios.request({
             method: 'GET',

@@ -1,4 +1,4 @@
-import {GET_COMPANIES} from '../constants';
+import {GET_COMPANIES} from './actionTypes';
 
 export const GetCompanies = () => ({
     type: GET_COMPANIES

@@ -1,20 +1,20 @@
 export function authHeader() {
-    let user = JSON.parse(localStorage.getItem('user'));
+    let token = JSON.parse(localStorage.getItem('token'));
     console.log("ACCESS_____________");
-    console.log(user.accessToken);
-    if (user && user.accessToken) {
-        return { 'Authorization': 'Bearer ' + user.accessToken };
+    console.log(token.accessToken);
+    if (token && token.accessToken) {
+        return { 'Authorization': 'Bearer ' + token.accessToken };
     } else {
         return {};
     }
 }
 
 export function authRefreshHeader() {
-    let user = JSON.parse(localStorage.getItem('user'));
+    let token = JSON.parse(localStorage.getItem('token'));
     console.log("REFRESH_____________");
-    console.log(user.refreshToken);
-    if (user && user.refreshToken) {
-        return { 'Refresh-token':'Bearer '+ user.refreshToken };
+    console.log(token.refreshToken);
+    if (token && token.refreshToken) {
+        return { 'Refresh-token':'Bearer '+ token.refreshToken };
     } else {
         return {};
     }

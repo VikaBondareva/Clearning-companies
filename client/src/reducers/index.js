@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import companies from './companies';
+import auth from './auth';
 import filters from './filters';
 
 const rootReducer = combineReducers({
-     companies, 
+     auth, 
      filters,
 });
 

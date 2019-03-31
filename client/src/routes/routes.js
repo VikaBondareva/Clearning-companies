@@ -1,16 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
-import { createBrowserHistory } from 'history';
-import Header from '../components/Header/HeaderComponent';
-import RegisterCompany from '../components/Auth/Registration/Registration';
-import Login from '../components/Auth/Login/Login';
-import Home from '../components/Home/HomeComponent';
-import CompanyPage from '../components/CompanyPage/CompanyPageComponent';
+import App from '../components/App';
+import RegisterUser from '../components/Auth/Registration/Registration';
+import Login from '../containers/Login/LoginContainer';
 
-const history = createBrowserHistory();
+import NotFound from '../components/NotFound/NotFound';
+import ConfirmRegister from '../components/Auth/ConfirmEmail/ConfirmEmail';
+import RegisterCompany from '../components/Auth/Registration/RegistrationCompany';
 
-export default () => {
+export default() => {
 //   const requireLogin = (nextState, replace, cb) => {
 //     function checkAuth() {
 //       const { auth: { user }} = store.getState();
@@ -27,30 +26,15 @@ export default () => {
 //       checkAuth();
 //     }
 //   };
-
  
   return (
-    <Router history={history}>
-        <Header/>
-        <Switch>
-
-            <Route path="/"  exact component={Home} />
-            <Route path="/login"  exact component={Login} />
-            <Route path="/register"  exact component={RegisterCompany} />
-
-            {/* <Route path="/*" component={<h2>Error not found</h2>} /> */}
-            <Route path="/companies/:id" component={CompanyPage}/>
+          <Switch>
+            <Route path="/"  exact component={App} />
+            <Route path="/login"   component={Login} />
+            <Route path="/register"   component={RegisterUser} />
+            <Route path="/register-company" component={RegisterCompany} />
+            <Route path='/activation' component={ConfirmRegister}/>
+            <Route path="/*" component={NotFound} />
         </Switch>
-           
-
-        {/* <Route onEnter={requireLogin}>
-            <Route path="profile" component={Profile}/>
-            <Route path="loginSuccess" component={LoginSuccess}/>
-        </Route> */}
-
-        {/* <Route path="about" component={About}/>
-        <Route path="booking" component={Booking}/> */}
-
-    </Router>
   );
 };
