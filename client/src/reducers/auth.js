@@ -17,7 +17,7 @@ const initialState = {
   isSendEmail: false
 };
 
-export default (state = initialState, {type, token,status, message}) => {
+export default (state = initialState, {type, token, message}) => {
   switch (type) {
     case LOGIN_REQUEST:
     case REGISTER_REQUEST:

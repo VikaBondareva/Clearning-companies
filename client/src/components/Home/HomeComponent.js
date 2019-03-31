@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import CardCompanyComponent from '../CompanyCard/CardCompanyComponent';
 import SearchMenu from './SearchForm/SearchMenu';
-import apiService from '../../services/companies.service';
 import { withStyles } from '@material-ui/core/styles';
 import Pagination from './PaginationComponent';
-import LoadingHOC from '../common/loading/loadingHOC';
+import PropTypes from 'prop-types';
 
 const styles ={
     main: {
@@ -25,36 +24,21 @@ class HomeComponent extends Component {
      constructor(){
          super();
 
-         this.state = {
-            companies: [],
-            total: '',
-            page: "",
-            pages: "",
+        //  this.state = {
+        //     total: '',
+        //     page: "",
+        //     pages: "",
 
-        }
+        // }
         this.handleClickPagination = this.handleClickPagination.bind(this);
-        this.getCompanies = this.getCompanies.bind(this);
      }
 
     componentDidMount(){
-        this.getCompanies();
-    }
-
-    getCompanies(page){
-        apiService.getCompanies(page)
-            .then(response =>{
-                console.log(response);
-                this.setState({
-                    companies: response.data.docs,
-                    total: response.data.total,
-                    page: response.data.page,
-                    pages: response.data.pages
-                })
-            });
+        this.props.getCompanies();
     }
 
     handleClickPagination(page){
-        this.getCompanies(page);
+        this.props.getCompanies(page);
     }
 
     renderCompany(company){
@@ -64,21 +48,24 @@ class HomeComponent extends Component {
     }
 
     render(){
+        const {classes,total, docs, page, pages} = this.props;
         return (
             <>
                 <SearchMenu/>
-                <section className={this.props.classes.main}>
-                   <div className={this.props.classes.companies}>
-                       <div className={this.props.classes.total}>
-                             Найдено: {this.state.total}
+                <section className={classes.main}>
+                   <div className={classes.companies}>
+                       <div className={classes.total}>
+                             Найдено: {total}
                         </div>
                          <div style={{margin: "20px 0"}}>
-                              {this.state.companies.map(this.renderCompany)}
+                              {docs.map(this.renderCompany)}
                           </div>
                     </div>
                     <Pagination 
                         handleClickPagination={this.handleClickPagination}
-                        total={this.state.total}
+                        pages={pages}
+                        total={page}
+                        page={page}
                     />
                 </section>
             </>
@@ -86,6 +73,11 @@ class HomeComponent extends Component {
     }
 }
 
+HomeComponent.propTypes = {
+    classes: PropTypes.object.isRequired,
+    docs: PropTypes.array.isRequired,
+    total: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired
+};
 
-// export default LoadingHOC('companies')
-export default (withStyles(styles)(HomeComponent));
+export default withStyles(styles)(HomeComponent);
