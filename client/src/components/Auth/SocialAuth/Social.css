@@ -1,0 +1,19 @@
+.img-social{
+    width: 50px;
+    height: 50px;
+    background-position: center center;
+}
+.social{
+    display: flex;
+    justify-content: center;
+    flex-flow: row;
+}
+.social-vk{
+    background-image: url('../../../img/vk-icon.png') ;
+}
+.social-google{
+    background-image: url('../../../img/google-icon.png');
+}
+.social-github{
+    background-image:  url('../../../img/github-icon.png');
+}

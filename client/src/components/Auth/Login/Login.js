@@ -12,57 +12,48 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import {Link} from 'react-router-dom';
-import ApiService from '../../../services/auth.service';
-import SocialAuth from '../../SocialAuth/SosialAuthComponent';
+import SocialAuth from '../SocialAuth/SosialAuthComponent';
+import {valid, validPassword, formValid} from '../../../helpers/validation';
+import loadingHOC from '../../common/loading/loadingHOC';
 
 import styles from '../style';
-
-
-const formValid = ({formErrors, ...rest}) => {
-  let valid = false;
-
-  Object.value(formErrors).forEach(val=> val.length > 0 && (valid=false));
-  
-  Object.value(rest).forEach(val=>{
-    val === null && (valid = false);
-  })
-
-  return valid;
-}
 
 class Login extends Component {
     constructor(props) {
       super(props);
-  
+      // const redirectRoute = this.props.location.query.next || '/login';
       this.state = {
-        email: "",
-        password: "",
-        emailError: true,
-        passwordError: true, 
+        user: {
+          identifier: '',
+          password: "",
+        },
+        redirectTo: '/profile',
+        formErrors: {
+          identifier: true,
+          password: true, 
+        },
         error: ""
       };
     }
   
-    validate = (afterSetState) => {
-      let emailError = true;
-      let passwordError = true;
-      const {email, password} = this.state;
+    validate = () => {
+      const {formErrors, user} = this.state;
   
-      if (email.indexOf(" ") !== -1) {
-          emailError = false;
-      } else if (email.length < 7) {
-          emailError = false
-      }
+      formErrors.identifier = valid(user.identifier);
+      formErrors.password = validPassword(user.password);
   
-      if (password.length < 7) {
-        passwordError =false;
-      }
-  
-      this.setState({ emailError, passwordError, error: "" }, afterSetState);
+      this.setState({ formErrors, user, error: "" });
     };
   
-    handleChange = name => event => {
-      this.setState({ [name]: event.target.value });
+    handleChange = event => {
+      const {name, value} = event.target;
+
+      this.setState({
+        user: {
+              ...this.state.user,
+              [name]: value
+        }
+      })
     };
 
     handleMessage = msg =>{
@@ -71,79 +62,77 @@ class Login extends Component {
   
     handleSubmit = (event) => {
       event.preventDefault();
-      this.validate(() => {
-        if (this.state.emailError & this.state.passwordError) {
-          const user = {email: this.state.email, password: this.state.password};
-          ApiService.login(user)
-            .then((res) => {
-              //   this.props.authUser();
-              console.log(res)
-            })
-            .catch((error) => {
-              console.log(error)
-              this.handleMessage("Неверный логин или пароль")
-            });
-        }
-          this.handleMessage("Введите корректные данные")
-      })
+      this.validate()
+      let valid = formValid(this.state.formErrors);
+      if (valid) {
+        this.props.login(this.state.user, this.state.redirectTo);
+      } else 
+          this.handleMessage("Invalid data entered")
     };
 
     render() {
         const { classes } = this.props;
-        const {emailError,  passwordError,error} = this.state
+
+        const {identifier,  password} = this.state.formErrors;
         return (
-            <main className={`${classes.main} ${classes.mainSmall}`}>
-            <CssBaseline />
-            <Paper className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                Sign in to Mega Clean
-                </Typography>
-                <p className={classes.error}>{error && <p>{error}</p>}</p>
-                <form className={classes.form}>
-                <FormControl margin="normal" required fullWidth>
-                    <InputLabel 
-                      htmlFor="email"
-                      >Email Address or Phone Number</InputLabel>
-                    <Input 
-                      id="email"
-                      name="email"
-                      autoComplete="email"
-                      autoFocus
-                      onChange={this.handleChange("email")}
-                      error={Boolean(!emailError)}
-                    />
-                </FormControl>
-                <FormControl margin="normal" required fullWidth>
-                    <InputLabel htmlFor="password">Password</InputLabel>
-                    <Input 
-                      name="password"
-                      type="password"
-                      id="password"
-                      onChange={this.handleChange("password")}
-                      autoComplete="current-password"
-                      error={Boolean(!passwordError)}
-                    />
-                </FormControl>
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleSubmit}
-                    className={classes.submit}
-                >
-                    Sign In
-                </Button>
-                </form>
-                <div style={{textAlign: "center"}}>
-                    <p>Sign in through social networks</p>
-                    <SocialAuth/>
-                </div>
-                <p>You have not account? <Link to='/register'>Create an account.</Link></p>
-            </Paper>
+            <main className={`${classes.main}`}>
+              <div className={classes.mainSmall}>
+              <CssBaseline />
+              <Paper className={classes.paper}>
+                  <Link to='/'>
+                    <Avatar className={classes.avatar}>
+                      <LockOutlinedIcon />
+                    </Avatar> 
+                  </Link>
+                  <Typography component="h1" variant="h5">
+                  Sign in to Mega Clean
+                  </Typography>
+                  {this.state.error
+                    ? <p className={classes.error}>{this.state.error}</p>
+                    : this.props.message 
+                      ?  <p className={classes.error}>{this.props.message }</p>
+                      : ''
+                  }
+                  <form className={classes.form}>
+                  <FormControl margin="normal" required fullWidth>
+                      <InputLabel 
+                        htmlFor="identifier"
+                        >Email Address or Phone Number</InputLabel>
+                      <Input 
+                        name="identifier"
+                        autoComplete="identifier"
+                        onChange={this.handleChange}
+                        error={!identifier}
+                      />
+                  </FormControl>
+                  <FormControl margin="normal" required fullWidth>
+                      <InputLabel htmlFor="password">Password</InputLabel>
+                      <Input 
+                        name="password"
+                        type="password"
+                        onChange={this.handleChange}
+                        autoComplete="current-password"
+                        error={!password}
+                      />
+                  </FormControl>
+                  <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleSubmit}
+                      className={classes.submit}
+                  >
+                      Sign In
+                  </Button>
+                  </form>
+                  <div style={{textAlign: "center"}}>
+                      <p>Sign in through social networks</p>
+                      <SocialAuth/>
+                  </div>
+                  <p>You have not account? <Link to='/register'>Create an account.</Link></p>
+              </Paper>
+              </div>
             </main>
         );
     }   
@@ -151,6 +140,10 @@ class Login extends Component {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired,
+  message: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(Login);
+
+export default loadingHOC('isLoading')(withStyles(styles)(Login));
