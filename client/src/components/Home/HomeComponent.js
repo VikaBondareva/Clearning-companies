@@ -1,21 +1,60 @@
 import React, {Component} from 'react';
 import CardCompanyComponent from '../CompanyCard/CardCompanyComponent';
-import LeftLayout   from '../LeftLayout/LeftLayout';
+import SearchMenu from './SearchForm/SearchMenu';
 import apiService from '../../services/companies.service';
-import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import Pagination from './PaginationComponent';
+import LoadingHOC from '../common/loading/loadingHOC';
 
-export default class HomeComponent extends Component {
-
-    state = {
-        companies: []
+const styles ={
+    main: {
+        width: "100%",
+        background: "white",
+        boxSizing: "border-box",
+    },
+    companies: {
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "column",
+        padding: "0 50px"
     }
+}
+
+class HomeComponent extends Component {
+
+     constructor(){
+         super();
+
+         this.state = {
+            companies: [],
+            total: '',
+            page: "",
+            pages: "",
+
+        }
+        this.handleClickPagination = this.handleClickPagination.bind(this);
+        this.getCompanies = this.getCompanies.bind(this);
+     }
 
     componentDidMount(){
-        apiService.getCompanies()
+        this.getCompanies();
+    }
+
+    getCompanies(page){
+        apiService.getCompanies(page)
             .then(response =>{
                 console.log(response);
-                this.setState({companies: response.data.docs})
+                this.setState({
+                    companies: response.data.docs,
+                    total: response.data.total,
+                    page: response.data.page,
+                    pages: response.data.pages
+                })
             });
+    }
+
+    handleClickPagination(page){
+        this.getCompanies(page);
     }
 
     renderCompany(company){
@@ -26,17 +65,27 @@ export default class HomeComponent extends Component {
 
     render(){
         return (
-             <Grid container>
-                <Grid item xs={9}>
-                    <div style={{margin: "20px 50px"}}>
-                        {this.state.companies.map(this.renderCompany)}
+            <>
+                <SearchMenu/>
+                <section className={this.props.classes.main}>
+                   <div className={this.props.classes.companies}>
+                       <div className={this.props.classes.total}>
+                             Найдено: {this.state.total}
+                        </div>
+                         <div style={{margin: "20px 0"}}>
+                              {this.state.companies.map(this.renderCompany)}
+                          </div>
                     </div>
-                </Grid>
-                <Grid container  
-                item xs={2} >
-                    <LeftLayout/>
-                </Grid>
-            </Grid>
+                    <Pagination 
+                        handleClickPagination={this.handleClickPagination}
+                        total={this.state.total}
+                    />
+                </section>
+            </>
         );
     }
 }
+
+
+// export default LoadingHOC('companies')
+export default (withStyles(styles)(HomeComponent));

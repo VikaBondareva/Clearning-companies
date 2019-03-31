@@ -49,10 +49,10 @@ class CardCompanyComponent extends Component {
 
   renderWorkPlan(day){
     return (
-      <div key={day._id}>
-          <p>{day.day}: {day.workHours.start} - {day.workHours.end}</p>
-          {day.lanchHours && <p>{day.lanchHours.start} - {day.lanchHours.end}</p>}
-      </div>
+      // <div key={day._id}>
+          <p  key={day._id}>{day.day}: {day.workHours.start} - {day.workHours.end}
+          {day.lanchHours && `Обед: ${day.lanchHours.start} - ${day.lanchHours.end}`}</p>
+      // </div>
     );
   }
 
@@ -70,28 +70,28 @@ class CardCompanyComponent extends Component {
                   <Typography gutterBottom variant="h5">
                       {name}
                   </Typography>
-                  <Typography gutterBottom variant="p">
+                  <Typography gutterBottom >
                       Адрес:   {address.city} {address.district && `, район ${address.district}`}, улица {address.street}, дом {address.house}
                       {address.apartment && `, квартира ${address.apartment}`} 
                   </Typography>
               </Grid>
-              <Grid item alignItems="center">
-                  <Typography gutterBottom variant="p">
+              <Grid item>
+                  <Typography gutterBottom>
                   Ratting {+ratting}
                   </Typography>
               </Grid>
           </Grid>
          
           <CardContent>
-            <Typography gutterBottom variant="p" component="h4">
-               График работы
+            <div >
+               <p>График работы</p>
                 {workPlan.map(this.renderWorkPlan)}
-            </Typography>
-            <Typography component="p">
+            </div>
+            <div>
              <p> Цена за маленькую конмнату: {rooms.standart.price} руб</p>
               <p>Цена за большую конмнату: {rooms.big.price} руб</p>
               <p>Цена за туалет : {rooms.toilet.price} руб</p>
-            </Typography>
+            </div>
           </CardContent>
         </CardActionArea>
         <CardActions>

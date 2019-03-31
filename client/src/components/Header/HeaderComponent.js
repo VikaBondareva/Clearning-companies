@@ -3,7 +3,6 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import SearchFormComponent from '../SearchForm/SearchFormComponent';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,7 +19,7 @@ const styles = theme => ({
       width: '100%',
     },
     navbar: {
-      background: theme.palette.primary.main
+      background: theme.palette.primary.dark
     },
     grow: {
       flexGrow: 1,
@@ -31,14 +30,15 @@ const styles = theme => ({
     },
     title: {
       display: 'none',
-      marginLeft: "50px",
-      color: theme.palette.text.primary,
+      marginLeft: "150px",
+      color: theme.palette.primary.main,
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
     },
     sectionDesktop: {
       display: 'none',
+      marginRight: 100,
       [theme.breakpoints.up('md')]: {
         display: 'flex',
       },
@@ -129,7 +129,6 @@ const styles = theme => ({
                     <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                         <Link to="/">Клининговые компании</Link> 
                     </Typography>
-                    <SearchFormComponent/>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                       <IconButton
