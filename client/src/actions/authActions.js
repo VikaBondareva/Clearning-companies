@@ -2,7 +2,10 @@ import {
     LOGIN_ERROR,
     LOGIN_SUCCESS,
     LOGIN_REQUEST,
-    LOGOUT_USER
+    LOGOUT_USER,
+    REGISTER_FAIL,
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS
 } from './actionTypes';
 import authService from '../services/auth.service';
 
@@ -36,6 +39,27 @@ export function logoutRequest() {
     }
 }
 
+export function registerSuccess() {
+    return {
+        type: REGISTER_SUCCESS,
+    }
+}
+
+export function registerFailure(error) {
+    return {
+        type: REGISTER_FAIL,
+        status: error.response.status,
+        message: error.response.data.message
+    }
+}
+
+export function registerRequest() {
+    return {
+        type: REGISTER_REQUEST
+    }
+}
+
+
 
 export  function Login({identifier, password},redirectTo){
     return function(dispatch){
@@ -46,6 +70,35 @@ export  function Login({identifier, password},redirectTo){
             })
             .catch(error => {
                 dispatch(loginFailure(error));
+            })
+    }
+}
+
+export function RegisterUser(user){
+    return function(dispatch){
+        dispatch(registerRequest());
+        return authService.registration(user)
+            .then(()=>{
+                dispatch(registerSuccess());
+            })
+            .catch(error=>{
+                dispatch(registerFailure(error));
+            })
+    }
+}
+
+export function RegisterCompany(company){
+    return function(dispatch){
+        dispatch(registerRequest());
+        return authService.registration(company)
+            .then((response)=>{
+                if(response.status === 201)
+                    dispatch(registerSuccess());
+                else 
+                    dispatch(registerFailure(response));
+            })
+            .catch(error=>{
+                dispatch(registerFailure(error));
             })
     }
 }
