@@ -38,7 +38,7 @@ initializeDb(() => {
   app.use(function(err, req, res, next) {
     console.error("App.js server " + err.message);
     if (!err.statusCode) err.statusCode = 500;
-    res.status(err.statusCode).json({ error: err.message });
+    res.status(err.statusCode).json({ message: err.message });
   });
 });
 
