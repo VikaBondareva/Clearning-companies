@@ -29,7 +29,7 @@ module.exports.registerUser = (req, res, next) => {
     .then(result => {
       result
         ? res.status(httpStatus.CREATED).json("created user")
-        : res.status(httpStatus.BAD_REQUEST).json("BAD REQUEST");
+        : res.status(httpStatus.BAD_REQUEST).json({ message: "BAD REQUEST" });
     })
     .catch(err => next(err));
 };
