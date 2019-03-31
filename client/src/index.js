@@ -8,7 +8,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import theme from './themeStyle';
 import * as serviceWorker from './serviceWorker';
 import store from './store/store';
-import App from './routes/routes';
+import App from './components/App';
 
 import './index.css';
 

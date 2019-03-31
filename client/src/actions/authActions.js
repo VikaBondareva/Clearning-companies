@@ -21,7 +21,6 @@ export function loginFailure(error) {
     localStorage.removeItem('token');
     return {
         type: LOGIN_ERROR,
-        status: error.response.status,
         message: error.response.data.message
     }
 }
@@ -48,7 +47,6 @@ export function registerSuccess() {
 export function registerFailure(error) {
     return {
         type: REGISTER_FAIL,
-        status: error.response.status,
         message: error.response.data.message
     }
 }
