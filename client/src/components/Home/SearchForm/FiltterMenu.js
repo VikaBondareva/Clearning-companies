@@ -32,9 +32,12 @@ function LayoutLeft ({classes}){
 
     const [state, setState] = React.useState({
         price: '',
-        amount: 10,
+        perPage: 10,
         city: "",
         name: 'hai',
+        maxPrice:"",
+        minPrice:"",
+
       });
 
       const handleChange = name => event => {
@@ -45,8 +48,7 @@ function LayoutLeft ({classes}){
       };
 
         return (
-              <div
-                className={classes.layoutLeft}>
+              <div>
                      <FormControl className={classes.formControl}>
                         <InputLabel shrink htmlFor="price-sort" >Сортировка по цене</InputLabel>
                         <Select
@@ -66,15 +68,15 @@ function LayoutLeft ({classes}){
                     </FormControl>
 
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink htmlFor="amount" >Количестов на странице</InputLabel>
+                        <InputLabel shrink htmlFor="perPage" >Количестов на странице</InputLabel>
                         <Select
                         native
-                        value={state.amount}
+                        value={state.perPage}
                         className={classes.select}
-                        onChange={handleChange('amount')}
+                        onChange={handleChange('perPage')}
                         inputProps={{
-                            name: 'amount',
-                            id: 'amount',
+                            name: 'perPage',
+                            id: 'perPage',
                         }}
                         >
                         <option value={10}>10</option>

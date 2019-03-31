@@ -1,0 +1,38 @@
+.footer {
+    background: rgb(30, 31, 30);
+    height: 150px;
+    color: white;
+    position: relative;
+  }
+  .footer__menu {
+    margin: 15px 50px;
+  }
+
+  .root__footer{
+    margin: 0 100px;
+  }
+  
+  .title-menu {
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  .item {
+    margin: 8px 0;
+    color: #fff;
+    font-size: 0.85em;
+  }
+  .items-menu{
+    display: block;
+  }
+  .footer__logo {
+    position: absolute;
+    left: 150px;
+    top: 30px;
+  }
+
+  .footer-nav{
+      display: flex;
+      justify-content: center;
+  }
+  

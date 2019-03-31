@@ -11,17 +11,17 @@ const styles = theme => ({
     },
     search: {
       position: 'relative',
+      background: "#e5e7ea",
       borderRadius: theme.shape.borderRadius,
-      backgroundColor: fade(theme.palette.common.white, 0.15),
-      '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
-      },
+      // '&:hover': {
+      //   backgroundColor: fade(theme.palette.common.white, 0.25),
+      // },
       marginRight: theme.spacing.unit * 2,
       marginLeft: 0,
       width: '100%',
       [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing.unit * 3,
-        width: '500px',
+        width: '400px',
       },
     },
     searchIcon: {
@@ -48,6 +48,12 @@ const styles = theme => ({
   });
   
  class SearchFormComponent extends Component{
+
+
+        state = {
+            name:"",
+            nameService:""
+        }
 
         render(){
          const {classes} = this.props;

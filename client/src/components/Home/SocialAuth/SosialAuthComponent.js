@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ApiService from '../../services/auth.service';
+import ApiService from '../../../../services/auth.service';
 
 import './Social.css';
 
