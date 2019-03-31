@@ -1,32 +1,31 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
-import Footer from './Footer/Footer';
-import Header from './Header/HeaderComponent';
-import './App.css'
-import PropTypes from 'prop-types';
-import {PrivateRoute} from './PrivateRoutes';
-import Home from './Home/HomeComponent';
+
+import RouterWithLayout from './RouterWithLayout';
+import RegisterUser from '../containers/auth/RegisterContainer';
+import Login from '../containers/auth/LoginContainer';
+import Home from  '../containers/pages/HomeContainer';
 import CompanyPage from './CompanyPage/CompanyPageComponent';
+import NotFound from './NotFound/NotFound';
+import ConfirmRegister from './Auth/ConfirmEmail/ConfirmEmail';
+import RegisterCompany from '../containers/auth/RegisterCompanyContainer';
+import {PrivateRoute} from './PrivateRoutes';
 
+export default() => {
 
-const App  = ()=>{
+ 
   return (
-    <div>
-        <Header/>
-        <main className="main">
-              <Switch>
-                 <Route component={Home} />
-                 <PrivateRoute  path="/profile" component={Home} />
-                 <Route path="/companies/:id" component={CompanyPage}/>
-              </Switch>
-        </main>
-        <Footer/>
-    </div>
-  )
-}
+          <Switch>
+            <Route path="/" exact component={RouterWithLayout(Home)} />
+            <Route path="/companies/:id" exact component={RouterWithLayout(CompanyPage)} />
 
-App.propTypes = {
-  children: PropTypes.object.isRequired
+            <PrivateRoute  path="/profile" component={RouterWithLayout(CompanyPage)} />
+
+            <Route path="/login"   component={Login} />
+            <Route path="/register"   component={RegisterUser} />
+            <Route path="/register-company" component={RegisterCompany} />
+            <Route path='/activation' component={ConfirmRegister}/>
+            <Route path="/*" component={NotFound} />
+        </Switch>
+  );
 };
-
-export default App;
