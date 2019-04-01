@@ -5,13 +5,14 @@ const Role = require("../../enums/roles.enum");
 module.exports.login = (req, res, next) => {
   authService
     .authenticate(req.body)
-    .then(tokens =>
-      tokens
-        ? res.json(tokens)
+    .then(results => {
+      console.log(results);
+      results
+        ? res.json(results)
         : res
             .status(httpStatus.UNAUTHORIZED)
-            .json({ message: "Email/phone or password is incorrect" })
-    )
+            .json({ message: "Email/phone or password is incorrect" });
+    })
     .catch(err => next(err));
 };
 

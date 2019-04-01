@@ -61,7 +61,10 @@ async function authenticate({ identifier, password }) {
   if (success === false) return false;
 
   try {
-    return authSocialNetwork(data);
+    return {
+      user: data,
+      tokens: authSocialNetwork(data)
+    };
   } catch (err) {
     throw err;
   }
