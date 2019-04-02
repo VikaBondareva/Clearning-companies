@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-export const PrivateRoute = ({ component: Component, ...rest }) => (
+export const PrivateRoute = ({ component: Component,isAuth, pathUrl, ...rest }) => (
     <Route {...rest} render={ props => 
-        localStorage.getItem('token')
+        isAuth
             ? <Component {...props} />
-            : <Redirect to={{pathname: '/login', state: {from: props.location}}} />  && props.history.push('/login')}
+            : <Redirect to={{pathname: pathUrl, state: {from: props.location}}} />
+        }
      />
 )
