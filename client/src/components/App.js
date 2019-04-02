@@ -6,21 +6,24 @@ import {LoginPage,RegistrationCompany,RegistrationUser} from '../containers/auth
 import {Home,CompanyPage, Profile} from  '../containers/pages';
 import NotFound from './NotFound/NotFound';
 import ConfirmRegister from './Auth/ConfirmEmail/ConfirmEmail';
-import {PrivateRoute, NotAuthRouter} from './PrivateRoutes';
+import {PrivateRoute} from './PrivateRoutes';
+export default class App extends React.Component{
 
-export default() => {
-  return (
-          <Switch>
-            <Route path="/" exact component={WithLayout(Home)} />
-            <Route path="/companies/:id" exact component={WithLayout(CompanyPage)} />
+  render(){
+    const {isAuthenticated} = this.props;
+    return (
+        <Switch>
+          <Route path="/" exact component={WithLayout(Home)} />
+          <Route path="/companies/:id" exact component={WithLayout(CompanyPage)} />
 
-            <PrivateRoute  path="/profile" exact component={WithLayout(Profile)} />
+          <PrivateRoute  path="/profile" component={WithLayout(Profile)} isAuth={isAuthenticated} pathUrl='/login'/>
 
-            <NotAuthRouter path="/login"   component={LoginPage} />
-            <NotAuthRouter path="/register"   component={RegistrationUser} />
-            <NotAuthRouter path="/register-company" component={RegistrationCompany} />
-            <Route path='/activation' component={ConfirmRegister}/>
-            <Route path="/*" component={NotFound} />
-        </Switch>
-  );
+          <PrivateRoute path="/login" component={LoginPage} isAuth={!isAuthenticated} pathUrl='/profile' />
+          <PrivateRoute path="/register" component={RegistrationUser} isAuth={!isAuthenticated} pathUrl='/profile'/>
+          <PrivateRoute path="/register-company" component={RegistrationCompany} isAuth={!isAuthenticated} pathUrl='/profile'/>
+          <Route path='/activation' component={ConfirmRegister}/>
+          <Route path="/*" component={NotFound} />
+      </Switch>
+    );
+  }
 };
