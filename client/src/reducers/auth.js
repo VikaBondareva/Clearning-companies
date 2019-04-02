@@ -1,47 +1,54 @@
 import {
-  LOGIN_REQUEST,
+  AUTH_REQUEST,
   LOGIN_ERROR,
   LOGIN_SUCCESS,
-  LOGOUT_USER,
+  LOGOUT_SUCCESS,
   REGISTER_FAIL,
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS
+  REGISTER_SUCCESS,
+  USER_GET_FAIL,
+  USER_GET_SUCCESS,
+  USER_GET_REQUEST
 } from '../actions/actionTypes';
 import jwt from 'jsonwebtoken';
 
+const token =  localStorage.getItem('token');
+
 const initialState = {
-  isAuthenticated: localStorage.getItem('token') ? true : false,
+  isAuthenticated:token ? true : false,
   isLoading: false,
-  message: null,
-  role: null,
-  isSendEmail: false
+  message: "",
+  role: token ? jwt.decode((JSON.parse(token).accessToken)).role : '',
+  isSendEmail: false,
+  profile: {}
 };
 
-export default (state = initialState, {type, token, message}) => {
+export default (state = initialState, {type, tokens, message, profile}) => {
   switch (type) {
-    case LOGIN_REQUEST:
-    case REGISTER_REQUEST:
+    case AUTH_REQUEST:
       return {
         ...state,
         isLoading: true,
-        message: null
+        message: ''
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        role: jwt.decode(token.accessToken).role
+        role: jwt.decode(tokens.accessToken).role,
+        profile
       };
     case LOGIN_ERROR:
     case REGISTER_FAIL:
+    case USER_GET_FAIL:
       return {
         ...state,
         isLoading: false,
         isAuthenticated: false,
         role: null,
         message: `${message}`,
-        isSendEmail: false
+        isSendEmail: false,
+        profile: {}
       }
     case REGISTER_SUCCESS: 
       return {
@@ -49,12 +56,20 @@ export default (state = initialState, {type, token, message}) => {
         isLoading: false,
         isSendEmail: true
       }
-    case LOGOUT_USER:
+    case LOGOUT_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         isAuthenticated: false,
         role: null,
+        profile: {}
       }
+    case USER_GET_SUCCESS: 
+     return {
+      ...state,
+      isLoading: false,
+      profile
+     }
     default:
       return state;
   }

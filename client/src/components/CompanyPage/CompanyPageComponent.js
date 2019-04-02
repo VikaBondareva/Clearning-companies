@@ -5,14 +5,12 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
 
 
-import ApiService from '../../services/companies.service';
 
 const styles = {
   card: {
@@ -25,45 +23,18 @@ const styles = {
 
 class CompanyPage extends Component{
 
-    state = {
-        name: '',
-        description: '',
-        address: '',
-        services: '',
-        ratting: '',
-        workPlan: '',
-        rooms: '',
-        email:''
-    }
-
     componentDidMount(){
         const {match: {params}} = this.props;
         console.log(params.id);
-        ApiService.getCompanyById(params.id)
-            .then(res=>{
-                const {name, description, address, services,email, ratting, workPlan, rooms} = res.data;
-                this.setState({
-                    name,
-                    description,
-                    address,
-                    services,
-                    ratting,
-                    workPlan,
-                    rooms,
-                    email
-                })
-                console.log(res.data);
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
+        this.props.getCompany(params.id);
     }
 
     render(){
-    console.log(this.props);
-
-        const {classes} = this.props;
-        const {name, address, ratting, workPlan, services,description} = this.state;
+        const {classes, company} = this.props;
+        const {name, address, ratting, workPlan, services,description} = company;
+        if(!company){
+          throw new Error('Not found company');
+        }
         return (
           <Card className={classes.card}>
             <CardActionArea>
@@ -108,6 +79,7 @@ class CompanyPage extends Component{
 
 CompanyPage.propTypes = {
   classes: PropTypes.object.isRequired,
+  company: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(CompanyPage);

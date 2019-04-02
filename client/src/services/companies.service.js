@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { authHeader } from '../helpers/headers.js'
 
-export default {
+export const CompanyService = {
     getCompanies () {
         return Axios.request({
             method: 'GET',

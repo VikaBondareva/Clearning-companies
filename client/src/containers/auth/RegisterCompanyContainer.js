@@ -1,6 +1,6 @@
 import { connect} from 'react-redux';
 import { RegisterCompany } from '../../actions/authActions';
-import RegistrationCompany from '../../components/Auth/Registration/RegistrationCompany';
+import {RegistrationCompanyComponent} from '../../components/Auth/Registration';
 
 const mapStateToProps = (state) => ({
     isLoading: state.auth.isLoading,
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-export default connect(
+export const RegistrationCompany = connect(
     mapStateToProps,
     mapDispatchToProps
-)(RegistrationCompany);
+)(RegistrationCompanyComponent);

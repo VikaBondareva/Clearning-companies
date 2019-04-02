@@ -1,7 +1,7 @@
 import React from 'react';
 // import io from 'socket.io-client';
 import OAuth from './OAuth';
-import ApiService from '../../../services/auth.service';
+import {AuthService} from '../../../services';
 import './Social.css';
 const providers = ['google', 'github', 'vkontakte'];
 // const socket = io('https://localhost:7040')
@@ -9,7 +9,7 @@ const providers = ['google', 'github', 'vkontakte'];
 export default function Social(){
 
     const handleClickVk = () => {
-        ApiService.authVkonkte()
+        AuthService.authVkonkte()
             .then((res)=>{
                 localStorage.setItem("token", res.data);
                 console.log(res);
@@ -20,7 +20,7 @@ export default function Social(){
     }
 
     const handleClickGoogle = () => {
-        ApiService.authGoogle()
+        AuthService.authGoogle()
             .then((res)=>{
                 localStorage.setItem("token", res.data);
                 console.log(res);
@@ -31,7 +31,7 @@ export default function Social(){
     }
 
     const handleClickGitHub = () => {
-        ApiService.authGitHub()
+        AuthService.authGitHub()
             .then((res)=>{
                 localStorage.setItem("token", res.data);
                 console.log(res);

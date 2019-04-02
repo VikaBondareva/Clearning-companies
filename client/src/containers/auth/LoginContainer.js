@@ -1,6 +1,6 @@
 import { connect} from 'react-redux';
 import { Login } from '../../actions/authActions';
-import LoginComponent from '../../components/Auth/Login/Login';
+import {LoginComponent} from '../../components/Auth/Login';
 
 const mapStateToProps = (state) => ({
     isLoading: state.auth.isLoading,
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-export default connect(
+export const LoginPage = connect(
     mapStateToProps,
     mapDispatchToProps
 )(LoginComponent);

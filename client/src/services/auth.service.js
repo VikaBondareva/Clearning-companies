@@ -1,7 +1,7 @@
 import Axios from 'axios'
-import { authRefreshHeader, authHeader } from '../helpers/headers.js'
+import { authRefreshHeader, authHeader } from '../helpers'
 
-export default {
+export const AuthService = {
     registration(formData) {
         return Axios.request({
             method: 'POST',
