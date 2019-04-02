@@ -1,29 +1,24 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
 
-import RouterWithLayout from './RouterWithLayout';
-import RegisterUser from '../containers/auth/RegisterContainer';
-import Login from '../containers/auth/LoginContainer';
-import Home from  '../containers/pages/HomeContainer';
-import CompanyPage from './CompanyPage/CompanyPageComponent';
+import WithLayout from './RouterWithLayout';
+import {LoginPage,RegistrationCompany,RegistrationUser} from '../containers/auth';
+import {Home,CompanyPage, Profile} from  '../containers/pages';
 import NotFound from './NotFound/NotFound';
 import ConfirmRegister from './Auth/ConfirmEmail/ConfirmEmail';
-import RegisterCompany from '../containers/auth/RegisterCompanyContainer';
-import {PrivateRoute} from './PrivateRoutes';
+import {PrivateRoute, NotAuthRouter} from './PrivateRoutes';
 
 export default() => {
-
- 
   return (
           <Switch>
-            <Route path="/" exact component={RouterWithLayout(Home)} />
-            <Route path="/companies/:id" exact component={RouterWithLayout(CompanyPage)} />
+            <Route path="/" exact component={WithLayout(Home)} />
+            <Route path="/companies/:id" exact component={WithLayout(CompanyPage)} />
 
-            <PrivateRoute  path="/profile" component={RouterWithLayout(CompanyPage)} />
+            <PrivateRoute  path="/profile" exact component={WithLayout(Profile)} />
 
-            <Route path="/login"   component={Login} />
-            <Route path="/register"   component={RegisterUser} />
-            <Route path="/register-company" component={RegisterCompany} />
+            <NotAuthRouter path="/login"   component={LoginPage} />
+            <NotAuthRouter path="/register"   component={RegistrationUser} />
+            <NotAuthRouter path="/register-company" component={RegistrationCompany} />
             <Route path='/activation' component={ConfirmRegister}/>
             <Route path="/*" component={NotFound} />
         </Switch>

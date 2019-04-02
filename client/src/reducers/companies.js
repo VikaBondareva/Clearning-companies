@@ -1,7 +1,6 @@
 import {
   COMPANIES_REQUEST,
   COMPANIES_SUCCESS,
-  COMPANY_REQUEST,
   COMPANY_SUCCESS
 } from '../actions/actionTypes';
 
@@ -13,7 +12,14 @@ const initialState = {
   page: 1,
   pages: 0,
   limit: 10,
-  company: {}
+  company:{
+    name:"",
+    address:"",
+    ratting:"", 
+    workPlan:"", 
+    services:"",
+    description:""
+  }
 };
 
 export default (state = initialState, {type, docs,total,page,pages,limit, company}) => {
@@ -36,6 +42,7 @@ export default (state = initialState, {type, docs,total,page,pages,limit, compan
     case COMPANY_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         company
       }
     default:

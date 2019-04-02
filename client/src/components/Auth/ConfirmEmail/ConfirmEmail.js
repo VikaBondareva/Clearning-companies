@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ApiService from '../../../services/auth.service';
+import {AuthService} from '../../../services';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ class ConfirmEmailComponent extends Component {
 
   componentDidMount = () => {
     const { token, email } = this.props.match.params
-    ApiService.confirmEmail(token, email)
+    AuthService.confirmEmail(token, email)
       .then(data => {
         this.setState({ confirming: true })
         setTimeout(this.props.history.push('/'), 5000);

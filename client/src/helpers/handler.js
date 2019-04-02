@@ -1,4 +1,4 @@
-import AuthService from '../api/auth.api'
+import {AuthService} from '../services'
 
 export function handleResponse(response) {
     return new Promise(function (resolve, reject) {

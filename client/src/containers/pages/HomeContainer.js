@@ -1,29 +1,24 @@
 import { connect} from 'react-redux';
-import { companiesRequest, companiesSuccess, GetCompanies } from '../../actions/companyActions';
+import { Request, companiesSuccess, asyncGetCompanies } from '../../actions/companyActions';
 import HomeComponent from '../../components/Home/HomeComponent';
-import companiesService from '../../services/companies.service';
 
 const mapStateToProps = (state) => ({
     docs: state.companies.docs,
     page: state.companies.page,
     pages: state.companies.pages,
-    total: state.companies.total
+    total: state.companies.total,
+    isLoading: state.companies.isLoading
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getCompanies: () => {
-            dispatch(companiesRequest());
-            companiesService.getCompanies()
-                .then(response=>{
-                    console.log(response.data);
-                    dispatch(companiesSuccess(response.data));
-                })
+            dispatch(asyncGetCompanies());
         }
     }
 };
 
-export default connect(
+export const Home = connect(
     mapStateToProps,
     mapDispatchToProps
 )(HomeComponent);

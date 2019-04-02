@@ -1,1 +1,2 @@
-export {PrivateRoute} from './PrivateRoutes';
+export * from './PrivateRoutes';
+export * from './NotAuthRouter';

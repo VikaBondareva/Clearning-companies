@@ -4,6 +4,7 @@ import SearchMenu from './SearchForm/SearchMenu';
 import { withStyles } from '@material-ui/core/styles';
 import Pagination from './PaginationComponent';
 import PropTypes from 'prop-types';
+// import loadingHOC from '../scommon/loading/loadingHOC';
 
 const styles ={
     main: {
@@ -23,17 +24,10 @@ class HomeComponent extends Component {
 
      constructor(){
          super();
-
-        //  this.state = {
-        //     total: '',
-        //     page: "",
-        //     pages: "",
-
-        // }
         this.handleClickPagination = this.handleClickPagination.bind(this);
      }
 
-    componentDidMount(){
+    componentWillMount(){
         this.props.getCompanies();
     }
 
@@ -81,3 +75,4 @@ HomeComponent.propTypes = {
 };
 
 export default withStyles(styles)(HomeComponent);
+// export default loadingHOC('isLoading')(withStyles(styles)(HomeComponent));

@@ -9,71 +9,29 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Badge from '@material-ui/core/Badge';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
 import {Link} from 'react-router-dom';
 
-const styles = theme => ({
-    root: {
-      width: '100%',
-    },
-    navbar: {
-      background: theme.palette.primary.dark
-    },
-    grow: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 20,
-    },
-    title: {
-      display: 'none',
-      marginLeft: "150px",
-      color: theme.palette.primary.main,
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
-    },
-    sectionDesktop: {
-      display: 'none',
-      marginRight: 100,
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
-    },
-    sectionMobile: {
-      display: 'flex',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
-  });
+import styles from './style';
+
     
- function Header(props){
+ function HeaderComponent(props){
     const {classes} = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     function handleProfileMenuOpen(event) {
       setAnchorEl(event.currentTarget);
     }
 
-    function handleMobileMenuClose() {
-      setMobileMoreAnchorEl(null);
-    }
-
     function handleMenuClose() {
       setAnchorEl(null);
-      handleMobileMenuClose();
     }
 
-    function handleMobileMenuOpen(event) {
-      setMobileMoreAnchorEl(event.currentTarget);
+    function handleClickLogout(){
+      console.log(props);
+      props.logout();
     }
 
     const renderMenu = (
@@ -84,44 +42,45 @@ const styles = theme => ({
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>
-          <p><Link to='/login' >Login</Link></p>
-        </MenuItem>
-        <MenuItem onClick={handleMenuClose}>
-          <p><Link to='/register' >Регистрация</Link></p>
-        </MenuItem>
+       {!props.isAuthenticated 
+          ? <>
+              <MenuItem>
+                  <IconButton color="inherit">
+                    <AccountCircle />
+                  </IconButton>
+                  <p><Link to='/register' >Регистрация</Link></p>
+              </MenuItem>
+              <MenuItem>
+                <IconButton color="inherit">
+                    <MailIcon />
+                </IconButton>
+                <Link to='/login' >Войти</Link>
+              </MenuItem>
+          </>
+          : <> 
+               <MenuItem>
+                <IconButton color="inherit">
+                    <MailIcon />
+                </IconButton>
+                <Link to='/profile' >Profile</Link>
+              </MenuItem>
+              <MenuItem>
+                <IconButton color="inherit">
+                    <MailIcon />
+                </IconButton>
+                <Link to='/setting' >Setting</Link>
+              </MenuItem>
+              <MenuItem onClick={handleClickLogout}>
+              <IconButton color="inherit">
+                  <NotificationsIcon />
+              </IconButton>
+              <p>Logout</p>
+            </MenuItem>
+            </>
+        }
       </Menu>
     );
   
-    const renderMobileMenu = (
-      <Menu
-        anchorEl={mobileMoreAnchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMobileMenuOpen}
-        onClose={handleMobileMenuClose}
-      >
-        <MenuItem>
-            <IconButton color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <p><Link to='/register' >Регистрация</Link></p>
-        </MenuItem>
-        <MenuItem>
-          <IconButton color="inherit">
-              <MailIcon />
-          </IconButton>
-          <Link to='/login' >Войти</Link>
-        </MenuItem>
-        <MenuItem>
-          <IconButton color="inherit">
-              <NotificationsIcon />
-          </IconButton>
-          <p>Setting</p>
-        </MenuItem>
-      </Menu>
-    );
-
     return (
         <div className={classes.root}>
             <AppBar position="static" className={classes.navbar}>
@@ -141,16 +100,15 @@ const styles = theme => ({
                       </IconButton>
                     </div>
                     <div className={classes.sectionMobile}>
-                      <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+                      <IconButton aria-haspopup="true" onClick={handleProfileMenuOpen} color="inherit">
                         <MoreIcon />
                       </IconButton>
                     </div>
                 </Toolbar>
             </AppBar>
             {renderMenu}
-            {renderMobileMenu}
         </div>
     );
 }
 
-export default withStyles(styles)(Header);
+export const Header = withStyles(styles)(HeaderComponent);

@@ -1,19 +1,20 @@
 import {
+    AUTH_REQUEST,
     LOGIN_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_REQUEST,
-    LOGOUT_USER,
+    LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_REQUEST,
     REGISTER_SUCCESS
 } from './actionTypes';
-import authService from '../services/auth.service';
+import {AuthService} from '../services';
+import {history} from '../helpers'
 
-export function loginSuccess(token) {
-    localStorage.setItem('token', JSON.stringify(token));
+export function loginSuccess({tokens,user}) {
+    localStorage.setItem('token', JSON.stringify(tokens));
     return {
         type: LOGIN_SUCCESS,
-        token: token
+        tokens,
+        profile: user
     }
 }
 
@@ -25,16 +26,16 @@ export function loginFailure(error) {
     }
 }
 
-export function loginRequest() {
+export function authRequest() {
     return {
-        type: LOGIN_REQUEST
+        type: AUTH_REQUEST
     }
 }
 
-export function logoutRequest() {
+export function logoutSuccess() {
     localStorage.removeItem('token');
     return {
-        type: LOGOUT_USER
+        type: LOGOUT_SUCCESS
     }
 }
 
@@ -51,20 +52,13 @@ export function registerFailure(error) {
     }
 }
 
-export function registerRequest() {
-    return {
-        type: REGISTER_REQUEST
-    }
-}
-
-
-
 export  function Login({identifier, password},redirectTo){
     return function(dispatch){
-        dispatch(loginRequest());
-        return authService.login({identifier, password})
+        dispatch(authRequest());
+        return AuthService.login({identifier, password})
             .then(response=>{
                 dispatch(loginSuccess(response.data));
+                history.push('/profile');
             })
             .catch(error => {
                 dispatch(loginFailure(error));
@@ -74,8 +68,8 @@ export  function Login({identifier, password},redirectTo){
 
 export function RegisterUser(user){
     return function(dispatch){
-        dispatch(registerRequest());
-        return authService.registration(user)
+        dispatch(authRequest());
+        return AuthService.registration(user)
             .then(()=>{
                 dispatch(registerSuccess());
             })
@@ -87,8 +81,8 @@ export function RegisterUser(user){
 
 export function RegisterCompany(company){
     return function(dispatch){
-        dispatch(registerRequest());
-        return authService.registration(company)
+        dispatch(authRequest());
+        return AuthService.registration(company)
             .then((response)=>{
                 if(response.status === 201)
                     dispatch(registerSuccess());
