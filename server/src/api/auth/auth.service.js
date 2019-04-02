@@ -77,11 +77,12 @@ async function logout() {
 }
 
 async function register(
-  { name, surname, password, email, phone, addresses, isNotify },
+  { name, surname, password, email, phone, address, isNotify },
   role
 ) {
   try {
     if (!phone && !email) throw "Enter email or phone";
+    const addresses = [address];
     const user = new User({
       name,
       surname,
