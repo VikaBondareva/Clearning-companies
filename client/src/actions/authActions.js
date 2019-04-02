@@ -1,16 +1,19 @@
 import {
     AUTH_REQUEST,
+    AUTH_ERROR,
     LOGIN_ERROR,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS,
+    REGISTER_COMPANY_FAIL
 } from './actionTypes';
 import {AuthService} from '../services';
-import {history} from '../helpers'
+import {storeToken, clearToken} from '../helpers/authentication';
+import { push } from "connected-react-router";
+import {returnErrors} from './errorActions';
 
 export function loginSuccess({tokens,user}) {
-    localStorage.setItem('token', JSON.stringify(tokens));
     return {
         type: LOGIN_SUCCESS,
         tokens,
@@ -18,11 +21,9 @@ export function loginSuccess({tokens,user}) {
     }
 }
 
-export function loginFailure(error) {
-    localStorage.removeItem('token');
+export function authError() {
     return {
-        type: LOGIN_ERROR,
-        message: error.response.data.message
+        type: AUTH_ERROR,
     }
 }
 
@@ -33,7 +34,6 @@ export function authRequest() {
 }
 
 export function logoutSuccess() {
-    localStorage.removeItem('token');
     return {
         type: LOGOUT_SUCCESS
     }
@@ -45,28 +45,24 @@ export function registerSuccess() {
     }
 }
 
-export function registerFailure(error) {
-    return {
-        type: REGISTER_FAIL,
-        message: error.response.data.message
-    }
-}
-
-export  function Login({identifier, password},redirectTo){
+export  function asyncLogin({identifier, password},redirectTo){
     return function(dispatch){
         dispatch(authRequest());
         return AuthService.login({identifier, password})
             .then(response=>{
                 dispatch(loginSuccess(response.data));
-                history.push('/profile');
+                storeToken(response.data.tokens, response.data.user);
+                dispatch(push('/profile'));
             })
             .catch(error => {
-                dispatch(loginFailure(error));
+                dispatch(authError());
+                dispatch(returnErrors(error.response.data.message, error.response.status, LOGIN_ERROR ));
+
             })
     }
 }
 
-export function RegisterUser(user){
+export function asyncRegisterUser(user){
     return function(dispatch){
         dispatch(authRequest());
         return AuthService.registration(user)
@@ -74,12 +70,13 @@ export function RegisterUser(user){
                 dispatch(registerSuccess());
             })
             .catch(error=>{
-                dispatch(registerFailure(error));
+                dispatch(authError(error));
+                dispatch(returnErrors(error.data.message, error.status, REGISTER_FAIL ));
             })
     }
 }
 
-export function RegisterCompany(company){
+export function asyncRegisterCompany(company){
     return function(dispatch){
         dispatch(authRequest());
         return AuthService.registration(company)
@@ -87,10 +84,19 @@ export function RegisterCompany(company){
                 if(response.status === 201)
                     dispatch(registerSuccess());
                 else 
-                    dispatch(registerFailure(response));
+                    dispatch(returnErrors(response.data.message, response.status, REGISTER_COMPANY_FAIL ));
             })
             .catch(error=>{
-                dispatch(registerFailure(error));
+                dispatch(authError());
+                dispatch(returnErrors(error.response.data.message, error.status, REGISTER_COMPANY_FAIL ));
             })
     }
+}
+
+export const asyncLogout = () => dispatch => {
+    return AuthService.logout()
+        .then(()=>{
+            clearToken();
+            dispatch(logoutSuccess());
+        })
 }

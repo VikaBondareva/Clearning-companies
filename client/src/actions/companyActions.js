@@ -1,16 +1,16 @@
 import {
-    COMPANIES_REQUEST,
-    COMPANIES_SUCCESS,
-    COMPANY_SUCCESS
+    COMPANIES_LOAD_REQUEST,
+    COMPANIES_LOAD_SUCCESS,
+    COMPANY_LOAD_SUCCESS
 } from './actionTypes';
 import {CompanyService} from '../services';
 
-export const companiesRequest = () => ({
-    type: COMPANIES_REQUEST
+export const loadCompaniesRequest = () => ({
+    type: COMPANIES_LOAD_REQUEST
 })
 
-export const companiesSuccess = ({docs, total, page, pages, limit}) => ({
-    type: COMPANIES_SUCCESS,
+export const loadCompaniesSuccess = ({ docs,total,page,pages,limit}) => ({
+    type: COMPANIES_LOAD_SUCCESS,
     docs,
     total,
     page,
@@ -18,29 +18,27 @@ export const companiesSuccess = ({docs, total, page, pages, limit}) => ({
     limit
 })
 
-export const companySuccess = (company) => ({
-    type: COMPANY_SUCCESS,
+export const loadCompanySuccess = (company) => ({
+    type: COMPANY_LOAD_SUCCESS,
     company
 })
 
-export function asyncGetCompanies(){
-    return function(dispatch){
-        dispatch(companiesRequest());
-            return CompanyService.getCompanies()
-                .then(response=>{
-                    console.log(response.data);
-                    dispatch(companiesSuccess(response.data));
-                })
+export function asyncGetCompanies() {
+    return function (dispatch) {
+        dispatch(loadCompaniesRequest());
+        return CompanyService.getCompanies()
+            .then(response => {
+                dispatch(loadCompaniesSuccess(response.data));
+            })
     }
 }
 
-export function asyncGetCompanyById(id){
-    return function(dispatch){
-        dispatch(companiesRequest());
+export function asyncGetCompanyById(id) {
+    return function (dispatch) {
+        dispatch(loadCompaniesRequest());
         return CompanyService.getCompanyById(id)
-                .then(response=>{
-                    console.log(response.data);
-                    dispatch(companySuccess(response.data));
-                })
+            .then(response => {
+                dispatch(loadCompanySuccess(response.data));
+            })
     }
 }

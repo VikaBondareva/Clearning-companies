@@ -1,16 +1,9 @@
 import {
-    USER_GET_FAIL,
-    USER_GET_SUCCESS,
-    USER_GET_REQUEST
+    USER_GET_SUCCESS
 } from './actionTypes';
 import {AuthService} from '../services';
-import {authRequest}  from './authActions'
-
-// export function getProfileRequest(){
-//     return {
-//         type: USER_GET_REQUEST
-//     }
-// }
+import {authRequest}  from './authActions';
+import { clearToken} from '../helpers/authentication';
 
 export function getProfileSuccess(user){
     return {
@@ -19,25 +12,15 @@ export function getProfileSuccess(user){
     }
 }
 
-export function getProfileFailure(error){
-    return {
-        type: USER_GET_FAIL,
-        message: error.message
-    }
-}
-
 export function asyncGetCurrentProfile(){
     return function(dispatch){
         dispatch(authRequest());
         return AuthService.getCurrentUser()
             .then((response)=>{
-                if(response.status === 200)
-                    dispatch(getProfileSuccess(response.data));
-                else 
-                    dispatch(getProfileFailure(response));
+                dispatch(getProfileSuccess(response.data));
             })
-            .catch(error=>{
-                dispatch(getProfileFailure(error));
+            .catch(()=>{
+                clearToken();
             })
     }
 }
