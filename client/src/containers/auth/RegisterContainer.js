@@ -1,5 +1,5 @@
 import { connect} from 'react-redux';
-import { RegisterUser } from '../../actions/authActions';
+import { asyncRegisterUser } from '../../actions/authActions';
 import {RegistrationUserComponent} from '../../components/Auth/Registration';
 
 const mapStateToProps = (state) => ({
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         registerUser: (user) => {
-            dispatch(RegisterUser(user));
+            dispatch(asyncRegisterUser(user));
         }
     }
 };

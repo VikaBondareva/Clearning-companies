@@ -1,7 +1,6 @@
 import { connect} from 'react-redux';
 import {Header} from '../components/Header';
-import { authRequest,logoutSuccess } from '../actions/authActions';
-import {AuthService} from '../services';
+import { asyncLogout } from '../actions/authActions';
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
@@ -10,12 +9,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         logout: () => {
-            dispatch(authRequest());
-            AuthService.logout()
-                .then(response=>{
-                    console.log(response.data);
-                    dispatch(logoutSuccess());
-                })
+            dispatch(asyncLogout());
         }
     }
 };
