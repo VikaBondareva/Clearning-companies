@@ -1,6 +1,7 @@
 import {
     string,
-    object
+    object,
+    ref
 } from 'yup';
 
 const UserSchema = object().shape({
@@ -18,7 +19,7 @@ const UserSchema = object().shape({
     phone: string()
         .when('email', {
             is: '',
-            then: string().required("Enter your phone").matches(/^(\+375|80)(29|25|44|33)\d{7}$/),
+            then: string().required("Enter email or your phone").matches(/^(\+375|80)(29|25|44|33)\d{7}$/),
             otherwise: string().matches(/^(\+375|80)(29|25|44|33)\d{7}$/)
         }),
     address: string()
@@ -30,10 +31,8 @@ const UserSchema = object().shape({
         .max(30)
         .matches(/^[a-zA-Z0-9]{6,30}$/),
     confirmPassword: string()
-        .test('password-match', "Passwords are not the same!", (value) => {
-            return this.parent.password === value;
-        })
-        .required('Password confirmation is required!'),
+        .required()
+        .oneOf([ref('password')])
 })
 
 export default UserSchema;
