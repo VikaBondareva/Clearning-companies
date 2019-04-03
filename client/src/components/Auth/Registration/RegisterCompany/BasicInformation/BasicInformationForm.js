@@ -6,7 +6,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import styles from '../../style';
+import styles from '../../../style';
 
 function Registration(props) {
         const { classes, values, errors, touched, handleChange,handleBlur,handleSubmit } = props;
@@ -89,7 +89,7 @@ function Registration(props) {
                       color="primary"
                       className={classes.submit}
                   >
-                      Sign Up
+                      Next
                   </Button>
                   </form>
         );

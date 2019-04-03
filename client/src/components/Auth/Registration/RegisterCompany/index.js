@@ -1,1 +1,1 @@
-export * from './RegisterCompany'
+export * from './RegisterComponent'
