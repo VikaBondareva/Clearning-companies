@@ -23,7 +23,7 @@ const styles = {
 
 class CompanyPage extends Component{
 
-    componentDidMount(){
+    componentWillMount(){
         const {match: {params}} = this.props;
         console.log(params.id);
         this.props.getCompany(params.id);

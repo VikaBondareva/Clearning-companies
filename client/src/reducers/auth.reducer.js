@@ -4,7 +4,8 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  USER_GET_SUCCESS
+  USER_GET_SUCCESS,
+  SAVE_COMPANY_REGISTER
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -15,7 +16,7 @@ const initialState = {
   profile: {}
 };
 
-export default (state = initialState, {type, tokens, profile}) => {
+export default (state = initialState, {type, tokens, profile, company}) => {
   switch (type) {
     case AUTH_REQUEST:
       return {
@@ -40,10 +41,11 @@ export default (state = initialState, {type, tokens, profile}) => {
       }
     case REGISTER_SUCCESS: 
       return {
-        ...state,
+        isAuthenticated:false,
+        tokens: null,
         isLoading: false,
-        isSendEmail: true
-      }
+        isSendEmail: true,
+    }
     case LOGOUT_SUCCESS:
       return {
         isLoading: false,
@@ -59,6 +61,11 @@ export default (state = initialState, {type, tokens, profile}) => {
         isAuthenticated: true,
         profile
      }
+    case SAVE_COMPANY_REGISTER: 
+     return {
+       ...state,
+      company
+      }
     default:
       return state;
   }

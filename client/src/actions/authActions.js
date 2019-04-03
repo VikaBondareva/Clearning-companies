@@ -6,7 +6,8 @@ import {
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
     REGISTER_SUCCESS,
-    REGISTER_COMPANY_FAIL
+    REGISTER_COMPANY_FAIL,
+    SAVE_COMPANY_REGISTER
 } from './actionTypes';
 import {AuthService} from '../services';
 import {storeToken, clearToken} from '../helpers/authentication';
@@ -45,6 +46,15 @@ export function registerSuccess() {
     }
 }
 
+export function saveRegisterInState(company){
+    return {
+        type: SAVE_COMPANY_REGISTER,
+        company
+    }
+}
+
+
+//redax-thunk
 export  function asyncLogin({identifier, password},redirectTo){
     return function(dispatch){
         dispatch(authRequest());
@@ -81,10 +91,11 @@ export function asyncRegisterCompany(company){
         dispatch(authRequest());
         return AuthService.registration(company)
             .then((response)=>{
-                if(response.status === 201)
+                if(response.status === 201){
                     dispatch(registerSuccess());
-                else 
+                } else {
                     dispatch(returnErrors(response.data.message, response.status, REGISTER_COMPANY_FAIL ));
+                   } 
             })
             .catch(error=>{
                 dispatch(authError());
