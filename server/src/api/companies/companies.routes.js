@@ -13,7 +13,7 @@ router.put("/:id/block", permit(Role.Admin), controller.blockById);
 router.put(
   "/:id",
   permit(Role.Executor),
-  validation(schemas.companyPOST, "body"),
+  validation(schemas.companyPUT, "body"),
   controller.put
 );
 module.exports = router;
