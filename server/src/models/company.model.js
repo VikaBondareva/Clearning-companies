@@ -28,10 +28,7 @@ const schema = new mongoose.Schema(
     address: {
       country: { type: String, require: true },
       city: { type: String, require: true },
-      district: { type: String },
-      street: { type: String, require: true },
-      house: { type: String, require: true },
-      apartment: { type: String }
+      other: { type: String, require: true }
     },
     email: {
       type: String,
