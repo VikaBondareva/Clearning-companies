@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,7 +10,7 @@ import styles from '../style';
 
 function LoginForm(props) {
    
-        const { classes, values, errors, touched, handleChange,handleBlur,handleSubmit } = props;
+        const { classes,  errors, touched, handleChange,handleBlur,handleSubmit } = props;
         return (
                   <form className={classes.form} onSubmit={handleSubmit}>
                   <FormControl margin="normal" required fullWidth>

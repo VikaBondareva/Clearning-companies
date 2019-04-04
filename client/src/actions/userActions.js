@@ -4,6 +4,7 @@ import {
 import {AuthService} from '../services';
 import {authRequest}  from './authActions';
 import { clearToken} from '../helpers/authentication';
+import { push } from "connected-react-router";
 
 export function getProfileSuccess(user){
     return {
@@ -17,9 +18,15 @@ export function asyncGetCurrentProfile(){
         dispatch(authRequest());
         return AuthService.getCurrentUser()
             .then((response)=>{
-                dispatch(getProfileSuccess(response.data));
+                if(response.status!==401){
+                    console.log("profile success")
+                    dispatch(getProfileSuccess(response.data));
+                } else {
+                    dispatch(push('/login'));
+                }
             })
             .catch(()=>{
+                console.log("profile error")
                 clearToken();
             })
     }

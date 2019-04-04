@@ -7,7 +7,10 @@ import {
     REGISTER_FAIL,
     REGISTER_SUCCESS,
     REGISTER_COMPANY_FAIL,
-    SAVE_COMPANY_REGISTER
+    SAVE_COMPANY_REGISTER,
+    EMAIL_CONFIRM_ERROR,
+    SEND_EMAIL_DELETE,
+    SEND_EMAIL_SUCCESS
 } from './actionTypes';
 import {AuthService} from '../services';
 import {storeToken, clearToken} from '../helpers/authentication';
@@ -53,21 +56,39 @@ export function saveRegisterInState(company){
     }
 }
 
+export function deleteSendEmail(){
+    return {
+        type: SEND_EMAIL_DELETE
+    }
+}
+
+export function sendEmailSuccess(){
+    return {
+        type: SEND_EMAIL_SUCCESS
+    }
+}
 
 //redax-thunk
-export  function asyncLogin({identifier, password},redirectTo){
+export   function asyncLogin({identifier, password},redirectTo){
     return function(dispatch){
         dispatch(authRequest());
         return AuthService.login({identifier, password})
-            .then(response=>{
-                dispatch(loginSuccess(response.data));
-                storeToken(response.data.tokens, response.data.user);
-                dispatch(push('/profile'));
+            .then(async response=>{
+                console.log(response.status);
+                    await storeToken(response.data.tokens, response.data.user);
+                    dispatch(loginSuccess(response.data));
+                    dispatch(push('/profile'));
             })
-            .catch(error => {
-                dispatch(authError());
-                dispatch(returnErrors(error.response.data.message, error.response.status, LOGIN_ERROR ));
-
+            .catch(async error => {
+                if (error.response.status === 400) {
+                    console.log(error.response.data.message);
+                    await dispatch(authError());
+                    dispatch(returnErrors(error.response.data.message, error.response.status, LOGIN_ERROR ));
+                } else {
+                    await dispatch(authError());
+                    await dispatch(sendEmailSuccess());
+                    dispatch(returnErrors(error.response.data.message, error.response.status, LOGIN_ERROR ));
+                }
             })
     }
 }
@@ -78,6 +99,7 @@ export function asyncRegisterUser(user){
         return AuthService.registration(user)
             .then(()=>{
                 dispatch(registerSuccess());
+                dispatch(sendEmailSuccess());
             })
             .catch(error=>{
                 dispatch(authError(error));
@@ -89,10 +111,11 @@ export function asyncRegisterUser(user){
 export function asyncRegisterCompany(company){
     return function(dispatch){
         dispatch(authRequest());
-        return AuthService.registration(company)
+        return AuthService.registrationCompany(company)
             .then((response)=>{
                 if(response.status === 201){
                     dispatch(registerSuccess());
+                    dispatch(sendEmailSuccess());
                 } else {
                     dispatch(returnErrors(response.data.message, response.status, REGISTER_COMPANY_FAIL ));
                    } 
@@ -109,5 +132,23 @@ export const asyncLogout = () => dispatch => {
         .then(()=>{
             clearToken();
             dispatch(logoutSuccess());
+        })
+}
+
+export const asyncConfirmEmail = (token, email) => dispatch => {
+    dispatch(authRequest());
+    return AuthService.confirmEmail(token, email)
+        .then(response => {
+            if(response.status === 200) {   
+                storeToken(response.data.tokens, response.data.user);
+                dispatch(loginSuccess(response.data));
+            } else {
+                dispatch(authError());
+                dispatch(returnErrors(response.data.message, response.status, EMAIL_CONFIRM_ERROR ));
+            }
+        })
+        .catch((error)=>{
+            dispatch(authError());
+            dispatch(returnErrors(error.response.data.message, error.status, EMAIL_CONFIRM_ERROR ));
         })
 }

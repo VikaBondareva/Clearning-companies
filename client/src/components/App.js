@@ -2,10 +2,9 @@ import React from 'react';
 import { Route, Switch } from "react-router-dom";
 
 import WithLayout from './RouterWithLayout';
-import {LoginPage,RegistrationCompany,RegistrationUser} from '../containers/auth';
+import {LoginPage,RegistrationCompany,RegistrationUser, ConfirmEmail} from '../containers/auth';
 import {Home,CompanyPage, Profile} from  '../containers/pages';
 import NotFound from './NotFound/NotFound';
-import ConfirmRegister from './Auth/ConfirmEmail/ConfirmEmail';
 import {PrivateRoute} from './PrivateRoutes';
 export default class App extends React.Component{
 
@@ -21,7 +20,7 @@ export default class App extends React.Component{
           <PrivateRoute path="/login" component={LoginPage} isAuth={!isAuthenticated} pathUrl='/profile' />
           <PrivateRoute path="/register" component={RegistrationUser} isAuth={!isAuthenticated} pathUrl='/profile'/>
           <PrivateRoute path="/register-company" component={RegistrationCompany} isAuth={!isAuthenticated} pathUrl='/profile'/>
-          <Route path='/activation' component={ConfirmRegister}/>
+          <Route  path='/activation' component={ConfirmEmail}/>
           <Route path="/*" component={NotFound} />
       </Switch>
     );

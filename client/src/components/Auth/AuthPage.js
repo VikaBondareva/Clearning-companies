@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,14 +7,19 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Modal from '../common/modal/ModalComponent';
+import { connect} from 'react-redux';
 
 import {Link} from 'react-router-dom';
 import SocialAuth from './SocialAuth/SosialAuthComponent';
-
+import {deleteSendEmail} from '../../actions/authActions';
 import styles from './style';
 
 function AuthPage(props) {
    
+        function handleModal(){
+           props.deleteSend();
+        }
+
         const { classes, error, title, children, size, titleDown, link, nameAction, isSendEmail, otherRegisterLink,otherRegisterText  } = props;
         let classSize = size === 'big'? classes.mainBig : classes.mainSmall
         return (
@@ -32,7 +37,7 @@ function AuthPage(props) {
                   </Typography>
                   { error 
                       ?  <p className={classes.error}>{error }</p>
-                      : ''
+                      : null
                   }
                   {children}
                   <div style={{textAlign: "center"}}>
@@ -42,7 +47,7 @@ function AuthPage(props) {
                   <p>{titleDown} <Link to={link}>{nameAction}</Link></p>
                 {otherRegisterLink && otherRegisterText && <Link to={otherRegisterLink}>{otherRegisterText}</Link>}
               </Paper>
-              {isSendEmail && <Modal onClose={this.handleModal} description="На вашу почту отпарвлено сообщение с подтверждением регистрации"/>}
+              {isSendEmail && <Modal onClose={handleModal} description="На вашу почту отпарвлено сообщение с подтверждением регистрации"/>}
               </div>
             </main>
         );
@@ -50,11 +55,24 @@ function AuthPage(props) {
 
 AuthPage.propTypes = {
   classes: PropTypes.object.isRequired,
-  error: PropTypes.string.isRequired,
+  error: PropTypes.string,
 };
 
 AuthPage.defaultProps = {
     error: ''
 }
 
-export default withStyles(styles)(AuthPage);
+const Auth  =  withStyles(styles)(AuthPage);
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+      deleteSend: () => {
+            dispatch(deleteSendEmail());
+        },
+    }
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Auth);

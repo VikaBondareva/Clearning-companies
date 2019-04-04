@@ -1,12 +1,12 @@
 import {
   COMPANIES_LOAD_REQUEST,
   COMPANY_LOAD_SUCCESS,
-  COMPANIES_LOAD_SUCCESS
+  COMPANIES_LOAD_SUCCESS,
+  COMPANIES_LOAD_ERROR
 } from '../actions/actionTypes';
 
 const initialState = {
   isLoading: false,
-  message: null,
   docs: [],
   total: 1,
   page: 1,
@@ -36,6 +36,10 @@ export default (state = initialState, {type, docs,total,page,pages,limit, compan
         ...state,
         isLoading: false,
         company
+      }
+    case COMPANIES_LOAD_ERROR: 
+      return {
+        isLoading: false
       }
     default:
       return state;
