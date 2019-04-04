@@ -2,7 +2,7 @@ const config = require("../config/environment");
 const jwt = require("jsonwebtoken");
 
 const checkToken = (req, res, next) => {
-  let token = req.query.token;
+  let token = req.params.token;
   if (token) {
     jwt.verify(token, config.jwt.secret, (err, data) => {
       if (err) {

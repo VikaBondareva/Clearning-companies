@@ -27,7 +27,7 @@ router.post(
 );
 router.get("/current", permit(), controller.getCurrent);
 router.post("/refresh-token", permit(), controller.refreshToken);
-router.get("/activation", jwt.checkToken, controller.activation);
+router.post("/activation/:token", jwt.checkToken, controller.activation);
 
 router.get("/github", authenticateGithub());
 router.get(
