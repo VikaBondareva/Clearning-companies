@@ -9,21 +9,21 @@ const gmailSend = async (email, content, subject) => {
     subject,
     text: content
   };
-  // try {
-  await nodemailer.createTestAccount((err, account) => {
-    gmailTransport.sendMail(HelperOptions, (error, info) => {
-      if (error) {
-        throw new Error(`failed sent mail ${error.name}`);
-      } else {
-        console.log("sendEmail: " + email);
-        console.log("Preview URL: " + info);
-      }
+  try {
+    await nodemailer.createTestAccount((err, account) => {
+      gmailTransport.sendMail(HelperOptions, (error, info) => {
+        if (error) {
+          throw new Error(`failed sent mail ${error.name}`);
+        } else {
+          console.log("sendEmail: " + email);
+          console.log("Preview URL: " + info);
+        }
+      });
+      gmailTransport.close();
     });
-    gmailTransport.close();
-  });
-  // } catch (err) {
-  // throw new Error(err);
-  // }
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 module.exports.sendGMail = async (email, { content, subject }) => {

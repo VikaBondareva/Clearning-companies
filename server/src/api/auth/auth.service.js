@@ -35,9 +35,13 @@ async function activation(_id, role, email) {
   if (user) {
     const { accessToken, refreshToken } = updateToken(user);
 
+    const data = user.toObject();
     return {
-      accessToken,
-      refreshToken
+      user: data,
+      tokens: {
+        accessToken,
+        refreshToken
+      }
     };
   } else return null;
 }
@@ -114,7 +118,6 @@ async function registerCompany({
   email,
   password,
   services,
-  workPlan,
   rooms
 }) {
   try {
@@ -127,7 +130,6 @@ async function registerCompany({
       password,
       role: Role.Executor,
       services,
-      workPlan,
       price,
       rooms
     });

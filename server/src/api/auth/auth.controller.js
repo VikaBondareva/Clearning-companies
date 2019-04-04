@@ -8,9 +8,9 @@ module.exports.login = (req, res, next) => {
     .then(results => {
       console.log(results);
       results
-        ? res.json(results)
+        ? res.status(httpStatus.OK).json(results)
         : res
-            .status(httpStatus.UNAUTHORIZED)
+            .status(httpStatus.BAD_REQUEST)
             .json({ message: "Email/phone or password is incorrect" });
     })
     .catch(err => next(err));
@@ -63,9 +63,9 @@ module.exports.refreshToken = (req, res, next) => {
 module.exports.activation = (req, res, next) => {
   authService
     .activation(req.id, req.role, req.query.email)
-    .then(tokens =>
-      tokens
-        ? res.status(httpStatus.OK).json(tokens)
+    .then(results =>
+      results
+        ? res.status(httpStatus.OK).json(results)
         : res
             .status(httpStatus.BAD_REQUEST)
             .json({ success: false, message: "Invalid token" })
