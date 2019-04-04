@@ -9,9 +9,13 @@ export function BasicInformation(props){
         name: "",
         description:  '',
         email: '',
-        address:  '',
+        address: {
+            country: "",
+            city: "",
+            other: ""
+        },
         password:  '',
-        confirmPassword: ''
+        confirmPassword: '',
     }
     const {company} = props;
     if (company.personal){
@@ -22,7 +26,7 @@ export function BasicInformation(props){
             email,
             address,
             password,
-            confirmPassword: ''
+            confirmPassword: '',
         }
     } 
     

@@ -8,6 +8,8 @@ import {BasicInformation} from './BasicInformation';
 import {RoomsInformation} from './RoomsInformation';
 import {ServicesInformation} from './ServicesInformation';
 import AuthPage from '../../AuthPage';
+import { withStyles } from '@material-ui/core/styles';
+import styles from '../../style';
 
 export default class RegisterCompany extends React.Component{
 
@@ -23,6 +25,10 @@ export default class RegisterCompany extends React.Component{
         this.handleFinish = this.handleFinish.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.getStepContent = this.getStepContent.bind(this);
+    }
+
+    componentWillUnmount(){
+        this.props.cleanError();
     }
 
     handleNext(data){
@@ -71,18 +77,19 @@ export default class RegisterCompany extends React.Component{
 
     render(){
         const {activeStep, steps} = this.state;
+        const {classes} = this.props;
         return (
             <AuthPage 
                 title='Sign up to Mega Clean'
                 titleDown="You have an account?"
                 link='/login'
                 size='big'
-                error={this.props.message}
+                error={this.props.error}
                 isSendEmail={this.props.isSendEmail}
                 nameAction='Sing in.'
                 otherRegisterLink="/register"
                 otherRegisterText="Registration as an user">
-                 <Stepper activeStep={activeStep} alternativeLabel>
+                 <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
                     {steps.map(label => (
                     <Step key={label}>
                         <StepLabel>{label}</StepLabel>
@@ -100,9 +107,10 @@ RegisterCompany.propTypes = {
     registerCompany: PropTypes.func.isRequired,
     saveInState: PropTypes.func.isRequired,
     isSendEmail: PropTypes.bool.isRequired,
-    message: PropTypes.string,
-    company: PropTypes.object
+    error: PropTypes.string,
+    company: PropTypes.object.isRequired,
+    cleanError: PropTypes.func.isRequired
   };
 
-export const RegistrationCompanyComponent = loadingHOC('isLoading')(RegisterCompany);
+export const RegistrationCompanyComponent = loadingHOC('isLoading')( withStyles(styles)(RegisterCompany));
 

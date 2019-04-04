@@ -1,5 +1,4 @@
 import {
-    string,
     object,
     number,
 } from 'yup';

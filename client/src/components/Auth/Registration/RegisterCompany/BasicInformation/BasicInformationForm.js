@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,7 +9,14 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import styles from '../../../style';
 
 function Registration(props) {
-        const { classes, values, errors, touched, handleChange,handleBlur,handleSubmit } = props;
+    const { classes, values, errors, touched, handleChange,handleBlur,handleSubmit } = props;
+
+    function isError(value){
+      const address = touched.address;
+      const addressError = errors.address;
+      return address && address[value] && Boolean(addressError) && Boolean(addressError[value]);
+    }
+
         return (
                   <form className={classes.form} onSubmit={handleSubmit}>
                   <div className={classes.grid}>
@@ -48,14 +55,36 @@ function Registration(props) {
                           error={touched.description && Boolean(errors.description)}
                           />
                   </FormControl>
+                  <div className={classes.grid}>
                   <FormControl margin="normal" required fullWidth className={classes.formControl}>
-                          <InputLabel htmlFor="address">Address</InputLabel>
+                          <InputLabel htmlFor="address.city">City</InputLabel>
                           <Input 
-                          name="address"
+                          name="address.city"
                           onChange={handleChange}
-                          value={values.address}
+                          value={values.address.city}
                           onBlur={handleBlur}
-                          error={touched.address && Boolean(errors.address)}
+                          error={isError("city")}
+                          />
+                  </FormControl>
+                  <FormControl margin="normal" required fullWidth className={classes.formControl}>
+                          <InputLabel htmlFor="address.country">Country</InputLabel>
+                          <Input 
+                          name="address.country"
+                          onChange={handleChange}
+                          value={values.address.country}
+                          onBlur={handleBlur}
+                          error={isError("country")}
+                          />
+                  </FormControl>
+                  </div>
+                  <FormControl margin="normal" required fullWidth className={classes.formControl}>
+                          <InputLabel htmlFor="address.other">Other</InputLabel>
+                          <Input 
+                          name="address.other"
+                          onChange={handleChange}
+                          value={values.address.other}
+                          onBlur={handleBlur}
+                          error={isError('other')}
                           />
                   </FormControl>
                   <div className={classes.grid}>

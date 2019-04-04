@@ -5,7 +5,8 @@ import {RegistrationUserComponent} from '../../components/Auth/Registration';
 const mapStateToProps = (state) => ({
     isLoading: state.auth.isLoading,
     message: state.auth.message,
-    isSendEmail: state.auth.isSendEmail
+    isSendEmail: state.auth.isSendEmail,
+    error: state.error.message
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {

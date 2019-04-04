@@ -11,14 +11,16 @@ const CompanySchema = object().shape({
         .max(50),
     description: string()
         .required()
-        .min(4)
+        .min(50)
         .max(500),
     email: string()
         .required()
         .email(),
-    address: string()
-        .required()
-        .min(10),
+    address: object().shape({
+        country: string().required(),
+        city: string().required(),
+        other: string().required()
+    }),
     password: string()
         .required()
         .min(6)

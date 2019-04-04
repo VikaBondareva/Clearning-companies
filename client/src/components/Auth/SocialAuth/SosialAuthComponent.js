@@ -1,9 +1,9 @@
 import React from 'react';
 // import io from 'socket.io-client';
-import OAuth from './OAuth';
+// import OAuth from './OAuth';
 import {AuthService} from '../../../services';
 import './Social.css';
-const providers = ['google', 'github', 'vkontakte'];
+// const providers = ['google', 'github', 'vkontakte'];
 // const socket = io('https://localhost:7040')
 
 export default function Social(){
@@ -41,15 +41,15 @@ export default function Social(){
             })
     }
 
-    const buttons = (providers, socket) => {
-        providers.map(provider => 
-            <OAuth 
-                provider={provider}
-                key={provider}
-                // socket={socket}
-            />
-        )
-    }
+    // const buttons = (providers, socket) => {
+    //     providers.map(provider => 
+    //         <OAuth 
+    //             provider={provider}
+    //             key={provider}
+    //             // socket={socket}
+    //         />
+    //     )
+    // }
 
     return(
             <div className='social'>

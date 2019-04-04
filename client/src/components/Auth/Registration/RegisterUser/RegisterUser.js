@@ -13,7 +13,7 @@ export default function RegisterUser(props){
             titleDown="You have an account?"
             link='/login'
             size='big'
-            error={props.message}
+            error={props.error}
             isSendEmail={props.isSendEmail}
             nameAction='Sing in.'
             otherRegisterLink="/register-company"
@@ -43,7 +43,7 @@ RegisterUser.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isSendEmail: PropTypes.bool,
     registerUser: PropTypes.func.isRequired,
-    message: PropTypes.string
+    error: PropTypes.string
   };
 
 export const RegistrationUserComponent = loadingHOC('isLoading')(RegisterUser);
