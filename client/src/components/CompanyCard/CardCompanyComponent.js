@@ -26,16 +26,9 @@ class CardCompanyComponent extends Component {
 
   constructor(){
     super();
-
-    this.handleClick = this.handleClick.bind(this);
     this.renderAddress = this.renderAddress.bind(this);
     this.renderWorkPlan = this.renderWorkPlan.bind(this);
   }
-
-
-  handleClick(){
-      console.log(this.props);
-  };
 
   renderAddress(){
     const {address} = this.props.company;
@@ -58,7 +51,7 @@ class CardCompanyComponent extends Component {
 
   render() {
     const {classes} = this.props;
-    const {name,address, ratting, _id,workPlan, rooms} = this.props.company;
+    const {name,address, ratting, _id,workPlan, rooms, price} = this.props.company;
     return (
       <Card className={classes.card}>
         <CardActionArea>
@@ -92,13 +85,16 @@ class CardCompanyComponent extends Component {
               <p>Цена за большую конмнату: {rooms.big.price} руб</p>
               <p>Цена за туалет : {rooms.toilet.price} руб</p>
             </div>
+            <div>
+              Средняя цена {price}
+            </div>  
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary" onClick={this.handleClick}>
+          <Button size="small" color="primary">
             Заказать услугу
           </Button>
-          <Button size="small" color="primary" onClick={this.handleClick}>
+          <Button size="small" color="primary" >
             <Link to={`/companies/${_id}`}>See</Link>
           </Button>
         </CardActions>

@@ -1,39 +1,39 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import SearchForm from './SearchFormComponent';
-import FilterMenu from './FiltterMenu';
+import {SearchForm, FilterMenu} from '../../../containers/search';
+
 const styles = theme => ({
     main: {
-      display: "flex",
+      display: "block",
       width: "100%",
       alignItems: "center",
       background: "white",
       border: "1px solid",
       marginBottom: "10px",
+      [theme.breakpoints.down("sm")]: {
+        display: "block"
+      },
     },
   });
   
- class SearchMenu extends Component{
+ function SearchMenuComponent(props){
          
-        render(){
-         const {classes} = this.props;
-
-            return (
-                <>
-                    <div 
-                    className={classes.main}
-                    >
-                        <SearchForm/>
-                        <FilterMenu/>
-                    </div>
-                </>
-            );
-        }
+    const {classes} = props;
+        return (
+            <>
+                <div 
+                className={classes.main}
+                >
+                    <SearchForm/>
+                    <FilterMenu/>
+                 </div>
+            </>
+        );
 }
 
-SearchMenu.propTypes = {
+SearchMenuComponent.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SearchMenu);
+export const SearchMenu = withStyles(styles)(SearchMenuComponent);

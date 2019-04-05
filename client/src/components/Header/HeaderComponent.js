@@ -40,6 +40,7 @@ import styles from './style';
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMenuOpen}
+        className={classes.menuHeader}
         onClose={handleMenuClose}
       >
        {!props.isAuthenticated 
@@ -48,13 +49,13 @@ import styles from './style';
                   <IconButton color="inherit">
                     <AccountCircle />
                   </IconButton>
-                  <p><Link to='/register' >Регистрация</Link></p>
+                  <p><Link to='/register' className={classes.linkMenu} >Регистрация</Link></p>
               </MenuItem>
               <MenuItem>
                 <IconButton color="inherit">
                     <MailIcon />
                 </IconButton>
-                <Link to='/login' >Войти</Link>
+                <Link to='/login' className={classes.linkMenu} >Войти</Link>
               </MenuItem>
           </>
           : <> 
@@ -62,13 +63,13 @@ import styles from './style';
                 <IconButton color="inherit">
                     <MailIcon />
                 </IconButton>
-                <Link to='/profile' >Profile</Link>
+                <Link to='/profile' className={classes.linkMenu} >Profile</Link>
               </MenuItem>
               <MenuItem>
                 <IconButton color="inherit">
                     <MailIcon />
                 </IconButton>
-                <Link to='/setting' >Setting</Link>
+                <Link to='/setting' className={classes.linkMenu} >Setting</Link>
               </MenuItem>
               <MenuItem onClick={handleClickLogout}>
               <IconButton color="inherit">
@@ -82,11 +83,11 @@ import styles from './style';
     );
   
     return (
-        <div className={classes.root}>
-            <AppBar position="static" className={classes.navbar}>
+        <div className={classes.root} >
+            <AppBar position="static"  className={classes.navbar}>
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                        <Link to="/">Клининговые компании</Link> 
+                    <Typography className={classes.title}  variant="h6" color="inherit" noWrap>
+                        <Link to="/" className={classes.link} >Клининговые компании</Link> 
                     </Typography>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>

@@ -10,8 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
 
-
-
 const styles = {
   card: {
     maxWidth: 480,
@@ -46,9 +44,9 @@ class CompanyPage extends Component{
                       <Typography gutterBottom variant="h5">
                           {name}
                       </Typography>
-                      <Typography gutterBottom >
-                          Address: {address.city},str. {address.street} {address.house}  
-                      </Typography>
+                      {/* <Typography gutterBottom >
+                          Address: {address.country},str. {address.city}
+                      </Typography> */}
                   </Grid>
                   <Grid item >
                       <Typography gutterBottom>

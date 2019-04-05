@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const styles = theme => ({
     grow: {
@@ -13,16 +12,9 @@ const styles = theme => ({
       position: 'relative',
       background: "#e5e7ea",
       borderRadius: theme.shape.borderRadius,
-      // '&:hover': {
-      //   backgroundColor: fade(theme.palette.common.white, 0.25),
-      // },
       marginRight: theme.spacing.unit * 2,
-      marginLeft: 0,
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing.unit * 3,
-        width: '400px',
-      },
+      margin: "20px 30px",
+      width: '80%',
     },
     searchIcon: {
       width: theme.spacing.unit * 9,
@@ -49,15 +41,30 @@ const styles = theme => ({
   
  class SearchFormComponent extends Component{
 
+        constructor(props){
+          super(props);
+          
+          this.handleChange = this.handleChange.bind(this);
+          this.handleKeyPress = this.handleKeyPress.bind(this);
+        }
 
-        state = {
-            name:"",
-            nameService:""
+        handleKeyPress(event){
+          if(event.key == 'Enter'){
+            this.props.searchCompanies();
+          }
+        }
+
+        handleChange(event){
+          const {name, value } = event.target;
+          if(value){
+            this.props.saveFilter(name, value);
+          } else {
+            this.props.clearFilter(name);
+          }
         }
 
         render(){
          const {classes} = this.props;
-
             return (
                 <>
                     <div 
@@ -70,6 +77,10 @@ const styles = theme => ({
                         </div>
                         <InputBase
                         placeholder="Поиск по услуге или комапнии..."
+                        onChange={this.handleChange}
+                        name="name"
+                        value={this.props.name}
+                        onKeyPress={this.handleKeyPress}
                         classes={{
                             root: classes.inputRoot,
                             input: classes.inputInput,
@@ -82,7 +93,10 @@ const styles = theme => ({
 }
 
 SearchFormComponent.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    searchCompanies: PropTypes.func.isRequired,
+    saveFilter: PropTypes.func.isRequired,
+    clearFilter:PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(SearchFormComponent);

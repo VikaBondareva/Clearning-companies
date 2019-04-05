@@ -1,14 +1,30 @@
-import {CHANGE_FILTER} from '../constants/constants';
+import {
+    CLEAR_FILTERS,
+    SAVE_FILTER,
+    CLEAR_FILTER
+} from '../actions/actionTypes';
 
-const BASE_FILTER = "all";
+const clearFilter = (state, name) => {
+    delete state[name];
+    return state;
+}
 
-const filters = (state = BASE_FILTER, {type, activeFilter}) =>{
+const companiesFilters = (state = {}, {type,payload}) =>{
     switch (type) {
-        case CHANGE_FILTER: 
-            return activeFilter;
+        case SAVE_FILTER:{
+            const {name, value}= payload;
+            return {
+                ...state,
+                [name]: value
+            }
+        }
+        case CLEAR_FILTER: 
+            return clearFilter(state, payload.name)
+        case CLEAR_FILTERS: 
+            return {};
         default:
             return state;
     }
 }
 
-export default filters;
+export default companiesFilters;
