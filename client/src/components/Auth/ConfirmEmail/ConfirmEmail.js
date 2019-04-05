@@ -1,31 +1,41 @@
 import React, { Component } from 'react';
-import {AuthService} from '../../../services';
 import { Link } from 'react-router-dom'
-import { Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types';
+import {EMAIL_CONFIRM_ERROR} from '../../../actions/actionTypes';
+import loadingHOC from '../../common/loading/loadingHOC';
+import queryString from "query-string";
 
 class ConfirmEmailComponent extends Component {
   
-  state = {
-    confirming: false
-  }
-
-  componentDidMount = () => {
-    const { token, email } = this.props.match.params
-    AuthService.confirmEmail(token, email)
-      .then(data => {
-        this.setState({ confirming: true })
-        setTimeout(this.props.history.push('/'), 5000);
-      })
-      .catch(err => console.log(err))
+  componentWillMount() {
+    const {token, email} = queryString.parse(this.props.location.search);
+    console.log("token: "+token+"\nemail: "+email)
+    this.props.confirmEmail(token, email);
   }
 
   render = () =>
     <div>
-        <p>Ваша почта подтверджена</p>
-        <Link to='/profile' className="confirm-link">
-            Перейти в профиль
-        </Link>
+        {(this.props.error && this.props.error.id ===  EMAIL_CONFIRM_ERROR)
+          ?  <>
+              <p>Something is wrong! Error: {this.props.error.message}</p>
+              <Link to="/login">
+                Go to the auth page
+              </Link>
+            </>
+          : <>
+              <p> Email confirmed successfully!</p>
+              <Link to='/profile' className="confirm-link">
+                  Go to the profile
+              </Link>
+            </>
+        }
     </div>
 }
 
-export default ConfirmEmailComponent;
+ConfirmEmailComponent.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  confirmEmail: PropTypes.func.isRequired
+};
+
+export default loadingHOC('isLoading')(ConfirmEmailComponent);

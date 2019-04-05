@@ -20,8 +20,10 @@ import {returnErrors} from './errorActions';
 export function loginSuccess({tokens,user}) {
     return {
         type: LOGIN_SUCCESS,
-        tokens,
-        profile: user
+        payload: {
+            tokens,
+            profile: user
+        }
     }
 }
 
@@ -52,7 +54,9 @@ export function registerSuccess() {
 export function saveRegisterInState(company){
     return {
         type: SAVE_COMPANY_REGISTER,
-        company
+        payload: {
+            company
+        }
     }
 }
 
@@ -69,7 +73,7 @@ export function sendEmailSuccess(){
 }
 
 //redax-thunk
-export   function asyncLogin({identifier, password},redirectTo){
+export   function asyncLogin({identifier, password}){
     return function(dispatch){
         dispatch(authRequest());
         return AuthService.login({identifier, password})
@@ -116,9 +120,7 @@ export function asyncRegisterCompany(company){
                 if(response.status === 201){
                     dispatch(registerSuccess());
                     dispatch(sendEmailSuccess());
-                } else {
-                    dispatch(returnErrors(response.data.message, response.status, REGISTER_COMPANY_FAIL ));
-                   } 
+                }
             })
             .catch(error=>{
                 dispatch(authError());
@@ -136,7 +138,6 @@ export const asyncLogout = () => dispatch => {
 }
 
 export const asyncConfirmEmail = (token, email) => dispatch => {
-    dispatch(authRequest());
     return AuthService.confirmEmail(token, email)
         .then(response => {
             if(response.status === 200) {   

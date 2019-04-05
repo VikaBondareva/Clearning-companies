@@ -16,7 +16,6 @@ const initialState = {
   tokens: null,
   isLoading: false,
   isSendEmail: false,
-  profile: {},
   company: {
     personal : {
       name: "xfndfnsrt",
@@ -52,21 +51,22 @@ const initialState = {
   }
 };
 
-export default (state = initialState, {type, tokens, profile, company}) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case AUTH_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case LOGIN_SUCCESS:
+    case LOGIN_SUCCESS: {
       return {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        profile,
-        tokens
+        profile: payload.profile,
+        tokens: payload.tokens
       };
+    }
     case AUTH_ERROR:
     case EMAIL_CONFIRM_ERROR:
       return {
@@ -92,12 +92,12 @@ export default (state = initialState, {type, tokens, profile, company}) => {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        profile
+        profile: payload.tokens
      }
     case SAVE_COMPANY_REGISTER: 
      return {
         ...state,
-        company
+        company: payload.company
       }
     case SEND_EMAIL_SUCCESS: 
       return {

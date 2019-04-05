@@ -19,7 +19,7 @@ export const AuthService = {
         return Axios.request({
             method: 'POST',
             url: `/auth/activation/${token}`,
-            data: email
+            data: {email}
         })
     },
     authGoogle(){

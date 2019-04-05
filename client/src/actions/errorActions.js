@@ -4,9 +4,11 @@ import { GET_ERRORS, CLEAR_ERRORS } from './actionTypes';
 export const returnErrors = (message, status, id = null) => {
   return {
     type: GET_ERRORS,
-    message,
-    status,
-    id
+    payload: {
+      message,
+      status,
+      id
+    }
   };
 };
 

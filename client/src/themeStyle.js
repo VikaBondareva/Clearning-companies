@@ -8,32 +8,32 @@ const theme = createMuiTheme({
       white: "#fff"
     },
     background:{
-      paper:"rgba(214, 225, 149, 1)",
+      paper:"rgb(246, 247, 220)",
       default:"rgba(255, 255, 255, 1)"
     },
     primary:{
-      light:"#12af81",
-      main:"#2EAA86",
-      dark:"##12af81",
+      light:"#71debe",
+      main:"#46a78a",
+      dark:"#138462",
       contrastText:"#fff"
     },
     secondary:{
-      light:"rgba(29, 194, 75, 1)",
-      main:"#FCE770",
+      light:"#f8f8f8",
+      main:"#647fcc",
       dark:"rgba(62, 39, 49, 1)",
-      contrastText:"#fff"
+      contrastText:"#a8c6c3"
     },
     "error":{
       "light":"#e57373",
-      "main":"#F27152",
-      "dark":"#EA4C25",
+      "main":"#ef4d27",
+      "dark":"#d40404",
       "contrastText":"#fff"
     },
     "text":{
-        "primary":"rgba(43, 37, 37, 0.87)",
-        "secondary":"rgba(53, 75, 56, 0.54)",
+        "primary":"#49344f",
+        "secondary":"rgba(45, 68, 48, 0.77)",
         "disabled":"rgba(82, 61, 61, 0.38)",
-        "hint":"rgba(0, 0, 0, 0.38)"
+        "hint":"rgb(71, 91, 93)"
       }
     }
 });

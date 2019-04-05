@@ -6,14 +6,16 @@ const initialState = {
   id: null
 }
 
-export default function(state = initialState, {type, message, status, id}) {
+export default function(state = initialState, {type,payload}) {
   switch(type) {
-    case GET_ERRORS:
+    case GET_ERRORS:{
+      const {message, status, id} = payload;
       return {
         message,
         status,
         id
       };
+    }
     case CLEAR_ERRORS:
       return {
         message: '',

@@ -6,10 +6,12 @@ import {authRequest}  from './authActions';
 import { clearToken} from '../helpers/authentication';
 import { push } from "connected-react-router";
 
-export function getProfileSuccess(user){
+export function getProfileSuccess(profile){
     return {
         type: USER_GET_SUCCESS,
-        profile: user
+        payload: {
+            profile
+        }
     }
 }
 

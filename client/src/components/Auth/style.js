@@ -26,6 +26,7 @@ const styles = theme => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      background: theme.palette.secondary.light,
       padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
     avatar: {
@@ -51,6 +52,14 @@ const styles = theme => ({
     },
     textArea: {
       height: 150,
+    },
+    deleteItem :{
+      height: 25,
+      marginTop: 30,
+      padding: 0
+    },
+    stepper: {
+      background: theme.palette.secondary.light
     }
   });
 
