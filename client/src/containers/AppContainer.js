@@ -4,7 +4,8 @@ import {asyncGetCurrentProfile} from '../actions/userActions';
 
 const mapStateToProps = (state) => ({
     isLoading: state.companies.isLoading,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    // role: state.auth.profile? state.auth.profile.role : null
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {

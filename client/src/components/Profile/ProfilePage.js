@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import {Link, Redirect} from 'react-router-dom'; 
+import {Link} from 'react-router-dom'; 
 
 const styles = {
   card: {
@@ -33,6 +33,12 @@ class ProfilePageComponent extends Component {
     }
 
     render() {
+      // const {role} = this.props;
+      // if(role === "customer"){
+
+      // } else if(role === "executor"){
+        
+      // }
     const {classes,user} = this.props;
     const {name,surname, email, addresses, phone} = user;
     return (
@@ -48,9 +54,9 @@ class ProfilePageComponent extends Component {
           </Grid>
          
           <CardContent>
-            {/* <div>
+            <div>
                 Addresses:   {addresses.map(this.renderAddresses)} 
-            </div> */}
+            </div>
             <p>
                 Email:   {email} 
             </p>
