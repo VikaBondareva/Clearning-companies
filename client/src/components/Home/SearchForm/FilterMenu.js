@@ -32,14 +32,6 @@ class LayoutLeft extends Component{
     constructor(props){
       super(props);
 
-      // this.state = {
-      //   city : props.city,
-      //   sort : props.sort,
-      //   maxPrice: props.maxPrice,
-      //   minPrice : props.minPrice,
-      //   perPage: props.perPage
-      // }
-
       this.handleClick = this.handleClick.bind(this);
       this.handleChange = this.handleChange.bind(this);
     }
@@ -62,7 +54,6 @@ class LayoutLeft extends Component{
 
     render() {
       const {classes,city, perPage, sort, maxPrice, minPrice} = this.props;
-      // const {} = this.state;
       return (
         <>
          <div className={classes.fromFilter}>
@@ -72,7 +63,7 @@ class LayoutLeft extends Component{
                   native
                   value={sort}
                   className={classes.select}
-                  onChange={this.handleChange}
+                  onChange={this.handleChange('string')}
                   inputProps={{
                       name: 'sort',
                       id: 'sort',
@@ -90,7 +81,7 @@ class LayoutLeft extends Component{
                   native
                   value={perPage}
                   className={classes.select}
-                  onChange={this.handleChange}
+                  onChange={this.handleChange('number')}
                   inputProps={{
                       name: 'perPage',
                       id: 'perPage',
@@ -109,7 +100,7 @@ class LayoutLeft extends Component{
                   native
                   value={city}
                   className={classes.select}
-                  onChange={this.handleChange}
+                  onChange={this.handleChange('string')}
                   inputProps={{
                       name: 'city',
                       id: 'city',

@@ -29,21 +29,21 @@ router.get("/current", permit(), controller.getCurrent);
 router.post("/refresh-token", permit(), controller.refreshToken);
 router.post("/activation/:token", jwt.checkToken, controller.activation);
 
-router.get("/github", authenticateGithub());
+router.post("/github", authenticateGithub());
 router.get(
   "/github/redirect",
   authenticateGithub(),
   controller.authSocialNetwork
 );
 
-router.get("/google", authenticateGoogle());
+router.post("/google", authenticateGoogle());
 router.get(
   "/google/redirect",
   authenticateGoogle(),
   controller.authSocialNetwork
 );
 
-router.get("/vk", authenticateVkontakte());
+router.post("/vk", authenticateVkontakte());
 router.get(
   "/vk/redirect",
   authenticateVkontakte(),
