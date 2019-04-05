@@ -14,17 +14,29 @@ async function getCompanies({
   city,
   maxPrice,
   minPrice,
-  nameService
+  sort,
+  name
 }) {
+  sort = sort
+    ? sort === "asc"
+      ? "price"
+      : "-price"
+    : sort === "ratting"
+    ? "ratting"
+    : "";
+
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
-    select: "name address ratting services workPlan rooms",
-    sort: "-created_at"
+    select: "name address ratting services workPlan rooms price",
+    sort: `${sort}`
   };
   const query = {
-    "address.city": { $regex: city || "" },
-    "services.name": { $regex: nameService || "" },
+    "address.city": city || { $regex: "" },
+    $or: [
+      { name: { $regex: name || "" } },
+      { "services.name": { $regex: name || "" } }
+    ],
     price: { $gte: minPrice || 0, $lte: maxPrice || 10000 }
   };
   const companies = await Company.paginate(query, options);

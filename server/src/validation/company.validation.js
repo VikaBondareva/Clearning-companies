@@ -161,7 +161,8 @@ const schemas = {
     city: Joi.string(),
     maxPrice: Joi.number(),
     minPrice: Joi.number(),
-    nameService: Joi.string()
+    name: Joi.string(),
+    sort: Joi.string()
   }
 };
 
