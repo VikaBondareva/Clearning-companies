@@ -39,6 +39,21 @@ async function getReviews({ _id }, { page, perPage }) {
   return reviews;
 }
 
+async function getByIdReviewsCompany(_id, { page }) {
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: 5,
+    populate: [{ path: "customer", select: "name surname email phone" }],
+    sort: "-created_at"
+  };
+  const query = {
+    company: _id
+  };
+
+  const reviews = await Review.paginate(query, options);
+  return reviews;
+}
+
 async function getByIdReview(_id) {
   return await Review.findById(_id)
     .populate({ path: "customer", select: "name surname email phone" })
@@ -69,5 +84,6 @@ module.exports = {
   getReviews,
   updateReview,
   deleteReview,
-  getByIdReview
+  getByIdReview,
+  getByIdReviewsCompany
 };

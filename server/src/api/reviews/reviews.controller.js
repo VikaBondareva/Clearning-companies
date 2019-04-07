@@ -15,6 +15,13 @@ module.exports.getById = (req, res, next) => {
     .catch(err => next(err));
 };
 
+module.exports.getReviewsCompany = (req, res, next) => {
+  service
+    .getByIdReviewsCompany(req.params.id, req.query)
+    .then(data => res.status(httpStatus.OK).json(data))
+    .catch(err => next(err));
+};
+
 module.exports.post = async (req, res, next) => {
   service
     .createReview(req.user._id, req.body)
