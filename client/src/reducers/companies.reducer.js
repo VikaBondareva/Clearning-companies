@@ -1,38 +1,38 @@
 import {
-  COMPANY_LOAD_SUCCESS,
-  COMPANIES_LOAD_SUCCESS,
-  COMPANIES_LOAD_ERROR
+  COMPANY_LOADED_SUCCESS,
+  COMPANIES_LOADED_SUCCESS,
+  COMPANIES_LIST_CLEAR,
 } from '../actions/actionTypes';
 
 const initialState = {
   docs: [],
-  total: 1,
+  total: 0,
   page: 1,
   pages: 0,
   limit: 10,
-  company:{}
+  company: {},
 };
 
 export default (state = initialState, {type,payload}) => {
   switch (type) {
-    case COMPANIES_LOAD_SUCCESS: {
+    case COMPANIES_LOADED_SUCCESS: {
       const  {docs,total,page,pages,limit} = payload;
       return {
         docs,
         total,
         page,
         pages,
-        limit
+        limit,
       };
     }
-    case COMPANY_LOAD_SUCCESS:
+    case COMPANY_LOADED_SUCCESS:
       return {
         ...state,
         company: payload.company
       }
-    case COMPANIES_LOAD_ERROR: 
+    case COMPANIES_LIST_CLEAR: 
       return {
-        isLoading: false
+        ...initialState
       }
     default:
       return state;

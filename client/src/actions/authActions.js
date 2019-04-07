@@ -4,9 +4,9 @@ import {
     LOGIN_ERROR,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
-    REGISTER_FAIL,
+    REGISTER_ERROR,
     REGISTER_SUCCESS,
-    REGISTER_COMPANY_FAIL,
+    REGISTER_COMPANY_ERROR,
     SAVE_COMPANY_REGISTER,
     EMAIL_CONFIRM_ERROR,
     SEND_EMAIL_DELETE,
@@ -107,7 +107,7 @@ export function asyncRegisterUser(user){
             })
             .catch(error=>{
                 dispatch(authError(error));
-                dispatch(returnErrors(error.data.message, error.status, REGISTER_FAIL ));
+                dispatch(returnErrors(error.data.message, error.status, REGISTER_ERROR ));
             })
     }
 }
@@ -124,7 +124,7 @@ export function asyncRegisterCompany(company){
             })
             .catch(error=>{
                 dispatch(authError());
-                dispatch(returnErrors(error.response.data.message, error.status, REGISTER_COMPANY_FAIL ));
+                dispatch(returnErrors(error.response.data.message, error.status, REGISTER_COMPANY_ERROR ));
             })
     }
 }
