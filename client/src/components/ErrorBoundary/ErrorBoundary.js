@@ -1,33 +1,24 @@
 import React, {Component} from 'react';
-
+import ServerError from '../NotFound/ServerError';
 export default class ErrorBoundary extends Component {
     constructor(props) {
       super(props);
       
       this.state = {
-        error: false,
-        info: null
+        error: '',
       };
     }
     
-    componentDidCatch(error, info) {
-      console.log(error, info);
-      
+    componentDidCatch(error) {
       this.setState({
-        error: true,
-        info: info
+        error: error.message,
       });
     }
     
     render() {
       if (this.state.error) {
         return (
-          <div>
-            <h2>There was an error</h2>
-            <pre>
-              {this.state.info.componentStack}
-            </pre>
-          </div>
+          <ServerError error={this.state.error}/>
         );
       }
       

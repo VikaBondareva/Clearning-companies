@@ -5,8 +5,8 @@ export default function NotFound (props){
 
     return ( 
         <div className="not-found">
-                 <h1 >404</h1>
-                <p>This resource cannot be found {props.url || props.match.url}.</p>
+                 <h1 >500 Server expression</h1>
+                <p>{props.error || 'Something be wrong'}</p>
         </div>
     );
 }
