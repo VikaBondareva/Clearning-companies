@@ -4,6 +4,7 @@ module.exports.pricingPrice = (rooms, countRooms, serviceCoeff) => {
     (countRooms.toilet * rooms.toilet.price +
       countRooms.standart * rooms.standart.price +
       countRooms.big * rooms.big.price);
+
   return commonPrice;
 };
 
@@ -22,7 +23,8 @@ module.exports.middlePriceForCompany = (rooms, services) => {
     return price;
   }, 0);
   middlePrice *= rooms.toilet.price + rooms.standart.price + rooms.big.price;
-  return middlePrice / 3;
+  middlePrice = Math.round((middlePrice / 3) * 10) / 10;
+  return middlePrice;
 };
 
 module.exports.middleRatting = reviews => {
@@ -30,7 +32,8 @@ module.exports.middleRatting = reviews => {
   ratting = reviews.reduce((sum, review) => {
     return sum + review.ratting;
   }, 0);
-  ratting = ratting / reviews.length;
-  console.log("ratting: " + ratting);
-  return ratting;
+  const rat = Math.round((ratting / reviews.length) * 10) / 10;
+
+  console.log("ratting: " + rat);
+  return rat;
 };
