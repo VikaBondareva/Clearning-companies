@@ -1,22 +1,28 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {querySearch} from '../../helpers';
+import Pager from '../common/pager/Pages'
+import { withRouter } from 'react-router-dom';
 
 import './paginate.css';
+function Pagination (props){
 
+    const {page, pages} = props;
 
-export default  function Pagination (props){
+    function handlePageChanged(newPage) {
+        const queries = querySearch(props.history.location.search,{page: newPage});
+        props.history.push(`/companies${queries}`)
+	}
 
-    const {page, pages, changeListCompanies} = props;
     return (
-        <nav className="paginate">
-            <button className="btn-paginate btn-usual" onClick={()=>changeListCompanies(page)}>
-                {pages}
-            </button> 
-            <button className="btn-paginate btn-usual" onClick={()=>changeListCompanies(page)}>
-                {pages+1}
-            </button> 
-            <button className="btn-paginate btn-paginate_current" onClick={()=>changeListCompanies(page)}>
-                {pages+2}
-            </button> 
-        </nav>
+        <Pager
+            total={pages}
+            current={page}
+            visiblePages={5}
+            titles={{ first: '<|', last: '>|' }}
+            className="pagination-sm pull-right"
+            onPageChanged={handlePageChanged}
+        />
     );
 }
+
+export default withRouter(Pagination)

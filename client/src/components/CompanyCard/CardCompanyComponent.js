@@ -35,17 +35,15 @@ class CardCompanyComponent extends Component {
 
     return (
       <>
-       <p>{address.city}, {address.district && `район ${address.district}`} </p>
+       <p>{address.country}, {address.city}  {address.other} </p>
       </>
     );  
   }
 
   renderWorkPlan(day){
     return (
-      // <div key={day._id}>
           <p  key={day._id}>{day.day}: {day.workHours.start} - {day.workHours.end}
           {day.lanchHours && `Обед: ${day.lanchHours.start} - ${day.lanchHours.end}`}</p>
-      // </div>
     );
   }
 
@@ -64,8 +62,7 @@ class CardCompanyComponent extends Component {
                       {name}
                   </Typography>
                   <Typography gutterBottom >
-                      Адрес:   {address.city} {address.district && `, район ${address.district}`}, улица {address.street}, дом {address.house}
-                      {address.apartment && `, квартира ${address.apartment}`} 
+                      Адрес:   {address.country}, {address.city}, {address.other && `${address.other }`}
                   </Typography>
               </Grid>
               <Grid item>
