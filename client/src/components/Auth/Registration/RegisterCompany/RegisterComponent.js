@@ -80,7 +80,7 @@ export default class RegisterCompany extends React.Component{
         const {classes} = this.props;
         return (
             <AuthPage 
-                title='Sign up to Mega Clean'
+                title='Sign up as company'
                 titleDown="You have an account?"
                 link='/login'
                 size='big'

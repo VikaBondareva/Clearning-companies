@@ -20,7 +20,7 @@ function AuthPage(props) {
            props.deleteSend();
         }
 
-        const { classes, error, title, children, size, titleDown, link, nameAction, isSendEmail, otherRegisterLink,otherRegisterText  } = props;
+        const { classes, error, title, isShowAuth, children, size, titleDown, link, nameAction, isSendEmail, otherRegisterLink,otherRegisterText  } = props;
         let classSize = size === 'big'? classes.mainBig : classes.mainSmall
         return (
             <main className={`${classes.main}`}>
@@ -40,10 +40,13 @@ function AuthPage(props) {
                       : null
                   }
                   {children}
-                  <div style={{textAlign: "center"}}>
-                      <p>Sign in through social networks</p>
-                      <SocialAuth/>
-                  </div>
+                  { isShowAuth 
+                    ?  <div style={{textAlign: "center"}}>
+                          <p>Sign in through social networks</p>
+                          <SocialAuth/>
+                      </div> 
+                    : null
+                  }
                   <p>{titleDown} <Link to={link}>{nameAction}</Link></p>
                 {otherRegisterLink && otherRegisterText && <Link to={otherRegisterLink}>{otherRegisterText}</Link>}
               </Paper>

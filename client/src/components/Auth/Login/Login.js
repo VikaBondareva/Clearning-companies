@@ -18,6 +18,7 @@ export default class LoginPage extends Component{
                 title='Sign in to Mega Clean'
                 titleDown="You have not account?"
                 link='/register'
+                isShowAuth={true}
                 error={this.props.error}
                 isSendEmail={this.props.isSendEmail}
                 nameAction='Create an account.'>

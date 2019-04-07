@@ -11,7 +11,7 @@ export const AuthService = {
     },
     authVkonkte(){
         return Axios.request({
-            method: 'GET',
+            method: 'POST',
             url: '/auth/vkontakte',
         })
     },
@@ -24,13 +24,13 @@ export const AuthService = {
     },
     authGoogle(){
         return Axios.request({
-            method: 'GET',
+            method: 'POST',
             url: '/auth/google',
         })
     },
     authGitHub(){
         return Axios.request({
-            method: 'GET',
+            method: 'POST',
             url: '/auth/github',
         })
     },

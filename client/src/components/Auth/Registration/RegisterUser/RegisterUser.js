@@ -13,6 +13,7 @@ export default function RegisterUser(props){
             titleDown="You have an account?"
             link='/login'
             size='big'
+            isShowAuth={true}
             error={props.error}
             isSendEmail={props.isSendEmail}
             nameAction='Sing in.'
