@@ -87,7 +87,7 @@ import styles from './style';
             <AppBar position="static"  className={classes.navbar}>
                 <Toolbar>
                     <Typography className={classes.title}  variant="h6" color="inherit" noWrap>
-                        <Link to="/" className={classes.link} >Клининговые компании</Link> 
+                        <Link to="/companies" className={classes.link} >Клининговые компании</Link> 
                     </Typography>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>

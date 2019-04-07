@@ -1,83 +1,97 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import SearchIcon from '@material-ui/icons/Search';
+import Loader from '../common/loading/loader';
+import MainInformation from './CompanyMain';
+import Reviews from './CompanyReviws'
+import {Link} from 'react-router-dom';
 
 const styles = {
-  card: {
-    maxWidth: 480,
-  },
-  logo: {
-    width: 200,
+  section: {
+    width: "100%",
   },
 };
 
 class CompanyPage extends Component{
 
-    componentWillMount(){
-        const {match: {params}} = this.props;
-        console.log(params.id);
-        this.props.getCompany(params.id);
+    constructor(){
+      super()
+
+      this.state = {
+        page: 1
+      };
+
+      this.handleClickShowReviews =this.handleClickShowReviews.bind(this);
+      this.renderButtons =this.renderButtons.bind(this);
+      this.renderCompany =this.renderCompany.bind(this);
+      this.renderError =this.renderError.bind(this);
+    }
+
+    componentDidMount(){
+      const {match: {params}} = this.props;
+      this.props.getCompany(params.id);
+    }
+
+    handleClickShowReviews(){
+      const page = this.state.page+1;
+      console.log(page);
+      this.setState({page})
+      this.props.getReviews(this.props.company._id,page);
+    }
+
+    renderCompany=()=>{
+      return (
+        <>
+          <MainInformation company={this.props.company}/> 
+          {this.renderButtons()}
+          <Reviews reviews={this.props.company.reviews} onClick={this.handleClickShowReviews}/>
+        </>
+      );  
+    }
+
+    renderButtons(){
+      return (
+        <div >
+            <Link to='/booking'>
+              <Button size="small" variant="contained" color="primary">
+                Сделать заказ
+              </Button>
+            </Link>
+
+            <Button size="small" variant="contained" color="primary">
+                Оставить отзыв
+              </Button>
+        </div>
+      );
+    }
+
+    renderError(){
+      const {match: {params}} = this.props;
+      throw new Error("Not found "+params.id);
     }
 
     render(){
-        const {classes, company} = this.props;
-        const {name, address, ratting, workPlan, services,description} = company;
-        if(!company){
-          throw new Error('Not found company');
+        const { company, classes, isLoading} = this.props;
+        if(isLoading){
+          return <Loader />
         }
         return (
-          <Card className={classes.card}>
-            <CardActionArea>
-              <Grid container >
-                  <Grid item className={classes.logo}>
-                     <SearchIcon/>
-                  </Grid>
-                  <Grid item xs>
-                      <Typography gutterBottom variant="h5">
-                          {name}
-                      </Typography>
-                      {/* <Typography gutterBottom >
-                          Address: {address.country},str. {address.city}
-                      </Typography> */}
-                  </Grid>
-                  <Grid item >
-                      <Typography gutterBottom>
-                      Ratting {+ratting}
-                      </Typography>
-                  </Grid>
-              </Grid>
-             
-              <CardContent>
-                <Typography gutterBottom component="h4">
-                   Schedule work
-                </Typography>
-                <Typography component="p">
-                  Middle price: 15 by
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Order service
-              </Button>
-              
-            </CardActions>
-          </Card>
+          <div className={classes.section}>
+              {company
+                ? this.renderCompany()
+                // : this.renderError()
+                : "Not found"
+              }
+          </div>
         );
     }
 }
 
 CompanyPage.propTypes = {
   classes: PropTypes.object.isRequired,
-  company: PropTypes.object.isRequired
+  company: PropTypes.object,
+  isLoading: PropTypes.bool.isRequired,
 };
 
-export default withStyles(styles)(CompanyPage);
+export default (withStyles(styles)(CompanyPage));

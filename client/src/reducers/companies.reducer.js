@@ -1,7 +1,7 @@
 import {
   COMPANY_LOADED_SUCCESS,
   COMPANIES_LOADED_SUCCESS,
-  COMPANIES_LIST_CLEAR,
+  REVIEWS_LIST_LOADED_SUCCESS
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -9,9 +9,24 @@ const initialState = {
   total: 0,
   page: 1,
   pages: 0,
-  limit: 10,
-  company: {},
+  limit: 10
 };
+
+function setReviews(state, reviews){
+  const {company, ...companies} = state;
+  if(company.reviews){
+    company.reviews.docs = [...company.reviews.docs, ...reviews.docs];
+    company.reviews.total = reviews.total;
+    company.reviews.page = reviews.page;
+    company.reviews.pages = reviews.pages;
+  } else {
+    company.reviews = reviews;
+  }
+  return {
+    ...companies,
+    company
+  }
+}
 
 export default (state = initialState, {type,payload}) => {
   switch (type) {
@@ -30,10 +45,8 @@ export default (state = initialState, {type,payload}) => {
         ...state,
         company: payload.company
       }
-    case COMPANIES_LIST_CLEAR: 
-      return {
-        ...initialState
-      }
+    case REVIEWS_LIST_LOADED_SUCCESS: 
+      return setReviews(state,payload)
     default:
       return state;
   }

@@ -2,12 +2,12 @@ import {
     COMPANIES_LOADED_SUCCESS,
     COMPANY_LOADED_SUCCESS,
     COMPANIES_LOADED_ERROR,
-    COMPANIES_LIST_CLEAR,
     COMPANIES_LOAD_REQUEST,
     COMPANY_LOADED_ERROR,
     COMPANY_LOAD_REQUEST
 } from './actionTypes';
 import {CompanyService} from '../services';
+import {asyncGetReviews} from './reviewsActions';
 
 export const loadCompaniesRequest = () => ({
     type: COMPANIES_LOAD_REQUEST
@@ -43,10 +43,6 @@ export const loadedCompanyError = () => ({
     type: COMPANY_LOADED_ERROR
 })
 
-export const clearCompaniesList = () => ({
-    type: COMPANIES_LIST_CLEAR
-})
-
 export const asyncGetCompanies = queries => (dispatch) => {
     dispatch(loadCompaniesRequest());
     return CompanyService.getCompanies(queries)
@@ -67,4 +63,15 @@ export const asyncGetCompanyById = id => dispatch => {
         .catch(error=>{
             dispatch(loadedCompanyError());
         })
+}
+
+export const asyncGetCompany = (id, page) =>async dispatch => {
+    Promise.all([
+        dispatch(asyncGetCompanyById(id)),
+        dispatch(asyncGetReviews(id,page))
+    ]).then(()=>{
+        console.log("I did everything")
+    }).catch(error=>{
+        console.log(error)
+    })
 }

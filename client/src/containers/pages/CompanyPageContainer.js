@@ -1,15 +1,20 @@
 import { connect} from 'react-redux';
-import {  asyncGetCompanyById} from '../../actions/companyActions';
+import {  asyncGetCompany} from '../../actions/companyActions';
+import {asyncGetReviews} from '../../actions/reviewsActions'
 import CompanyPageComponent from '../../components/CompanyPage/CompanyPageComponent';
 
 const mapStateToProps = (state) => ({
-    company: state.companies.company
+    company: state.companies.company,
+    isLoading: state.isLoading 
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getCompany: (id) => {
-            dispatch(asyncGetCompanyById(id));
+        getCompany: (data) => {
+            dispatch(asyncGetCompany(data));
+        },
+        getReviews: (idCompany, page) => {
+            dispatch(asyncGetReviews(idCompany, page));
         }
     }
 };

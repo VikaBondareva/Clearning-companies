@@ -1,11 +1,11 @@
 import Axios from 'axios'
 import { authHeader } from '../helpers/headers.js'
 
-export default {
+export const ReviewsService = {
     createReview (formData) {
         return Axios.request({
             method: 'POST',
-            url: 'api/reviews',
+            url: '/reviews',
             data: formData,
             headers: authHeader()
         })
@@ -13,7 +13,7 @@ export default {
     editReviews (formData) {
        return Axios.request({
             method: 'PUT',
-            url: '/api/reviews/'+formData._id,
+            url: '/reviews/'+formData._id,
             data: formData,
             headers: authHeader()
         })
@@ -21,21 +21,28 @@ export default {
     getReviews (formData) {
         return Axios.request({
             method: 'GET',
-            url: '/api/reviews/',
+            url: '/reviews',
             headers: authHeader()
         })
     },
     getReviewById (id) {
         return Axios.request({
             method: 'GET',
-            url: '/api/reviews/'+id,
+            url: '/reviews/'+id,
             headers: authHeader()
+        })
+    },
+    getReviewsCompanyById (id,page) {
+        const query = page? "?page="+page: "";
+        return Axios.request({
+            method: 'GET',
+            url: `/reviews/${id}`+query
         })
     },
     deleteReview (id) {
         return Axios.request({
             method: 'DELETE',
-            url: '/api/reviews/'+id,
+            url: '/reviews/'+id,
             headers: authHeader()
         })
     }
