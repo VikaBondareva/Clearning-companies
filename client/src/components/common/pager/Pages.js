@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import './style.css'
 
 const BASE_SHIFT  = 0;
 const TITLE_SHIFT = 1;
@@ -35,7 +35,7 @@ class Pager extends React.Component {
 		const props = this.props;
 		const total = props.total;
 		const blockSize = props.visiblePages;
-		const current = props.current + TITLE_SHIFT;
+		const current = props.current;
 		const blocks = Math.ceil(total / blockSize);
 		const currBlock = Math.ceil(current / blockSize) - TITLE_SHIFT;
 
@@ -51,7 +51,7 @@ class Pager extends React.Component {
 	}
 
 	isNextDisabled() {
-		return this.props.current >= (this.props.total - TITLE_SHIFT);
+		return this.props.current >= this.props.total;
 	}
 
 	isPrevMoreHidden() {
@@ -61,7 +61,7 @@ class Pager extends React.Component {
 
 	isNextMoreHidden() {
 		const blocks = this.calcBlocks();
-		return (blocks.total === TITLE_SHIFT) || (blocks.current === (blocks.total - TITLE_SHIFT));
+		return (blocks.total === TITLE_SHIFT) || (blocks.current === blocks.total);
 	}
 
 	visibleRange() {
@@ -97,7 +97,6 @@ class Pager extends React.Component {
 		}
 	}
 
-    
 	handleMorePrevPages() {
 		const blocks = this.calcBlocks();
 		this.handlePageChanged((blocks.current * blocks.size) - TITLE_SHIFT);
@@ -117,7 +116,7 @@ class Pager extends React.Component {
 
 	renderPages(pair) {
 		return range(pair[0], pair[1]).map((num, idx) => {
-			const current = num - TITLE_SHIFT;
+			const current = num;
 			const onClick = this.handlePageChanged.bind(this, current);
 			const isActive = (this.props.current === current);
 
@@ -126,7 +125,7 @@ class Pager extends React.Component {
 					key={idx}
 					index={idx}
 					isActive={isActive}
-					className="btn-numbered-page"
+					className="btn-page btn-page-number"
 					onClick={onClick}
 				>{num}</Page>
 			);
@@ -137,25 +136,35 @@ class Pager extends React.Component {
 	render() {
 		const titles = this.getTitles.bind(this);
 
+		if(this.props.total < 8){
+			return (
+				<nav>
+					<ul className="pagination">
+						{this.renderPages(this.visibleRange())}
+					</ul>
+				</nav>
+			);
+		}
 		return (
 			<nav>
-				<ul className="pagination">
+				<div className="pagination">
+					
 					<Page
-						className="btn-first-page"
+						className="btn-page btn-first-page btn-page_nonactive"
 						key="btn-first-page"
 						isDisabled={this.isPrevDisabled()}
 						onClick={this.handleFirstPage}
 					>{titles('first')}</Page>
 
 					<Page
-						className="btn-prev-page"
+						className="btn-page btn-prev-page btn-page_nonactive"
 						key="btn-prev-page"
 						isDisabled={this.isPrevDisabled()}
 						onClick={this.handlePreviousPage}
 					>{titles('prev')}</Page>
 
 					<Page
-						className="btn-prev-more"
+						className="btn-page btn-prev-more btn-page_nonactive"
 						key="btn-prev-more"
 						isHidden={this.isPrevMoreHidden()}
 						onClick={this.handleMorePrevPages}
@@ -164,26 +173,26 @@ class Pager extends React.Component {
 					{this.renderPages(this.visibleRange())}
 
 					<Page
-						className="btn-next-more"
+						className="btn-page btn-next-more btn-page_nonactive"
 						key="btn-next-more"
 						isHidden={this.isNextMoreHidden()}
 						onClick={this.handleMoreNextPages}
 					>{titles('nextSet')}</Page>
 
 					<Page
-						className="btn-next-page"
+						className="btn-page btn-next-page btn-page_nonactive"
 						key="btn-next-page"
 						isDisabled={this.isNextDisabled()}
 						onClick={this.handleNextPage}
 					>{titles('next')}</Page>
 
 					<Page
-						className="btn-last-page"
+						className="btn-page btn-last-page btn-page_nonactive"
 						key="btn-last-page"
 						isDisabled={this.isNextDisabled()}
 						onClick={this.handleLastPage}
 					>{titles('last')}</Page>
-				</ul>
+				</div>
 			</nav>
 		);
 	}
@@ -206,12 +215,12 @@ const Page = (props) => {
 	if (props.isHidden) return null;
 
 	const baseCss = props.className ? `${props.className} ` : '';
-	const fullCss = `${baseCss}${props.isActive ? ' active' : ''}${props.isDisabled ? ' disabled' : ''}`;
+	const fullCss = `${baseCss}${props.isActive ? ' btn-page_active' : 'btn-page_nonactive'}`;
 
 	return (
-		<li key={props.index} className={fullCss}>
-			<a onClick={props.onClick}>{props.children}</a>
-		</li>
+		<button key={props.index} className={fullCss} onClick={props.onClick}>
+			{props.children}
+		</button>
 	);
 };
 

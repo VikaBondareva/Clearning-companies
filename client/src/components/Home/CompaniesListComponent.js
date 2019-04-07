@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import CardCompanyComponent from '../CompanyCard/CardCompanyComponent';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import {Pagination} from '../../containers/pagination';
+import Pagination from './PaginationComponent';
 import Loader from '../common/loading/loader';
 import {withRouter} from 'react-router-dom';
 
@@ -23,6 +23,11 @@ const styles = theme =>({
         [theme.breakpoints.down("sm")]: {
              gridTemplateColumns: "1fr",
         },
+    },
+    pagination:{
+        display: "flex",
+        justifyContent: "center",
+        margin: "10px 0"
     }
 })
 
@@ -60,7 +65,9 @@ class CompaniesList extends  Component{
                         <div className={classes.table}>
                             {docs.map(this.renderCompany)}
                         </div>
-                        <Pagination pages={pages} page={page}/>
+                        <div className={classes.pagination}>
+                            <Pagination pages={pages} page={page}/>
+                        </div>
                     </>
                     : <p>Ничего не найдено</p>
                 } 
@@ -71,7 +78,6 @@ class CompaniesList extends  Component{
 
 CompaniesList.propTypes = {
     classes: PropTypes.object.isRequired,
-    docs: PropTypes.array.isRequired,
     total: PropTypes.number.isRequired,
     pages: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
