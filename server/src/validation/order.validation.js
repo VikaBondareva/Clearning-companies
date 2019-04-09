@@ -1,22 +1,30 @@
 const Joi = require("joi");
-const { Time } = require("../enums/validies.enum");
+const { Time, DateOrder } = require("../enums/validies.enum");
 const Status = require("../enums/status.enum");
-const Reccurent = require("../enums/reccurent.enum");
+const daysWeek = require("../enums/daysWeek.enum");
+const serviceTypes = require("../enums/serviceTypes.enum");
 
 const schemas = {
   orderPOST: Joi.object().keys({
     executor: Joi.string().required(),
     address: Joi.string().required(),
-    recurrent: Joi.number()
+    regularity: Joi.number()
       .required()
       .min(1)
       .max(4),
+    duration: Joi.when("regularity", {
+      is: Joi.number() > 1,
+      then: Joi.number()
+        .required()
+        .min(1)
+        .max(6)
+    }),
     days: Joi.array()
       .required()
       .items(
         Joi.string()
           .required()
-          .allow(["пн", "вт", "ср", "чт", "пт", "сб", "вс"])
+          .allow(daysWeek)
       )
       .required(),
     countRooms: Joi.object({
@@ -33,8 +41,15 @@ const schemas = {
     startTime: Joi.string()
       .regex(Time)
       .required(),
+    date: Joi.string()
+      .regex(DateOrder)
+      .required(),
     services: Joi.array()
-      .items(Joi.string().required())
+      .items(
+        Joi.string()
+          .required()
+          .allow(serviceTypes)
+      )
       .required()
   }),
   orderQUERY: {

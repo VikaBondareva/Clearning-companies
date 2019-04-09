@@ -17,18 +17,18 @@ const schema = new mongoose.Schema(
       required: true
     },
     address: { type: String, required: true },
-    recurrent: {
+    regularity: {
       type: Number,
       required: true,
       default: Reccurent.onlyOne,
       max: 4,
       min: 1
     },
+    duration: { type: Number, min: 1, max: 6 },
     days: [{ type: String, required: true }],
+    date: [{ type: String, required: true }],
     startTime: { type: String, required: true },
-    services: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Service", required: true }
-    ],
+    services: [{ type: String, required: true }],
     countRooms: {
       toilet: { type: Number, required: true, default: 0 },
       standart: { type: Number, required: true, default: 0 },
