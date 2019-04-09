@@ -1,10 +1,9 @@
 import React from 'react';
-import {querySearch} from '../../helpers';
-import Pager from '../common/pager/Pages'
+import {querySearch} from '../../../helpers';
+import Pager from './Pages'
 import { withRouter } from 'react-router-dom';
-import './paginate.css';
 
-function Pagination (props){
+function PaginationComponent (props){
 
     const {page, pages} = props;
 
@@ -29,4 +28,4 @@ function Pagination (props){
     );
 }
 
-export default withRouter(Pagination)
+export const Pagination =  withRouter(PaginationComponent)

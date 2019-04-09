@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './loadingHOC.css';
 
-export default function Loading(){
+export  function Loader(){
     return (
         <div className="loader"/>
     )

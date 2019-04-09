@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import CardCompanyComponent from '../CompanyCard/CardCompanyComponent';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import Pagination from './PaginationComponent';
-import Loader from '../common/loading/loader';
+import {Pagination} from '../common/pager';
+import {Loader} from '../common/loading';
 import {withRouter} from 'react-router-dom';
 
 const styles = theme =>({
