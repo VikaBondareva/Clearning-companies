@@ -15,8 +15,10 @@ async function getCompanies({
   maxPrice,
   minPrice,
   sort,
-  name
+  name,
+  services
 }) {
+  console.log(city);
   sort = sort
     ? sort === "asc"
       ? "price"
@@ -24,21 +26,19 @@ async function getCompanies({
     : sort === "ratting"
     ? "ratting"
     : "";
-
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
     select: "name address ratting services workPlan rooms price",
     sort: `${sort}`
   };
-  const query = {
-    "address.city": city || { $regex: "" },
-    $or: [
-      { name: { $regex: name || "" } },
-      { "services.name": { $regex: name || "" } }
-    ],
-    price: { $gte: minPrice || 0, $lte: maxPrice || 10000 }
-  };
+  const query = {};
+  query.status = { $gte: 1 };
+  (query["address.city"] = city || { $regex: "" }),
+    (query.name = { $regex: name || "" }),
+    (query["services.name"] = services || { $regex: "" }),
+    (query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 });
+
   const companies = await Company.paginate(query, options);
 
   return companies;

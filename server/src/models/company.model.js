@@ -86,12 +86,12 @@ const schema = new mongoose.Schema(
   }
 );
 
-schema.index({
-  name: "text",
-  "address.country": "text",
-  "services.name": "text"
-});
-////hashing a password before saving it to the database
+// schema.index({
+//   name: "text",
+//   "address.country": "text",
+//   "services.name": "text"
+// });
+// ////hashing a password before saving it to the database
 schema.pre("save", function(next) {
   bcrypt.hash(this.password, 10, (err, hash) => {
     this.password = hash;

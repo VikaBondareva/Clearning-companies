@@ -19,11 +19,11 @@ module.exports.pricingTime = (rooms, countRooms, serviceCoeff) => {
 
 module.exports.middlePriceForCompany = (rooms, services) => {
   let middlePrice = services.reduce((price, service) => {
-    price += service.coefficient;
+    price += +service.coefficient;
     return price;
   }, 0);
   middlePrice *= rooms.toilet.price + rooms.standart.price + rooms.big.price;
-  middlePrice = Math.round((middlePrice / 3) * 10) / 10;
+  middlePrice = Math.round((middlePrice / 3) * 100) / 100;
   return middlePrice;
 };
 

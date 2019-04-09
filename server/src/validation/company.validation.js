@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const { Time, Password } = require("../enums/validies.enum");
 const Rooms = require("../enums/room.enum");
+const serviceTypes = require("../enums/serviceTypes.enum");
 
 const schemas = {
   companyPOST: Joi.object().keys({
@@ -64,7 +65,9 @@ const schemas = {
     services: Joi.array()
       .items(
         Joi.object({
-          name: Joi.string().required(),
+          name: Joi.string()
+            .required()
+            .allow(serviceTypes),
           coefficient: Joi.number().required()
         })
       )
@@ -162,7 +165,8 @@ const schemas = {
     maxPrice: Joi.number(),
     minPrice: Joi.number(),
     name: Joi.string(),
-    sort: Joi.string()
+    sort: Joi.string(),
+    services: Joi.allow(Joi.string(), Joi.array().items(Joi.string()))
   }
 };
 
