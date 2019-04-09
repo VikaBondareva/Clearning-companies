@@ -25,7 +25,7 @@ export default function ReviewComponent({ratting, text, name, date}){
                     {renderStars()}
                 </div>
                 <p>{text}</p>
-                <p className="author">{name}  - {date}</p>
+                <p className="author">{name || ""}  - {date}</p>
             </div>
         </div>
     );

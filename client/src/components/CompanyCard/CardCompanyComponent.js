@@ -67,7 +67,7 @@ class CardCompanyComponent extends Component {
               </Grid>
               <Grid item>
               {ratting}
-                <span class="stars stars--large">
+                <span className="stars stars--large">
                   <span style={{width: `${ratting/5.3*100}%`}} />
                 </span>
               </Grid>

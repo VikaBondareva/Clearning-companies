@@ -14,7 +14,7 @@ export function querySearch(path, filters){
             delete params[key];
         }
     }
-    
     const query =stringify(params);
+
     return query ? "?"+query : "";
 }

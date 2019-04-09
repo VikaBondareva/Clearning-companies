@@ -21,7 +21,7 @@ function CompanyReviewsComponent({reviews: {page,docs, pages, total}, onClick, c
               text={review.reviewText}
               ratting={review.ratting}
               date={new Date(review.created_at).toISOString()}
-              name={review.customer.name}
+              name={review.customer ? review.customer.name :  "Unkogniti"}
             />
       )
     }
