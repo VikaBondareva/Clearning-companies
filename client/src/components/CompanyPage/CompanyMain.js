@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {Redirect} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
-import Loader from '../common/loading/loader';
+import {Loader} from '../common/loading';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -45,7 +45,12 @@ function MainInformationCompany(props){
                 <img width="150px" height="150px" atl="company" scr="./pec.png" />
                 <p>{name}</p>
                 <p>Email: {email}</p>
-                 <p>Ratting: {ratting}</p>
+                <div>
+                  {ratting}
+                  <span className="stars stars--large">
+                   <span style={{width: `${ratting/5.3*100}%`}} /> 
+                  </span>
+                </div>
                 <p>Address: {address.country}, {address.city}, {address.other}</p>
             </div>
             <div className="article">

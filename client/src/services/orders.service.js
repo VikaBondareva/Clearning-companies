@@ -1,11 +1,11 @@
 import Axios from 'axios'
 import { authHeader } from '../helpers/headers.js'
 
-export default {
+export const OrdersService = {
     createOrder (formData) {
         return Axios.request({
             method: 'POST',
-            url: 'api/orders',
+            url: '/orders',
             data: formData,
             headers: authHeader()
         })
@@ -13,22 +13,22 @@ export default {
     changeStatusOrder ({_id, status }) {
        return Axios.request({
             method: 'PUT',
-            url: '/api/orders/'+_id,
+            url: '/orders/'+_id,
             data: status,
             headers: authHeader()
         })
     },
-    getOrders (formData) {
+    getOrders() {
         return Axios.request({
             method: 'GET',
-            url: '/api/orders/',
+            url: '/orders',
             headers: authHeader()
         })
     },
     getOrderById (id) {
         return Axios.request({
             method: 'GET',
-            url: '/api/orders/'+id,
+            url: '/orders/'+id,
             headers: authHeader()
         })
     }

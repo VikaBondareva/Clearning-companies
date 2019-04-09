@@ -14,7 +14,8 @@ import {
 } from './actionTypes';
 import {AuthService} from '../services';
 import {storeToken, clearToken} from '../helpers/authentication';
-import { push } from "connected-react-router";
+import {history} from '../helpers';
+import { push, goBack } from "connected-react-router";
 import {returnErrors} from './errorActions';
 
 export function loginSuccess({tokens,user}) {
@@ -81,7 +82,11 @@ export   function asyncLogin({identifier, password}){
                 console.log(response.status);
                     await storeToken(response.data.tokens, response.data.user);
                     dispatch(loginSuccess(response.data));
-                    dispatch(push('/profile'));
+                    if(history.length>0){
+                        dispatch(goBack());
+                    } else {
+                        dispatch(push('/profile'));
+                    }
             })
             .catch(async error => {
                 if (error.response.status === 400) {

@@ -92,7 +92,7 @@ export default (state = initialState, {type, payload}) => {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        profile: payload.tokens
+        profile: payload.profile
      }
     case SAVE_COMPANY_REGISTER: 
      return {

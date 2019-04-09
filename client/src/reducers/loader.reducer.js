@@ -6,6 +6,10 @@ const loadingReducer = (state = false, action) => {
     
     const [, requestName, requestState] = matches;
     return requestState === 'REQUEST';
+    // return {
+    //   ...state,
+    //   [requestName]: requestState === "REQUEST"
+    // }
   };
 
 export default loadingReducer;

@@ -1,11 +1,12 @@
 import { connect} from 'react-redux';
 import {  asyncGetCompany} from '../../actions/companyActions';
-import {asyncGetReviews} from '../../actions/reviewsActions'
+import {asyncGetReviews,asyncCreateReview } from '../../actions/reviewsActions'
 import CompanyPageComponent from '../../components/CompanyPage/CompanyPageComponent';
 
 const mapStateToProps = (state) => ({
     company: state.companies.company,
-    isLoading: state.isLoading 
+    isLoading: state.isLoading,
+    isAuthenticated: state.auth.isAuthenticated
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         getReviews: (idCompany, page) => {
             dispatch(asyncGetReviews(idCompany, page));
+        },
+        createReview: (review) => {
+            dispatch(asyncCreateReview(review));
         }
     }
 };

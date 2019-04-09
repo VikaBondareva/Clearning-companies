@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from "react-router-dom";
 import WithLayout from './RouterWithLayout';
 import {LoginPage,RegistrationCompany,RegistrationUser, ConfirmEmail} from '../containers/auth';
-import {CompanyPage, Profile} from  '../containers/pages';
+import {CompanyPage, Profile,Booking} from  '../containers/pages';
 import Home from './Home/HomeComponent'
 import NotFound from './NotFound/NotFound';
 import {PrivateRoute, Authorization} from './PrivateRoutes';
@@ -19,6 +19,7 @@ export default class App extends React.Component{
         <Switch>
           <Route path="/companies" exact component={WithLayout(Home)} />
           <Route path="/companies/:id" exact component={WithLayout(CompanyPage)} />
+          <Route path="/booking" exact component={WithLayout(Booking)} />
 
           <PrivateRoute  path="/profile" component={ WithLayout(Profile)} isAuth={isAuthenticated} pathUrl='/login'/>
 

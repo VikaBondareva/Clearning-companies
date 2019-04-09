@@ -1,0 +1,9 @@
+.header-form{
+    font-size: 18px;
+	text-transform: uppercase;
+	font-weight: 300;
+	text-align: left;
+	padding-bottom: 3px;
+    color: #506982;
+    border-bottom: 1px solid #506982;
+}

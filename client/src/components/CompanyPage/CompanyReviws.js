@@ -2,38 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Review from './Review/ReviewComponent';
 
 const styles = {
-  card: {
-    maxWidth: 480,
-  },
-  logo: {
-    width: 200,
-  },
+  reviewsSection: {
+   
+  }
 };
 
-function CompanyReviewsComponent({reviews: {page,docs, pages, total}, onClick}){
+function CompanyReviewsComponent({reviews: {page,docs, pages, total}, onClick, classes}){
 
     const isShowButton = (page!==pages)? true : false;
 
     const renderReview = review => {
      return (
-        <>
-          <div key={review._id}>
-            <p>Date: {new Date(review.created_at).toISOString()}</p>
-            <p>Ratting: {review.ratting}</p>
-            <p>Text: {review.reviewText}</p>
-          </div>
-        </>
+            <Review 
+              key={review._id}
+              text={review.reviewText}
+              ratting={review.ratting}
+              date={new Date(review.created_at).toISOString()}
+              name={review.customer.name}
+            />
       )
     }
     if(!docs) {
       return <p>Not reviews</p>
     }
     return (
-      <div>
+      <div className={classes.reviewsSection}>
         <p>Отзывов: {total}</p>
-        {docs.map(renderReview)}
+        <div >
+          {docs.map(renderReview)}
+        </div> 
         {isShowButton 
           ?   <Button size="small" variant="contained" color="primary" onClick={onClick}>
                 Загрузить еще

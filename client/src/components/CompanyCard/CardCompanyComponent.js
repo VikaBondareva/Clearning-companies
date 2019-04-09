@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
-
+import './style.css';
 import {Link} from 'react-router-dom'; 
 
 const styles = {
@@ -66,12 +66,12 @@ class CardCompanyComponent extends Component {
                   </Typography>
               </Grid>
               <Grid item>
-                  <Typography gutterBottom>
-                  Ratting {+ratting}
-                  </Typography>
+              {ratting}
+                <span class="stars stars--large">
+                  <span style={{width: `${ratting/5.3*100}%`}} />
+                </span>
               </Grid>
           </Grid>
-         
           <CardContent>
             <div >
                <p>График работы</p>

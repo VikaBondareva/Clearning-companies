@@ -1,0 +1,35 @@
+.container-review {
+    border: 1px solid;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+.title-review {
+    font-size: 1.8em;
+    font-weight: 400;
+}
+.help-block{
+    color: #87898c;
+}
+.control-label {
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.control-textarea{
+    padding: 10px;
+    border-radius: 5px;
+}
+.help-block_right {
+    float: right;
+}
+.error{
+    color: red;
+}
+.form-btn{
+    width: auto;
+    background: #d56e00;
+}
+.form-ratting{
+    display: flex;
+}
+

@@ -14,12 +14,15 @@ const initialState = {
 
 function setReviews(state, reviews){
   const {company, ...companies} = state;
-  if(company.reviews){
+  if(!company){
+    company ={};
+  }
+  if(reviews.docs && company.reviews){
     company.reviews.docs = [...company.reviews.docs, ...reviews.docs];
     company.reviews.total = reviews.total;
     company.reviews.page = reviews.page;
     company.reviews.pages = reviews.pages;
-  } else {
+  } else if(reviews.docs) {
     company.reviews = reviews;
   }
   return {

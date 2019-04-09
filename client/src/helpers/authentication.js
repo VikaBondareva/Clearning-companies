@@ -1,12 +1,17 @@
 import {loginSuccess} from '../actions/authActions';
+import {asyncGetCurrentProfile} from '../actions/userActions';
 
 const AUTH_TOKE_KEY = "tokens";
 const USER_KEY = "user";
 
-export const initializePreviousToken = store => {
+export const initializePreviousToken = async store => {
   const tokens = JSON.parse(localStorage.getItem(AUTH_TOKE_KEY));
   const user = JSON.parse(localStorage.getItem(USER_KEY));
-  if (tokens) store.dispatch(loginSuccess({tokens, user}));
+  if (tokens) {
+    await store.dispatch(loginSuccess({tokens, user}));
+    store.dispatch(asyncGetCurrentProfile());
+  }
+  
 };
 
 export const storeToken = (tokens, user) => {
