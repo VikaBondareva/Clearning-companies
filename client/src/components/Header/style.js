@@ -27,6 +27,9 @@ const styles = theme => ({
       color: theme.palette.text.primary,
       textDecoration: 'none'
     },
+    btnLink: {
+      background: theme.palette.common.white
+    },
     sectionDesktop: {
       display: 'none',
       marginRight: 100,

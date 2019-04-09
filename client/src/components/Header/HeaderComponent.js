@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -90,6 +91,14 @@ import styles from './style';
                         <Link to="/companies" className={classes.link} >Клининговые компании</Link> 
                     </Typography>
                     <div className={classes.grow} />
+                    <Link to='/booking' className={classes.linkMenu}>
+                      <Button
+                        size="small"
+                        className={classes.btnLink}
+                      >
+                        Забронировать уборку
+                      </Button>
+                    </Link>
                     <div className={classes.sectionDesktop}>
                       <IconButton
                         aria-owns={isMenuOpen ? 'material-appbar' : undefined}

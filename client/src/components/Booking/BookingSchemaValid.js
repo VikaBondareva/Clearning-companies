@@ -11,12 +11,8 @@ const UserSchema = object().shape({
         .required("Enter is address")
         .min(10),
     days: array(string())
-        // .of(["пн", "вт", "ср", "чт", "пт", "сб", "вс"])
         .required(),
-    regularity: object().shape({
-        _id: number(),
-        name: string()
-    }).required(),
+    regularity: number().required(),
     recurrent: bool().required(),
     duration: number().when('recurrent', {
         is: true,

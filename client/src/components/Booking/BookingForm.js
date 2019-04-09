@@ -29,17 +29,17 @@ function BookingForm(props) {
         const { errors,values,classes,setFieldValue, touched, handleChange,handleBlur,handleSubmit } = props;
 
         function renderMenuItemsCheckbox(values, valesBooking){
-            return values.map(service => (
-                <MenuItem key={service._id} value={service}>
-                    <Checkbox checked={valesBooking.indexOf(service) > -1} />
-                    <ListItemText primary={service.name} />
+            return values.map(value => (
+                <MenuItem key={value._id} value={value.name}>
+                    <Checkbox checked={valesBooking.indexOf(value.name) > -1} />
+                    <ListItemText primary={value.name} />
                 </MenuItem>
             ))
         }
 
         function renderSelectMenu(values){
             return values.map(value => (
-                <MenuItem  key={value._id} value={value}>{value.name}</MenuItem>
+                <MenuItem  key={value._id} value={value._id}>{value.name}</MenuItem>
             ))
         }
 
@@ -153,7 +153,7 @@ function BookingForm(props) {
                         renderValue={selected => (
                             <div className={classes.chips}>
                             {selected.map(value => (
-                                <Chip key={value._id} label={value.name} className={classes.chip} />
+                                <Chip key={value} label={value} className={classes.chip} />
                             ))}
                             </div>
                         )}
@@ -226,7 +226,7 @@ function BookingForm(props) {
                         renderValue={selected => (
                             <div className={classes.chips}>
                             {selected.map(value => (
-                                <Chip key={value._id} label={value.name} className={classes.chip} />
+                                <Chip key={value} label={value} className={classes.chip} />
                             ))}
                             </div>
                         )}
@@ -270,13 +270,14 @@ function BookingForm(props) {
                         <InputLabel htmlFor="regularity">Планируемая регулярность уборки</InputLabel>      
                         <Select
                             value={values.regularity}
-                            onChange={async (e)=>{
-                                if(values.regularity && e.target.value._id !==1){
+                            onChange={async (event)=>{
+                                console.log(event)
+                                if(event.target.value !==1){
                                     await setFieldValue("recurrent", true);
                                 } else {
                                     await setFieldValue("recurrent", false);
                                 }
-                                handleChange(e);
+                                handleChange(event);
                                 
                             }}
                             onBlur={handleBlur}

@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
-import React, {Component} from 'react';
+import React from 'react';
 import BookingSchemaValid from './BookingSchemaValid';
+
 import BookingForm from './BookingForm'
 import PropTypes from 'prop-types';
 import {
@@ -8,6 +9,7 @@ import {
     daysSelect,
     regularityTypes,
     preliminaryCalculation,
+    querySearch
 } from '../../helpers'
 
 export  function BookingPage(props){
@@ -28,7 +30,7 @@ export  function BookingPage(props){
                 },
                 date: "",
                 days: [],
-                regularity: {},
+                regularity: 0,
                 recurrent:  false,
                 regularityTypes,
                 startTime: "07:30",
@@ -56,9 +58,9 @@ export  function BookingPage(props){
                 } else if (values.action === 'chooseCompany') {
                     const order = getOrder(values);
                     props.saveOrderStore(order);
-                    console.log("choose company for order");
+                    const query = querySearch("",{services:values.services});
+                    props.history.push('/companies'+query);
                 }
-                
             }}
             component= {BookingForm}
         />
