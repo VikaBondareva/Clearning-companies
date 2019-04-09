@@ -9,7 +9,7 @@ import styles from '../../style';
 import PhoneMask from "../../../common/Masks/PhoneMask";
 
 function Registration(props) {
-        const { classes, errors, touched, handleChange,handleBlur,handleSubmit } = props;
+        const { classes, errors,values, touched, handleChange,handleBlur,handleSubmit } = props;
         return (
                 <form className={classes.form} onSubmit={handleSubmit}>
                 <div className={classes.grid}>
@@ -54,10 +54,11 @@ function Registration(props) {
                         >Phone number</InputLabel>
                         <Input 
                             name="phone"
+                            value={values.phone}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={touched.phone && Boolean(errors.phone)}
-                            inputComponent={PhoneMask}
+                            // inputComponent={PhoneMask}
                         />
                     </FormControl>
                 </div>

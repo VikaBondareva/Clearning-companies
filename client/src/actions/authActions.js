@@ -112,7 +112,7 @@ export function asyncRegisterUser(user){
             })
             .catch(error=>{
                 dispatch(authError(error));
-                dispatch(returnErrors(error.data.message, error.status, REGISTER_ERROR ));
+                dispatch(returnErrors(error.response.data.message, error.response.status, REGISTER_ERROR ));
             })
     }
 }
@@ -129,7 +129,7 @@ export function asyncRegisterCompany(company){
             })
             .catch(error=>{
                 dispatch(authError());
-                dispatch(returnErrors(error.response.data.message, error.status, REGISTER_COMPANY_ERROR ));
+                dispatch(returnErrors(error.response.data.message, error.response.status, REGISTER_COMPANY_ERROR ));
             })
     }
 }

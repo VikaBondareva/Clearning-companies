@@ -16,6 +16,8 @@ export function BasicInformation(props){
         },
         password:  '',
         confirmPassword: '',
+        showPassword: false,
+        showConfirmPassword: false,
     }
     const {company} = props;
     if (company.personal){
@@ -35,7 +37,7 @@ export function BasicInformation(props){
                 initialValues={initialValues}   
                 validationSchema={BasicInformationSchema}
                 onSubmit={(values) => {
-                    const {confirmPassword,...company} = values;
+                    const {confirmPassword,showConfirmPassword,showPassword,...company} = values;
                     props.handleNext(company);
                 }}
                 component= {BasicInformationForm}

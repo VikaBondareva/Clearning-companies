@@ -8,7 +8,7 @@ import {
 const RoomsSchema = object().shape({
    services: array().of(object().shape({
        name: string().required(),
-       coefficient: number().required()
+       coefficient: number().positive().typeError().required()
    })).min(1).required()
 })
 

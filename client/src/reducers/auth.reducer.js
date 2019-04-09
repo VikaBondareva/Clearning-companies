@@ -42,12 +42,6 @@ const initialState = {
         time: 50
       }
     },
-    services: [
-      {
-        name: "Service 1",
-        coefficient: 1.3
-      }
-    ]
   }
 };
 

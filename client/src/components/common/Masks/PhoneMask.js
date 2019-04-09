@@ -14,9 +14,9 @@ export default function PhoneMask(props) {
       }}
       mask={[
         "+",
-        "3",
-        "7",
-        "5",
+        3,
+        7,
+        5,
         "(",
         /[324]/,
         /[5394]/,

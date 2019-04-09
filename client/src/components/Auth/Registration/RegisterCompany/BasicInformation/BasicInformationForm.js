@@ -4,12 +4,16 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import styles from '../../../style';
 
 function Registration(props) {
-    const { classes, values, errors, touched, handleChange,handleBlur,handleSubmit } = props;
+    const { classes, values, errors, touched,setFieldValue, handleChange,handleBlur,handleSubmit } = props;
 
     function isError(value){
       const address = touched.address;
@@ -92,22 +96,40 @@ function Registration(props) {
                           <InputLabel htmlFor="password">Password</InputLabel>
                           <Input 
                             name="password"
-                            type="password"
+                            type={values.showPassword ? 'text' : 'password'}
                             onChange={handleChange}
                             value={values.password}
                             onBlur={handleBlur}
                             error={touched.password && Boolean(errors.password)}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton aria-label="Toggle password visibility" onClick={ ()=>{
+                                  setFieldValue("showPassword",!values.showPassword)
+                                }}>
+                                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            }
                           />
                       </FormControl>
                       <FormControl margin="normal" required >
                           <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
                           <Input 
                           name="confirmPassword"
-                          type="password"
+                          type={values.showConfirmPassword ? 'text' : 'password'}
                           onChange={handleChange}
                           value={values.confirmPassword}
                           onBlur={handleBlur}
                           error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton aria-label="Toggle password visibility" onClick={()=>{
+                                setFieldValue("showConfirmPassword",!values.showConfirmPassword)
+                              }}>
+                                {values.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                              </IconButton>
+                            </InputAdornment>
+                          }
                           />
                       </FormControl>
                   </div>

@@ -15,9 +15,9 @@ const UserSchema = object().shape({
         .max(20),
     email: string()
         .email(),
-    phone: string().matches(/^\+375(29|25|44|33)\d{7}$/)
+    phone: string().matches(/\+375(29|33|44|25)\d{7}$/)
         .when('email', {
-            is: '',
+            is: '' || null,
             then: string().required("Enter email or your phone"),
         }),
     address: string()
