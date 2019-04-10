@@ -12,26 +12,24 @@ const initialState = {
   limit: 10
 };
 
-function setReviews(state, newReviews) {
-  if (!state.reviews) {
-    state.reviews = newReviews;
-  } else if (state.reviews.docs) {
-    const { docs, ...other } = state.reviews;
-    const { newDocs, ...newOther } = newReviews;
-    docs = [...docs, ...newDocs];
-    other = newOther;
-    state.reviews = {
-      docs,
-      ...other
+function setReviews(reviews, newReviews) {
+  if (!reviews) {
+    reviews = newReviews;
+  } else if (reviews.docs) {
+    const { docs, ...other } = reviews;
+    const { docs :newDocs , ...newOther } = newReviews;
+    reviews = {
+      docs: [...docs, ...newDocs],
+      ...newOther
     };
   }
-  return state;
+  return reviews;
 }
 
-function setCompany(state, newCompany) {
-  state.company = newCompany;
+function setCompany(company, newCompany) {
+  company = newCompany;
   return {
-    ...state
+    ...company
   };
 }
 
@@ -48,9 +46,15 @@ export default (state = initialState, { type, payload }) => {
       };
     }
     case COMPANY_LOADED_SUCCESS:
-      return setCompany(state, payload.company);
+      return {
+        ...state,
+        company: setCompany(state.company,payload.company)
+      };
     case REVIEWS_LIST_LOADED_SUCCESS:
-      return setReviews(state, payload);
+      return {
+        ...state,
+        reviews: setReviews(state.reviews, payload)
+      };
     default:
       return state;
   }
