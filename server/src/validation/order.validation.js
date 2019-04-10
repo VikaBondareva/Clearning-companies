@@ -60,7 +60,8 @@ const schemas = {
       Status.Pending
     ]),
     page: Joi.number(),
-    perPage: Joi.number()
+    perPage: Joi.number(),
+    services: Joi.array().items(Joi.string())
   }
 };
 

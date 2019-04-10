@@ -64,23 +64,24 @@ async function createOrder(
   return true;
 }
 
-async function getOrders({ _id, role }, { page, perPage, status }) {
+async function getOrders({ _id, role }, { page, perPage, status, services }) {
   let selectCustomer = "name surname";
   if (role === Role.Executor) {
     selectCustomer = "name surname email phone";
   }
   const options = {
     page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 20,
+    limit: parseInt(perPage, 10) || 10,
     populate: [
       { path: "customer", select: selectCustomer },
       { path: "company", select: "name email" }
     ],
-    sort: "-updated_at"
+    sort: "-created_at"
   };
   const query = {
-    $or: [{ company: _id }, { customer: _id }],
-    status: status || { $regex: "" }
+    $or: [{ executor: _id }, { customer: _id }],
+    status: status || { $regex: "" },
+    services: services || { $regex: "" }
   };
   const orders = await Order.paginate(query, options);
   return orders;
