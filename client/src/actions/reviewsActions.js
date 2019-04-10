@@ -32,7 +32,7 @@ export const createReviewRequest = () => ({
 })
 
 export const createdReviewSuccess = () => ({
-    type: REVIEW_CREATED_SUCCESS
+    type: REVIEW_CREATED_SUCCESS,
 })
 
 export const createdReviewError = () => ({
@@ -59,9 +59,21 @@ export const asyncCreateReview = ({ratting, reviewText, company, user}) => dispa
         .then(response => {
             console.log(response);
             dispatch(createdReviewSuccess());
+            dispatch(asyncGetReviews(company));
         })
         .catch((error)=> {
             dispatch(createdReviewError());
             dispatch(returnErrors(error.response.data.message, error.status, REVIEW_CREATED_ERROR ));
         })
 }
+
+// export const createReview = ({ratting, reviewText, company, user}) => dispatch => {
+//     return Promise.all([
+//         dispatch(asyncCreateReview({ratting, reviewText, company, user})),
+//         dispatch(asyncGetReviews(company))
+//     ]).then(()=>{
+//         console.log("I did everything")
+//     }).catch(error=>{
+//         console.log(error)
+//     })
+// }

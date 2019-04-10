@@ -1,5 +1,5 @@
 import { connect} from 'react-redux';
-import { asyncGetCompanies } from '../../actions/companyActions';
+import { asyncGetCompanies, asyncGetCompanyById } from '../../actions/companyActions';
 import CompaniesListComponent from '../../components/Home/CompaniesListComponent';
 
 const mapStateToProps = (state) => ({
@@ -7,13 +7,16 @@ const mapStateToProps = (state) => ({
     page: state.companies.page,
     pages: state.companies.pages,
     total: state.companies.total,
-    isLoading: state.isLoading
+    isLoading: state.loading.COMPANIES_LOAD
 });
 
 const mapDispatchToProps = (dispatch, getState) => {
     return {
         getCompanies: (queries) => {
             dispatch(asyncGetCompanies(queries));
+        },
+        loadCompany: (id)=>{
+            dispatch(asyncGetCompanyById(id));
         }
     }
 };

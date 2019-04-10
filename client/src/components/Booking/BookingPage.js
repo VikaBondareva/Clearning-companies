@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import React from 'react';
 import BookingSchemaValid from './BookingSchemaValid';
-
+import loadingHOC from '../common/loading/loadingHOC';
 import BookingForm from './BookingForm'
 import PropTypes from 'prop-types';
 import {
@@ -12,12 +12,13 @@ import {
     querySearch
 } from '../../helpers'
 
-export  function BookingPage(props){
+function BookingFormComponent(props){
 
     const servicesCompany = props.company ? props.company.services : serviceTypes;
-    const address = props.user ? props.user.addresses[0] : "";
+    const address =  props.userAddress? props.userAddress[0] :"";
     const previously = props.company ? true : false;
-
+    const executor = props.company?  props.company._id : '';
+    console.log(props);
     return (
         <Formik
             initialValues={{
@@ -40,7 +41,9 @@ export  function BookingPage(props){
                 servicesCompany,
                 previously,
                 daysSelect,
-                action: ""
+                action: "",
+                isAuth:props.isAuth,
+                executor
             }}   
             validationSchema={BookingSchemaValid}
             onSubmit={(values, {setFieldValue}) => {
@@ -55,11 +58,14 @@ export  function BookingPage(props){
                     }
                 } else if (values.action === 'create'){
                     console.log("Create order");
-                } else if (values.action === 'chooseCompany') {
                     const order = getOrder(values);
                     props.saveOrderStore(order);
+                    props.createOrder(order)
+                } else if (values.action === 'chooseCompany') {
                     const query = querySearch("",{services:values.services});
-                    props.history.push('/companies'+query);
+                    changeLocation(values, "/companies"+query, props)
+                } else if(values.action === "login"){
+                    changeLocation(values, "/login", props)
                 }
             }}
             component= {BookingForm}
@@ -68,14 +74,30 @@ export  function BookingPage(props){
 }  
 
 function getOrder(values){
-    const {regularityTypes,previously,servicesCompany,daysSelect,action,time,price, ...order } = values;
+    const {regularityTypes,previously,recurrent,servicesCompany,daysSelect,action,time,price,isAuth, ...order } = values;
+    const services = order.services.map((service)=>{
+        return service.name
+    });
+    const days = order.days.map((day)=>{
+        return day.name
+    });
+    order.services =services;
+    order.days = days;
     return order;
 }
 
-BookingPage.propTypes = {
+function changeLocation(values, path, props){
+    const order = getOrder(values);
+    props.saveOrderStore(order);
+    props.history.push('path');
+}
+
+BookingFormComponent.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.string,
-    user: PropTypes.object,
+    userAddress: PropTypes.object,
+    isAuth:  PropTypes.bool.isRequired,
     company: PropTypes.object
   };
 
+export const BookingPage = loadingHOC('isLoading')(BookingFormComponent);

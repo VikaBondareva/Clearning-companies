@@ -5,7 +5,9 @@ import CompanyPageComponent from '../../components/CompanyPage/CompanyPageCompon
 
 const mapStateToProps = (state) => ({
     company: state.companies.company,
-    isLoading: state.isLoading,
+    reviews: state.companies.reviews,
+    isLoadingReviews: state.loading.REVIEWS_LIST_LOAD,
+    isLoadingCompany: state.loading.COMPANY_LOAD,
     isAuthenticated: state.auth.isAuthenticated
 });
 

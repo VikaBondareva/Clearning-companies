@@ -30,13 +30,12 @@ function BookingForm(props) {
 
         function renderMenuItemsCheckbox(values, valesBooking){
             return values.map(value => (
-                <MenuItem key={value._id} value={value.name}>
-                    <Checkbox checked={valesBooking.indexOf(value.name) > -1} />
+                <MenuItem key={value._id} value={value}>
+                    <Checkbox checked={valesBooking.indexOf(value) > -1} />
                     <ListItemText primary={value.name} />
                 </MenuItem>
             ))
         }
-
         function renderSelectMenu(values){
             return values.map(value => (
                 <MenuItem  key={value._id} value={value._id}>{value.name}</MenuItem>
@@ -48,31 +47,45 @@ function BookingForm(props) {
                 && Boolean(errors.countRooms) && Boolean(errors.countRooms[value]);
         }
 
-        const renderButtons =isCompany=>{
+        const renderButtons =(isCompany, isAuh)=>{
             if(isCompany){
                 return (
-                    <>
+                    <>  
+                        {/* {isAuh
+                            ? */}
+                             <Button
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                onClick={async ()=>{
+                                    await setFieldValue("action","create");
+                                    handleSubmit();
+                                }}
+                                >
+                                Заказать уборку
+                            </Button>
+                        {/* //     :  <>
+                        //         <p>Сначало войдите в систему</p>
+                        //         <Button
+                        //         variant="contained"
+                        //         color="primary"
+                        //         type="submit"
+                        //         onClick={async ()=>{
+                        //             await setFieldValue("action","login");
+                        //             handleSubmit();
+                        //         }}
+                        //         >
+                        //         Войти
+                        //         </Button>
+                        //     </>
+
+                        // } */}
                         <Button
                             variant="contained"
                             color="primary"
                             type="submit"
                             onClick={async ()=>{
-                            console.log("action create")
-                                await setFieldValue("action","create");
-                                console.log(values)
-                                handleSubmit();
-                            }}
-                        >
-                            Заказать уборку
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            onClick={async ()=>{
-                                console.log("action pricing")
                                 await setFieldValue("action","pricing");
-                                console.log(values.action)
                                 handleSubmit();
                             }}
                         >
@@ -153,7 +166,7 @@ function BookingForm(props) {
                         renderValue={selected => (
                             <div className={classes.chips}>
                             {selected.map(value => (
-                                <Chip key={value} label={value} className={classes.chip} />
+                                <Chip key={value._id} label={value.name} className={classes.chip} />
                             ))}
                             </div>
                         )}
@@ -226,7 +239,7 @@ function BookingForm(props) {
                         renderValue={selected => (
                             <div className={classes.chips}>
                             {selected.map(value => (
-                                <Chip key={value} label={value} className={classes.chip} />
+                                <Chip key={value._id} label={value.name} className={classes.chip} />
                             ))}
                             </div>
                         )}
@@ -297,7 +310,7 @@ function BookingForm(props) {
                     {values.time>0 && <p>Предварительное время уборки: {values.time} минут</p>}
                 </div>
                 <div>
-                    {renderButtons(values.previously)}
+                    {renderButtons(values.previously, values.isAuh)}
                 </div>
             </form>
         );
@@ -307,4 +320,4 @@ BookingForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(BookingForm);
+export default (withStyles(styles)(BookingForm));

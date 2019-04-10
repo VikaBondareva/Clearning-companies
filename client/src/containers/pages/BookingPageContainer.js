@@ -4,9 +4,10 @@ import {BookingPage} from '../../components/Booking';
 
 const mapStateToProps = (state) => ({
     company: state.companies.company,
-    user: state.auth.profile,
+    userAddress: state.auth.profile? state.auth.profile.addresses : "",
     error: state.error.message,
-    isLoading: state.isLoading
+    isLoading: state.loading.COMPANY_LOAD,
+    isAuth: state.auth.isAuthenticated
 });
 
 const mapDispatchToProps = (dispatch, getState) => {

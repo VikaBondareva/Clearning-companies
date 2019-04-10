@@ -88,7 +88,7 @@ class CardCompanyComponent extends Component {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={()=>this.props.onClick(_id)}>
             Заказать услугу
           </Button>
           <Button size="small" color="primary" >

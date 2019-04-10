@@ -36,7 +36,7 @@ export function preliminaryCalculation(rooms,countRooms, services){
 
 const pricingPrice = (rooms, countRooms, serviceCoeff) => {
     let commonPrice =
-      serviceCoeff *
+      +serviceCoeff *
       (countRooms.toilet * rooms.toilet.price +
         countRooms.standart * rooms.standart.price +
         countRooms.big * rooms.big.price);
@@ -46,7 +46,7 @@ const pricingPrice = (rooms, countRooms, serviceCoeff) => {
 
 const pricingTime = (rooms, countRooms, serviceCoeff) => {
     let commonTime =
-      serviceCoeff *
+      +serviceCoeff *
       (countRooms.toilet * rooms.toilet.time +
         countRooms.standart * rooms.standart.time +
         countRooms.big * rooms.big.time);

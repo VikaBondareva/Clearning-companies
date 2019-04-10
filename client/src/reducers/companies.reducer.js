@@ -2,7 +2,7 @@ import {
   COMPANY_LOADED_SUCCESS,
   COMPANIES_LOADED_SUCCESS,
   REVIEWS_LIST_LOADED_SUCCESS
-} from '../actions/actionTypes';
+} from "../actions/actionTypes";
 
 const initialState = {
   docs: [],
@@ -12,45 +12,46 @@ const initialState = {
   limit: 10
 };
 
-function setReviews(state, reviews){
-  const {company, ...companies} = state;
-  if(!company){
-    company ={};
+function setReviews(state, newReviews) {
+  if (!state.reviews) {
+    state.reviews = newReviews;
+  } else if (state.reviews.docs) {
+    const { docs, ...other } = state.reviews;
+    const { newDocs, ...newOther } = newReviews;
+    docs = [...docs, ...newDocs];
+    other = newOther;
+    state.reviews = {
+      docs,
+      ...other
+    };
   }
-  if(reviews.docs && company.reviews){
-    company.reviews.docs = [...company.reviews.docs, ...reviews.docs];
-    company.reviews.total = reviews.total;
-    company.reviews.page = reviews.page;
-    company.reviews.pages = reviews.pages;
-  } else if(reviews.docs) {
-    company.reviews = reviews;
-  }
-  return {
-    ...companies,
-    company
-  }
+  return state;
 }
 
-export default (state = initialState, {type,payload}) => {
+function setCompany(state, newCompany) {
+  state.company = newCompany;
+  return {
+    ...state
+  };
+}
+
+export default (state = initialState, { type, payload }) => {
   switch (type) {
     case COMPANIES_LOADED_SUCCESS: {
-      const  {docs,total,page,pages,limit} = payload;
+      const { docs, total, page, pages, limit } = payload;
       return {
         docs,
         total,
         page,
         pages,
-        limit,
+        limit
       };
     }
     case COMPANY_LOADED_SUCCESS:
-      return {
-        ...state,
-        company: payload.company
-      }
-    case REVIEWS_LIST_LOADED_SUCCESS: 
-      return setReviews(state,payload)
+      return setCompany(state, payload.company);
+    case REVIEWS_LIST_LOADED_SUCCESS:
+      return setReviews(state, payload);
     default:
       return state;
   }
-}
+};

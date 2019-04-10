@@ -31,13 +31,24 @@ export default function RegisterUser(props){
                 }}   
                 validationSchema={UserSchema}
                 onSubmit={(values) => {
-                    const { confirmPassword,...user} = values;
+                    const { confirmPassword,...userWithoutConfPassword} = values;
+                    const user  = getUser(userWithoutConfPassword);
                     props.registerUser(user);
                 }}
                 component= {RegisterUserFrom}
             />
         </AuthPage>
     );
+}
+
+function getUser(user){
+    if(!user.phone)
+        delete user.phone;
+    else if (!user.email){
+        delete user.email
+    }
+    console.log(user);
+    return user;
 }
 
 RegisterUser.propTypes = {

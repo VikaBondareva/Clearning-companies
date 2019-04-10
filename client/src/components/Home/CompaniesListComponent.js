@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CardCompanyComponent from '../CompanyCard/CardCompanyComponent';
+import CardCompanyComponent from './CompanyCard/CardCompanyComponent';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import {Pagination} from '../common/pager';
@@ -33,9 +33,15 @@ const styles = theme =>({
 
 class CompaniesList extends  Component{
 
+    constructor(){
+        super();
+
+        this.loadCompany= this.loadCompany.bind(this);
+    }
+
     renderCompany=(company)=>{
         return (
-            <CardCompanyComponent key={company._id} company={company}/>
+            <CardCompanyComponent key={company._id} company={company} onClick={this.loadCompany}/>
         );
     }
 
@@ -47,6 +53,11 @@ class CompaniesList extends  Component{
        if(this.props.location.search!== prevProps.location.search){
             this.props.getCompanies(this.props.location.search);
        }
+    }
+
+    loadCompany(id){
+        this.props.loadCompany(id);
+        this.props.history.push('/booking');
     }
 
     render(){
@@ -82,6 +93,7 @@ CompaniesList.propTypes = {
     pages: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
     getCompanies: PropTypes.func.isRequired,
+    loadCompany: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
 };
 

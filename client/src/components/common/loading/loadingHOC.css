@@ -1,10 +1,12 @@
 .loader {
     position: absolute;
-    top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
 }
 
+/* .loading_big{
+    top: 50%;
+} */
 /* Static Shape */
 .loader:before {
     position: absolute;
