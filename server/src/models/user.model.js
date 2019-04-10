@@ -14,8 +14,8 @@ const schema = new mongoose.Schema(
   {
     name: { type: String, required: true, validate: nameValidator },
     surname: { type: String, required: true, validate: nameValidator },
-    email: { type: String, unique: true, validate: emailValidator },
-    phone: { type: String, unique: true, validate: pnumberValidator },
+    email: { type: String, validate: emailValidator },
+    phone: { type: String, validate: pnumberValidator },
     password: { type: String, select: false, validate: passwordValidator },
     addresses: [{ type: String, required: true }],
     // addresses: [

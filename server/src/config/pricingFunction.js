@@ -33,7 +33,5 @@ module.exports.middleRatting = reviews => {
     return sum + review.ratting;
   }, 0);
   const rat = Math.round((ratting / reviews.length) * 10) / 10;
-
-  console.log("ratting: " + rat);
   return rat;
 };

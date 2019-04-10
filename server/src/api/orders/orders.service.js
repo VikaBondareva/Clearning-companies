@@ -11,11 +11,21 @@ const { pricingPrice, pricingTime } = require("../../config/pricingFunction");
 
 async function createOrder(
   userID,
-  { executor, services, address, days, startTime, countRooms, recurrent }
+  {
+    executor,
+    services,
+    address,
+    date,
+    days,
+    regularity,
+    duration,
+    startTime,
+    countRooms
+  }
 ) {
   const company = await Company.findOne({
     _id: executor,
-    "services._id": { $in: services }
+    "services.name": { $in: services }
   });
 
   if (!company) throw "Not found service in company";
@@ -24,20 +34,19 @@ async function createOrder(
   let price = 0,
     cleanTime = 0;
   for (let serviceId of services) {
-    const service = company.services.find(serv => serv.id === serviceId);
-    console.log(service);
-
+    const service = company.services.find(serv => serv.name === serviceId);
     price += pricingPrice(company.rooms, countRooms, service.coefficient);
     cleanTime += pricingTime(company.rooms, countRooms, service.coefficient);
   }
-
   const order = new Order({
     customer: userID,
     executor,
     services,
     address,
-    recurrent,
     days,
+    regularity,
+    duration,
+    date,
     countRooms,
     startTime,
     price,

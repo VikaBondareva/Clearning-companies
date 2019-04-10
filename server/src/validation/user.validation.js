@@ -11,7 +11,7 @@ const schemas = {
       .required()
       .min(3)
       .max(50),
-    addresses: Joi.array().items(Joi.string()),
+    address: Joi.string().required(),
     // addresses: Joi.array().items(
     //   Joi.object({
     //     country: Joi.string().required(),

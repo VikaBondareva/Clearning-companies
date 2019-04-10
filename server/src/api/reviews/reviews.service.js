@@ -4,7 +4,7 @@ const Company = require("../../models").company;
 
 async function createReview(customerId, { ratting, reviewText, company }) {
   try {
-    await new Review({
+    const review = await new Review({
       ratting,
       reviewText,
       customer: customerId,
@@ -16,7 +16,7 @@ async function createReview(customerId, { ratting, reviewText, company }) {
       { _id: company },
       { $set: { ratting: rattingCompany } }
     );
-    return true;
+    return review;
   } catch {
     return false;
   }

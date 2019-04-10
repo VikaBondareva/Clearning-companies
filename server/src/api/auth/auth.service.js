@@ -98,7 +98,7 @@ async function register(
       isNotify
     });
     await user.save();
-    const token = authHelper.verifiedToken(role, user._id);
+    const token = authHelper.verifiedToken(user);
     if (email) {
       emailService.sendGMail(user.email, mailForVerified(user, token));
     }
