@@ -51,7 +51,7 @@ function ServicesFrom(props) {
                 <FormControl margin="normal" >
                     <InputLabel 
                         htmlFor={`services[${i}].coefficient`}
-                    >coefficient</InputLabel>
+                    >Коэффициент</InputLabel>
                     <Input 
                         name={`services[${i}].coefficient`}
                         type='number'
@@ -82,7 +82,7 @@ function ServicesFrom(props) {
     return (
             <form className={classes.form} onSubmit={handleSubmit}>
                 <div className={classes.grid}>
-                    <p>Services</p>
+                    <p>Расценки услуг</p>
                 </div>
                 {values.services.map(renderInput)}
                 <div className={classes.grid}>
@@ -93,7 +93,7 @@ function ServicesFrom(props) {
                             handleSubmit();
                         }}
                     >
-                    Add more services
+                    Добавить еще услугу
                     </Button>
                 </div>
                 <div className={classes.grid}>
@@ -106,7 +106,7 @@ function ServicesFrom(props) {
                         }}
                         className={classes.submit}
                     >
-                        Back
+                        Назад
                     </Button>
                     <Button
                         type="submit"
@@ -118,7 +118,7 @@ function ServicesFrom(props) {
                         }}
                         className={classes.submit}
                     >
-                        Sign Up
+                        Зарегестрировать
                     </Button>
                 </div>
             </form>

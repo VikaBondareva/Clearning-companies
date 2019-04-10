@@ -18,8 +18,9 @@ export const AuthService = {
     confirmEmail(token, email){
         return Axios.request({
             method: 'POST',
-            url: `/auth/activation/${token}`,
-            data: {email}
+            url: `/auth/activation`,
+            data: {email},
+            headers: {'Authorization': 'Bearer ' + token}
         })
     },
     authGoogle(){

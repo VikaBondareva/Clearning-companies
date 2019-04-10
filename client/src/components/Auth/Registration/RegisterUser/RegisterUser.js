@@ -9,16 +9,16 @@ import AuthPage from '../../AuthPage';
 export default function RegisterUser(props){
     return (
         <AuthPage 
-            title='Sign up to Mega Clean'
-            titleDown="You have an account?"
+            title='Зарегестрироваться в качетсве пользователя'
+            titleDown="У Вас уже есть аккаунт?"
             link='/login'
             size='big'
             isShowAuth={true}
             error={props.error}
             isSendEmail={props.isSendEmail}
-            nameAction='Sing in.'
+            nameAction='Войти.'
             otherRegisterLink="/register-company"
-            otherRegisterText="Registration as a company">
+            otherRegisterText="Зарегестрироваться как компания">
             <Formik
                 initialValues={{
                     name: '',

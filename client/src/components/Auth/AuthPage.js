@@ -27,7 +27,7 @@ function AuthPage(props) {
               <div className={classSize}>
               <CssBaseline />
               <Paper className={classes.paper}>
-                  <Link to='/'>
+                  <Link to='/companies'>
                     <Avatar className={classes.avatar}>
                       <LockOutlinedIcon />
                     </Avatar> 
@@ -42,7 +42,7 @@ function AuthPage(props) {
                   {children}
                   { isShowAuth 
                     ?  <div style={{textAlign: "center"}}>
-                          <p>Sign in through social networks</p>
+                          <p>Войти через социальные сети</p>
                           <SocialAuth/>
                       </div> 
                     : null

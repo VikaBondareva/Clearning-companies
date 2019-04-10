@@ -19,15 +19,16 @@ function Registration(props) {
         const { classes, values, errors, touched, handleChange,handleBlur,setFieldValue,handleSubmit } = props;
         return (
                 <form className={classes.form}>
-                    <p className={classes.formTitle}>Rooms</p>
-                    <p className={classes.formTitle}>Toilet</p>
+                    <p className={classes.formTitle}>Расценки комнат</p>
+                    <p className={classes.formTitle}>Санузел</p>
                     <div className={classes.grid}>
                         <FormControl margin="normal" required>
                             <InputLabel 
                                 htmlFor="toilet.price"
-                            >Toilet price</InputLabel>
+                            >Цена</InputLabel>
                             <Input 
                                 name="toilet.price"
+                                type='number'
                                 onChange={handleChange}
                                 value={values.toilet.price}
                                 onBlur={handleBlur}
@@ -37,9 +38,10 @@ function Registration(props) {
                         <FormControl margin="normal"  required>
                                 <InputLabel 
                                 htmlFor="toilet.time"
-                                >Toilet time</InputLabel>
+                                >Время уборки</InputLabel>
                                 <Input 
                                 name="toilet.time"
+                                type='number'
                                 onChange={handleChange}
                                 value={values.toilet.time}
                                 onBlur={handleBlur}
@@ -47,12 +49,13 @@ function Registration(props) {
                                 />
                         </FormControl>
                     </div>
-                    <p className={classes.formTitle}>Standart room</p>
+                    <p className={classes.formTitle}>Маленькая комната</p>
                     <div className={classes.grid}>
                     <FormControl margin="normal" required fullWidth className={classes.formControl}>
-                        <InputLabel htmlFor="standart.price">Standart price</InputLabel>
+                        <InputLabel htmlFor="standart.price">Цена</InputLabel>
                         <Input 
                             name="standart.price"
+                            type='number'
                             onChange={handleChange}
                             value={values.standart.price}
                             onBlur={handleBlur}
@@ -60,9 +63,10 @@ function Registration(props) {
                             />
                     </FormControl>
                     <FormControl margin="normal" required fullWidth className={classes.formControl}>
-                            <InputLabel htmlFor="standart.time">Standart time</InputLabel>
+                            <InputLabel htmlFor="standart.time">Время уборки</InputLabel>
                             <Input 
                             name="standart.time"
+                            type='number'
                             onChange={handleChange}
                             value={values.standart.time}
                             onBlur={handleBlur}
@@ -70,12 +74,13 @@ function Registration(props) {
                             />
                     </FormControl>
                     </div>
-                    <p className={classes.formTitle}>Big room</p>
+                    <p className={classes.formTitle}>Большая комната</p>
                     <div className={classes.grid}>
                         <FormControl margin="normal" required >
-                            <InputLabel htmlFor="big.price">Big price</InputLabel>
+                            <InputLabel htmlFor="big.price">Цена</InputLabel>
                             <Input 
                                 name="big.price"
+                                type='number'
                                 onChange={handleChange}
                                 value={values.big.price}
                                 onBlur={handleBlur}
@@ -83,9 +88,10 @@ function Registration(props) {
                             />
                         </FormControl>
                         <FormControl margin="normal" required >
-                            <InputLabel htmlFor="big.time">Big time</InputLabel>
+                            <InputLabel htmlFor="big.time">Время</InputLabel>
                             <Input 
                             name="big.time"
+                            type='number'
                             onChange={handleChange}
                             value={values.big.time}
                             onBlur={handleBlur}
@@ -103,7 +109,7 @@ function Registration(props) {
                             }}
                             className={classes.submit}
                         >
-                            Back
+                            Назад
                         </Button>
                         <Button
                             variant="contained"
@@ -114,7 +120,7 @@ function Registration(props) {
                             }}
                             className={classes.submit}
                         >
-                            Next
+                            Дальше
                         </Button>
                     </div>
                   </form>

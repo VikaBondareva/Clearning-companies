@@ -15,7 +15,7 @@ export default class App extends React.Component{
         <Switch>
           <Route path="/companies" exact component={WithLayout(Home)} />
           <Route path="/companies/:id" exact component={WithLayout(CompanyPage)} />
-         {role === roles.user && <Route path="/booking" exact component={WithLayout(Booking)} />}
+         {role!==roles.executor && <Route path="/booking" exact component={WithLayout(Booking)} />}
 
           <PrivateRoute  path="/profile" exact role={role} component={ WithLayout(Profile)} isAuth={isAuthenticated} pathUrl='/login'/>
           <PrivateRoute  path="/profile/orders" exact role={role} component={ WithLayout(OrdersPage)} isAuth={isAuthenticated} pathUrl='/login'/>

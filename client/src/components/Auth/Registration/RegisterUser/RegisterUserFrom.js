@@ -16,7 +16,7 @@ function Registration(props) {
                     <FormControl margin="normal" required >
                         <InputLabel 
                         htmlFor="name"
-                        >Name</InputLabel>
+                        >Имя</InputLabel>
                         <Input 
                         name="name"
                         onChange={handleChange}
@@ -27,7 +27,7 @@ function Registration(props) {
                     <FormControl margin="normal" required >
                         <InputLabel 
                         htmlFor="surname"
-                        >Surname</InputLabel>
+                        >Фамилия</InputLabel>
                         <Input 
                         name="surname"
                         onChange={handleChange}
@@ -40,7 +40,7 @@ function Registration(props) {
                     <FormControl margin="normal" >
                         <InputLabel 
                         htmlFor="email"
-                        >Email address</InputLabel>
+                        >Email</InputLabel>
                         <Input 
                         name="email"
                         onChange={handleChange}
@@ -51,7 +51,7 @@ function Registration(props) {
                     <FormControl margin="normal" >
                          <InputLabel 
                         htmlFor="phone"
-                        >Phone number</InputLabel>
+                        >Мобильный телефон</InputLabel>
                         <Input 
                             name="phone"
                             value={values.phone}
@@ -63,7 +63,7 @@ function Registration(props) {
                     </FormControl>
                 </div>
                 <FormControl margin="normal" required fullWidth className={classes.formControl}>
-                        <InputLabel htmlFor="address">Address</InputLabel>
+                        <InputLabel htmlFor="address">Адрес</InputLabel>
                         <Input 
                         name="address"
                         onChange={handleChange}
@@ -73,7 +73,7 @@ function Registration(props) {
                 </FormControl>
                 <div className={classes.grid}>
                     <FormControl margin="normal" required >
-                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <InputLabel htmlFor="password">Пароль</InputLabel>
                         <Input 
                           name="password"
                           type="password"
@@ -83,7 +83,7 @@ function Registration(props) {
                         />
                     </FormControl>
                     <FormControl margin="normal" required >
-                        <InputLabel htmlFor="confirmPassword">Confirm password</InputLabel>
+                        <InputLabel htmlFor="confirmPassword">Подтвердите пароль</InputLabel>
                         <Input 
                         name="confirmPassword"
                         type="password"
@@ -100,7 +100,7 @@ function Registration(props) {
                     color="primary"
                     className={classes.submit}
                 >
-                    Sign Up
+                    Зарегестрироваться
                 </Button>
                 </form>
         );

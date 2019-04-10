@@ -15,14 +15,15 @@ function jwtStrategy() {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.jwt.secret
   };
+
   passport.use(
     new Strategy(opts, async (token, done) => {
       let user;
       let userId;
 
-      if (token.type === config.jwt.access.type) {
+      if (token.type !== config.jwt.refresh.type) {
         userId = token.id;
-      } else if (token.type === config.jwt.refresh.type) {
+      } else {
         const tokenId = await Token.findOne({ tokenId: token.id });
         userId = tokenId.userId;
       }

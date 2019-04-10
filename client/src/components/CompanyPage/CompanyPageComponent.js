@@ -7,7 +7,7 @@ import MainInformation from "./CompanyMain";
 import Reviews from "./CompanyReviws";
 import { Link } from "react-router-dom";
 import { ReviewForm } from "./ReviewForm";
-import {roles} from '../../helpers'
+import { roles } from "../../helpers";
 const styles = {
   section: {
     width: "100%"
@@ -92,34 +92,34 @@ class CompanyPage extends Component {
   }
 
   renderButtons() {
-    const {role,isAuthenticated} = this.props;
-    return (
-      <div>
-        {!role ||
-          (role === roles.user && (
-            <Link to="/booking">
-              <Button size="small" variant="contained" color="primary">
-                Сделать заказ
-              </Button>
-            </Link>
-          ))}
-        {this.state.isShowFormReview ? (
-          <ReviewForm
-            isAuth={isAuthenticated}
-            onClick={this.handleClickAddNewReview}
-          />
-        ) : (
-          <Button
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={this.handleClickIsShowFromReview}
-          >
-            Оставить отзыв
-          </Button>
-        )}
-      </div>
-    );
+    const { role, isAuthenticated } = this.props;
+    if (role !== roles.executor) {
+      return (
+        <>
+          <Link to="/booking">
+            <Button size="small" variant="contained" color="primary">
+              Сделать заказ
+            </Button>
+          </Link>
+          {this.state.isShowFormReview ? (
+            <ReviewForm
+              isAuth={isAuthenticated}
+              onClick={this.handleClickAddNewReview}
+            />
+          ) : (
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={this.handleClickIsShowFromReview}
+            >
+              Оставить отзыв
+            </Button>
+          )}
+        </>
+      );
+    }
+    return null;
   }
 
   // renderError(){

@@ -21,21 +21,12 @@ function MainInformationCompany(props){
 
     const {name,email, address, ratting,rooms, workPlan, services,description} = props.company;
 
-    function renderServices(service){
-      return (
-          <div key={service._id}>
-            <p>Name: {service.name}</p>
-            <p>Coefficient: {service.coefficient}</p>
-          </div>
-      );
-    }
-
     function renderWorkPlan(day, i){
        return (
           <div key={i*51-i*5}>
-            <p>Day: {day.day}</p>
-            <p>work hours: {day.workHours.start} - {day.workHours.end}</p>
-            {day.lanchHours && <p>lanch hours: {day.lanchHours.start} - {day.lanchHours.end}</p>} 
+            <p>День: {day.day}</p>
+            <p>Рабочие часы: {day.workHours.start} - {day.workHours.end}</p>
+            {day.lanchHours && <p>Обед: {day.lanchHours.start} - {day.lanchHours.end}</p>} 
           </div>
       );
     }
@@ -52,7 +43,7 @@ function MainInformationCompany(props){
                    <span style={{width: `${ratting/5.3*100}%`}} /> 
                   </span>
                 </div>
-                <p>Address: {address.country}, {address.city}, {address.other}</p>
+                <p>Адрес: {address.country}, {address.city}, {address.other}</p>
             </div>
             <div className="article">
               <p>{description}</p>
@@ -64,7 +55,7 @@ function MainInformationCompany(props){
                 />
             </div>
             <div>
-              Work plan
+              График работы
               {workPlan.map(renderWorkPlan)}
             </div>
         </div>

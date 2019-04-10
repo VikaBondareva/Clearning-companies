@@ -16,7 +16,7 @@ function LoginForm(props) {
                   <FormControl margin="normal" required fullWidth>
                       <InputLabel 
                         htmlFor="identifier"
-                        >Email Address or Phone Number</InputLabel>
+                        >Email или Телефон</InputLabel>
                       <Input 
                         name="identifier"
                         onChange={handleChange}
@@ -26,7 +26,7 @@ function LoginForm(props) {
                   </FormControl>
                   {errors.identifier && touched.identifier && <div className={classes.error}>{errors.identifier}</div>}
                   <FormControl margin="normal" required fullWidth>
-                      <InputLabel htmlFor="password">Password</InputLabel>
+                      <InputLabel htmlFor="password">Пароль</InputLabel>
                       <Input 
                         name="password"
                         type="password"
@@ -43,7 +43,7 @@ function LoginForm(props) {
                       color="primary"
                       className={classes.submit}
                   >
-                      Sign In
+                      Войти
                   </Button>
                   </form>
         );

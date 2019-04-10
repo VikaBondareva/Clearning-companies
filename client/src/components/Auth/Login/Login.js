@@ -15,13 +15,13 @@ export default class LoginPage extends Component{
     render(){
         return (
             <AuthPage 
-                title='Sign in to Mega Clean'
-                titleDown="You have not account?"
+                title='Вход в систему'
+                titleDown="У вас нет аккаунта?"
                 link='/register'
                 isShowAuth={true}
                 error={this.props.error}
                 isSendEmail={this.props.isSendEmail}
-                nameAction='Create an account.'>
+                nameAction='Создать аккаунт.'>
                 <Formik
                     initialValues={{
                         identifier: '',

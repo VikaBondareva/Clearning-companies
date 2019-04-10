@@ -34,13 +34,14 @@ module.exports.mailVerifiedEmail = (name, email, token) => {
 
 module.exports.mailForChangeStatus = (orderId, status) => {
   const content = `Ваш заказ ${status} \nПерейдите по ссылке, чтобы посмотреть
-  ${process.env.CLIENT_URL}/orders/${orderId}`;
+  ${process.env.CLIENT_URL}/profile/orders/?status=${status}`;
   const subject = `Ваш заказ ${status}`;
   return { content, subject };
 };
 
 module.exports.mailForUnblocked = name => {
-  const content = `${name}, Ваш профиль разблокировали`;
+  const content = `${name}, Ваш профиль разблокировали\n Перейдите по ссылке, чтобы посмотреть
+  ${process.env.CLIENT_URL}/profile`;
   const subject = `Ваш профиль разблокирован`;
   return { content, subject };
 };
@@ -54,7 +55,7 @@ module.exports.mailForBlocked = (name, message) => {
 module.exports.mailForCreateOrder = (name, orderId) => {
   const content = `${name}, У вас новый заказ. Перейтиде по ссылке что бы посмотреть:  ${
     process.env.CLIENT_URL
-  }/orders/${orderId}`;
+  }/profile/orders?status=pending`;
   const subject = `Новый заказ`;
   return { content, subject };
 };

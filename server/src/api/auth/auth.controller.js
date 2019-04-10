@@ -62,7 +62,7 @@ module.exports.refreshToken = (req, res, next) => {
 
 module.exports.activation = (req, res, next) => {
   authService
-    .activation(req.id, req.role, req.body.email)
+    .activation(req.user._id, req.user.role, req.body.email)
     .then(results =>
       results
         ? res.status(httpStatus.OK).json(results)

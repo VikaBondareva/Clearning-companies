@@ -17,7 +17,7 @@ export default class RegisterCompany extends React.Component{
         super();
         this.state ={
             activeStep:0,
-            steps: ['Basic Information','Your rooms price', 'Your services']
+            steps: ['Основная информация','Расценки комнатe', 'Услуги']
         };
 
         this.handleBack = this.handleBack.bind(this);
@@ -80,15 +80,15 @@ export default class RegisterCompany extends React.Component{
         const {classes} = this.props;
         return (
             <AuthPage 
-                title='Sign up as company'
-                titleDown="You have an account?"
+                title='Зарегестрировваться в качестве компании'
+                titleDown="У вас уже есть аккаунт?"
                 link='/login'
                 size='big'
                 error={this.props.error}
                 isSendEmail={this.props.isSendEmail}
-                nameAction='Sing in.'
+                nameAction='Войти.'
                 otherRegisterLink="/register"
-                otherRegisterText="Registration as an user">
+                otherRegisterText="Зарергестрироваться как пользователь">
                  <Stepper activeStep={activeStep} alternativeLabel className={classes.stepper}>
                     {steps.map(label => (
                     <Step key={label}>
