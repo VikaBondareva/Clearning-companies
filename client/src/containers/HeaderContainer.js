@@ -4,6 +4,7 @@ import { asyncLogout } from '../actions/authActions';
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    role: state.auth.role
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {

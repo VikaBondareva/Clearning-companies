@@ -1,0 +1,12 @@
+.profile-main{
+    width: calc(100% - 400px);
+    padding: 0 30px;
+}
+
+.main__profile-main{
+    margin: 0 200px;
+}
+
+.profile-main__card-info{
+    margin: 20px 0 50px;
+}

@@ -18,10 +18,10 @@ export const OrdersService = {
             headers: authHeader()
         })
     },
-    getOrders() {
+    getOrders(queries) {
         return Axios.request({
             method: 'GET',
-            url: '/orders',
+            url: '/orders'+queries,
             headers: authHeader()
         })
     },

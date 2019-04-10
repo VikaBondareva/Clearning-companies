@@ -41,8 +41,6 @@ const styles = theme => ({
           [theme.breakpoints.up("md")]: {
             minWidth: 200,
           },
-        //   border: "1px solid #4c507a99",
-        //   borderRadius: 5
     },
 })
 

@@ -4,9 +4,9 @@
     transform: translateX(-50%) translateY(-50%);
 }
 
-/* .loading_big{
+.loader_big{
     top: 50%;
-} */
+}
 /* Static Shape */
 .loader:before {
     position: absolute;

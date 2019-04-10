@@ -9,36 +9,11 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 import {querySearch} from '../../../helpers';
-import Select from './SetectComponent';
+import Select from '../../common/select/SetectComponent';
 import {SelectChip} from '../../common/select'
 import styles from './style';
-import {serviceTypes} from '../../../helpers'
+import {serviceTypes,selectCity,selectSort,selectCountCard} from '../../../helpers'
 import {parse} from 'query-string';
-
-const selectSort =[
-    {value: "", name: ""},
-    {value: "asc", name: "По возрастанию цены"},
-    {value: "desc", name: "По убиванию цены"},
-    {value: "ratting", name: "По популярности"}
-];
-
-const selectCountCard =[
-    {value: 10, name: 10},
-    {value: 20, name: 20},
-    {value: 25, name: 25},
-    {value: 30, name: 30},
-    {value: 40, name: 40},
-];
-
-const selectCity =[
-    {value: "", name: "Все города"},
-    {value: "Могилев", name: "Могилев"},
-    {value: "Витебск", name: "Витебск"},
-    {value: "Гродно", name: "Гродно"},
-    {value: "Минкc", name: "Минкc"},
-    {value: "Гомель", name: "Гомель"},
-    {value: "Брест", name: "Брест"},
-];
 
 class SearchMenuComponent extends Component{
          
@@ -126,7 +101,6 @@ class SearchMenuComponent extends Component{
                     options={selectSort}
                     onChange={this.handleChange}
                 />
-            
                 <Select 
                     targetValue="perPage"
                     value={perPage} 

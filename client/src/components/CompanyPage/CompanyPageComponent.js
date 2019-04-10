@@ -7,7 +7,7 @@ import MainInformation from "./CompanyMain";
 import Reviews from "./CompanyReviws";
 import { Link } from "react-router-dom";
 import { ReviewForm } from "./ReviewForm";
-
+import {roles} from '../../helpers'
 const styles = {
   section: {
     width: "100%"
@@ -81,23 +81,31 @@ class CompanyPage extends Component {
           ) : (
             <Loader />
           )} */}
-          <Reviews reviews={this.props.reviews} isLoading={this.props.isLoadingReviews} onClick={this.handleClickShowReviews}/>
+          <Reviews
+            reviews={this.props.reviews}
+            isLoading={this.props.isLoadingReviews}
+            onClick={this.handleClickShowReviews}
+          />
         </div>
       </div>
     );
   }
 
   renderButtons() {
+    const {role,isAuthenticated} = this.props;
     return (
       <div>
-        <Link to="/booking">
-          <Button size="small" variant="contained" color="primary">
-            Сделать заказ
-          </Button>
-        </Link>
+        {!role ||
+          (role === roles.user && (
+            <Link to="/booking">
+              <Button size="small" variant="contained" color="primary">
+                Сделать заказ
+              </Button>
+            </Link>
+          ))}
         {this.state.isShowFormReview ? (
           <ReviewForm
-            isAuth={this.props.isAuthenticated}
+            isAuth={isAuthenticated}
             onClick={this.handleClickAddNewReview}
           />
         ) : (

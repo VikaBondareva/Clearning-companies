@@ -35,8 +35,12 @@ export const USER_GET_ERROR = 'USER_GET_ERROR';
 //error types
 export const ERRORS_GET = 'ERRORS_GET';
 export const ERRORS_CLEAR = 'ERRORS_CLEAR';
-//order types
+//order create types
 export const ORDER_CREATE_REQUEST = 'ORDER_CREATE_REQUEST';
 export const ORDER_CREATED_SUCCESS = 'ORDER_CREATED_SUCCESS';
 export const ORDER_CREATED_ERROR = 'ORDER_CREATED_ERROR';
 export const ORDER_SAVE_STORE = 'ORDER_SAVE_STORE';
+//orders list types
+export const ORDERS_LIST_LOAD_REQUEST = 'ORDERS_LIST_LOAD_REQUEST'
+export const ORDERS_LIST_LOADED_SUCCESS = 'ORDERS_LIST_LOAD_SUCCESS'
+export const ORDERS_LIST_LOADED_ERROR = 'ORDERS_LIST_LOAD_ERROR'

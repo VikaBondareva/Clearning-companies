@@ -13,6 +13,7 @@ import {
 
 const initialState = {
   isAuthenticated:false,
+  role: null,
   tokens: null,
   isLoading: false,
   isSendEmail: false,
@@ -58,6 +59,7 @@ export default (state = initialState, {type, payload}) => {
         isLoading: false,
         isAuthenticated: true,
         profile: payload.profile,
+        role:  payload.profile.role,
         tokens: payload.tokens
       };
     }

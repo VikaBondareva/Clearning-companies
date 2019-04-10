@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import {Loader} from '../common/loading';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Table from '../common/table';
 
 const styles = {
   card: {
@@ -57,25 +58,10 @@ function MainInformationCompany(props){
               <p>{description}</p>
             </div>
             <div className="article">
-              <div className='card-room'>
-                Toilet
-                <p>Price: {rooms.toilet.price}</p>
-                <p>Time: {rooms.toilet.time}</p>
-              </div>
-              <div className='card-room'>
-                Standart
-                <p>Price: {rooms.standart.price}</p>
-                <p>Time: {rooms.standart.time}</p>
-              </div>
-              <div className='card-room'>
-                Big
-                <p>Price: {rooms.big.price}</p>
-                <p>Time: {rooms.big.time}</p>
-              </div>
-            </div>
-            <div>
-              Services
-              {services.map(renderServices)}
+              <Table 
+                  rooms={rooms}
+                  services={services}
+                />
             </div>
             <div>
               Work plan

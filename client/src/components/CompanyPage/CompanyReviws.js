@@ -18,7 +18,7 @@ function CompanyReviewsComponent({ reviews, onClick }) {
       />
     );
   };
-  if (!reviews || (reviews && !reviews.docs)) {
+  if (!reviews || (reviews && !reviews.docs) || reviews.docs.length ===0) {
     return <p>Нет отзывов</p>;
   }
   return (

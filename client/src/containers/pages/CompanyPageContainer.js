@@ -8,7 +8,8 @@ const mapStateToProps = (state) => ({
     reviews: state.companies.reviews,
     isLoadingReviews: state.loading.REVIEWS_LIST_LOAD,
     isLoadingCompany: state.loading.COMPANY_LOAD,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    role: state.auth.role
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
