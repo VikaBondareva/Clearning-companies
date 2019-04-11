@@ -3,3 +3,4 @@ export * from './ProfileContainer';
 export * from './CompaniesListContainer';
 export * from './BookingPageContainer';
 export * from './OrdersPageContainer';
+export * from './OrderDetailsContainer';

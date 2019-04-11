@@ -10,7 +10,7 @@ module.exports.get = (req, res, next) => {
 
 module.exports.getById = (req, res, next) => {
   service
-    .getByIdOrder(req.params.id, req.user._id)
+    .getByIdOrder(req.params.id, req.user._id, req.user.role)
     .then(order => res.status(httpStatus.OK).json(order))
     .catch(err => next(err));
 };

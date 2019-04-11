@@ -1,21 +1,21 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import ButtonUI from '@material-ui/core/Button';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from './buttons'
 
 function ButtonComponent(props){
 
     return (
-        <Button
-            className={}
+        <ButtonUI
+            // className={}
             variant="contained"
-            color={props.color}
+            color='primary'
             type="submit"
             onClick={props.onClick}
             >
-            props.name
-        </Button>
+            {props.name}
+        </ButtonUI>
     );
 }
 
-export default withStyles(styles)(ButtonComponent)
+export const Button = withStyles(styles)(ButtonComponent)

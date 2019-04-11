@@ -4,6 +4,14 @@ export const roles = {
   executor: "executor"
 };
 
+
+export const orderStatuses = {
+  Canceled: "canceled",
+  Confirmed: "confirmed",
+  Made: "made",
+  Pending: "pending"
+}
+
 export const serviceTypes = [
   { name: "Стандартная уборки помещения", _id: 11 },
   { name: "Генеральная уборка", _id: 12 },
@@ -57,11 +65,16 @@ export const selectCity =[
 ];
 
 export const statusOrders =[
-    {value: "canceled", name: "Отмененные"},
-    {value: "pending", name: "Открытые"},
-    {value: "confirmed", name: "Подтвержденные"},
-    {value: "made", name: "Сделанные"},
+    {value: orderStatuses.Canceled, name: "Отказано"},
+    {value: orderStatuses.Pending, name: "Открытый"},
+    {value: orderStatuses.Confirmed, name: "Принят"},
+    {value: orderStatuses.Made, name: "Сделано"},
 ];
+
+export const getNameFormArray = (values, current, nameSearch) => {
+  const reg = values.filter(value=> value[nameSearch]=== current);
+  return reg[0].name;
+}  
 
 export function preliminaryCalculation(rooms, countRooms, services) {
   const result = services.reduce(

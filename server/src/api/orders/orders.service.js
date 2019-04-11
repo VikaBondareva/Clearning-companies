@@ -87,17 +87,20 @@ async function getOrders({ _id, role }, { page, perPage, status, services }) {
   return orders;
 }
 
-async function getByIdOrder(orderId, userId) {
-  const order = await Order.find({
+async function getByIdOrder(orderId, userId, role) {
+  const selectCustomer = "name surname email phone";
+  const selectExecutor = "name email";
+  const order = await Order.findOne({
     $or: [
       { _id: orderId, customer: userId },
       { _id: orderId, executor: userId }
     ]
   });
+  //  .populate("customer").select("name surname email phone");
   return order;
 }
 
-async function changeStatus(executor, orderId, { status }) {
+async function changeStatus(executor, orderId, { status, lockMessage = null }) {
   const order = await Order.findOne({ _id: orderId, executor })
     .populate("customer")
     .exec();
@@ -115,6 +118,9 @@ async function changeStatus(executor, orderId, { status }) {
     throw "Need made status order";
 
   order.status = status;
+  if (status === Status.Canceled) {
+    order.lockMessage = lockMessage;
+  }
   order.save((err, data) => {
     if (err) throw err;
 
@@ -122,7 +128,7 @@ async function changeStatus(executor, orderId, { status }) {
     if (customer.isNotify && customer.email) {
       emailService.sendGMail(
         order.customer.email,
-        mailForChangeStatus(order._id, status)
+        mailForChangeStatus(order._id, status, lockMessage)
       );
     }
   });

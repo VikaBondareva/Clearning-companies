@@ -61,7 +61,21 @@ const schemas = {
     ]),
     page: Joi.number(),
     perPage: Joi.number(),
-    services: Joi.array().items(Joi.string())
+    services: Joi.allow(Joi.string(), Joi.array().items(Joi.string()))
+  },
+  orderPUT: {
+    status: Joi.string().valid([
+      Status.Canceled,
+      Status.Confirmed,
+      Status.Made,
+      Status.Pending
+    ]),
+    lockMessage: Joi.when("status", {
+      is: Status.Canceled,
+      then: Joi.string()
+        .required()
+        .min(10)
+    })
   }
 };
 

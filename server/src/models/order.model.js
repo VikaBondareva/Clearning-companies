@@ -37,7 +37,8 @@ const schema = new mongoose.Schema(
     status: { type: String, required: true, lowercase: true },
     price: { type: SchemaTypes.Double, required: true },
     cleanTime: { type: Number, required: true },
-    isDeleted: { type: Boolean, default: false }
+    isDeleted: { type: Boolean, default: false },
+    lockMessage: { type: String }
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" }

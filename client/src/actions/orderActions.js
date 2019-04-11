@@ -5,32 +5,23 @@ import {
   ORDER_SAVE_STORE,
   ORDERS_LIST_LOAD_REQUEST,
   ORDERS_LIST_LOADED_SUCCESS,
-  ORDERS_LIST_LOADED_ERROR
+  ORDERS_LIST_LOADED_ERROR,
+  ORDER_LOAD_REQUEST,
+  ORDER_LOADED_SUCCESS,
+  ORDER_LOADED_ERROR,
+  ORDER_UPDATED_STATUS_SUCCESS,
+  ORDER_UPDATE_STATUS_REQUEST,
+  ORDER_UPDATED_STATUS_ERROR,
 } from "./actionTypes";
 import { OrdersService } from "../services";
+import {makeActionCreator} from './makeCreatorAction';
 import { returnErrors } from "./errorActions";
-
-export const createOrderRequest = () => ({
-  type: ORDER_CREATE_REQUEST
-});
-
-export const createdOrderSuccess = () => ({
-  type: ORDER_CREATED_SUCCESS
-});
-
-export const createdOrderError = () => ({
-  type: ORDER_CREATED_ERROR
-});
 
 export const saveOrderInStore = order => ({
   type: ORDER_SAVE_STORE,
   payload: {
     order
   }
-});
-
-export const loadOrdersListRequest = () => ({
-  type: ORDERS_LIST_LOAD_REQUEST
 });
 
 export const loadedOrdersListSuccess = ({
@@ -50,21 +41,32 @@ export const loadedOrdersListSuccess = ({
   }
 });
 
-export const loadedOrdersListError = () => ({
-  type: ORDERS_LIST_LOADED_ERROR
-});
+export const loadedOrderSuccess = order => ({
+  type: ORDER_LOADED_SUCCESS,
+  payload: {
+    order
+  }
+})
+
+export const updateStatusOrderSuccess = (status, lockMessage) => ({
+  type: ORDER_UPDATED_STATUS_SUCCESS,
+  payload: {
+    status,
+    lockMessage
+  }
+})
 
 
 //async functions
 export const asyncCreateOrder = date => dispatch => {
-  dispatch(createOrderRequest());
+  dispatch(makeActionCreator(ORDER_CREATE_REQUEST));
   return OrdersService.createOrder(date)
     .then(response => {
       console.log(response);
-      dispatch(createdOrderSuccess());
+      dispatch(makeActionCreator(ORDER_CREATED_SUCCESS));
     })
     .catch(error => {
-      dispatch(createdOrderError());
+      dispatch(makeActionCreator(ORDER_CREATED_ERROR));
       dispatch(
         returnErrors(
           error.response.data.message,
@@ -76,13 +78,36 @@ export const asyncCreateOrder = date => dispatch => {
 };
 
 export const asyncGetOrders = queries => dispatch => {
-  dispatch(loadOrdersListRequest());
+  dispatch(makeActionCreator(ORDERS_LIST_LOAD_REQUEST));
   return OrdersService.getOrders(queries)
     .then(response => {
         console.log(response.data);
       dispatch(loadedOrdersListSuccess(response.data));
     })
     .catch(error => {
-      dispatch(loadedOrdersListError());
+      dispatch(makeActionCreator(ORDERS_LIST_LOADED_ERROR));
     });
 };
+
+export const asyncGetOrderById = id => dispatch => {
+  dispatch(makeActionCreator(ORDER_LOAD_REQUEST))
+  return OrdersService.getOrderById(id)
+    .then((response)=> {
+      dispatch(loadedOrderSuccess(response.data));
+    })
+    .catch(error => {
+      dispatch(makeActionCreator(ORDER_LOADED_ERROR));
+    });
+}
+
+export const asyncChangeStatusOrder = (_id,status, lockMessage = null) => dispatch => {
+  dispatch(makeActionCreator(ORDER_UPDATE_STATUS_REQUEST))
+  return OrdersService.changeStatusOrder({_id, status, lockMessage})
+    .then((response)=>{
+      dispatch(updateStatusOrderSuccess(status, lockMessage))
+    })
+    .catch((error)=>{
+      // console.log(error.response.data);
+      dispatch(makeActionCreator(ORDER_UPDATED_STATUS_ERROR));
+    })
+}

@@ -19,7 +19,12 @@ router.post(
   validation(schema.orderPOST, "body"),
   controller.post
 );
-router.put("/:id", permit(Role.Executor), controller.put);
+router.put(
+  "/:id",
+  permit(Role.Executor),
+  validation(schema.orderPUT, "body"),
+  controller.put
+);
 router.delete("/:id", permit(Role.Customer), controller._delete);
 
 module.exports = router;
