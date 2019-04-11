@@ -14,6 +14,7 @@ import { initializePreviousToken } from "./helpers/authentication";
 import './index.css';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.default.timeout = 3000;
 initializePreviousToken(store);
 
 ReactDOM.render(

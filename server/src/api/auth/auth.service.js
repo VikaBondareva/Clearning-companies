@@ -64,9 +64,10 @@ async function authenticate({ identifier, password }) {
   let success = await data.comparePassword(password);
   if (success === false) return false;
 
+  const user = data.toObject();
   try {
     return {
-      user: data,
+      user,
       tokens: authSocialNetwork(data)
     };
   } catch (err) {

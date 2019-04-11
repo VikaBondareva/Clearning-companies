@@ -34,7 +34,7 @@ async function getCompanies({
   };
   const query = {};
   query.status = { $gte: 1 };
-  (query["address.city"] = city || { $regex: "" }),
+  (query["address.city"] = { $regex: city || "" }),
     (query.name = { $regex: name || "" }),
     (query["services.name"] = services || { $regex: "" }),
     (query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 });

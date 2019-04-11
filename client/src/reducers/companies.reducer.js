@@ -13,7 +13,7 @@ const initialState = {
 };
 
 function setReviews(reviews, newReviews) {
-  if (!reviews) {
+  if (!reviews || newReviews.page === 1) {
     reviews = newReviews;
   } else if (reviews.docs) {
     const { docs, ...other } = reviews;

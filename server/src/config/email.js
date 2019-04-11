@@ -32,14 +32,15 @@ module.exports.mailVerifiedEmail = (name, email, token) => {
   return { content, subject };
 };
 
-module.exports.mailForChangeStatus = (orderId, status) => {
-  const content = `Ваш заказ ${status} \nПерейдите по ссылке, чтобы посмотреть
+module.exports.mailForChangeStatus = (orderId, status, message = null) => {
+  const cause = message ? `Причина отмены заказа: ${message}` : "";
+  const content = `Ваш заказ ${status} \n${cause}\nПерейдите по ссылке, чтобы посмотреть
   ${process.env.CLIENT_URL}/profile/orders/?status=${status}`;
   const subject = `Ваш заказ ${status}`;
   return { content, subject };
 };
 
-module.exports.mailForUnblocked = name => {
+module.exports.mailForUnblocked = (name, message = null) => {
   const content = `${name}, Ваш профиль разблокировали\n Перейдите по ссылке, чтобы посмотреть
   ${process.env.CLIENT_URL}/profile`;
   const subject = `Ваш профиль разблокирован`;
