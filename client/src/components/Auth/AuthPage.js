@@ -27,7 +27,7 @@ function AuthPage(props) {
               <div className={classSize}>
               <CssBaseline />
               <Paper className={classes.paper}>
-                  <Link to='/companies'>
+                  <Link to='/'>
                     <Avatar className={classes.avatar}>
                       <LockOutlinedIcon />
                     </Avatar> 

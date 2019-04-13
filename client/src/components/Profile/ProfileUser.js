@@ -40,7 +40,7 @@ class ProfileUserComponent extends Component {
         </div>
         <div className={classes.table}>
           Addresses:
-          <div>{addresses.map(this.renderAddresses)}</div>
+          <div>{addresses && addresses.map(this.renderAddresses)}</div>
         </div>
       </>
     );

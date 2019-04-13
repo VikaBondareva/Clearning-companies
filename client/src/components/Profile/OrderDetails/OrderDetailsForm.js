@@ -1,5 +1,5 @@
 import React from "react";
-import {regularityTypes, statusOrders,getNameFormArray}  from '../../../helpers'
+import {regularityTypes, statusOrdersArray,getNameFormArray}  from '../../../helpers'
 
 function OrderDetails ({order}) {
 
@@ -38,7 +38,7 @@ function OrderDetails ({order}) {
             </div>
 
             <div>
-                Статус заказа: {getNameFormArray(statusOrders,status, "value")}
+                Статус заказа: {getNameFormArray(statusOrdersArray,status, "value")}
                 {status ==="canceled" && <p>Причина отмены заказа: {order.lockMessage}</p>}
             </div>
         </div>

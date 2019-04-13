@@ -89,7 +89,7 @@ function getOrder(values){
 function changeLocation(values, path, props){
     const order = getOrder(values);
     props.saveOrderStore(order);
-    props.history.push('path');
+    props.history.push(path);
 }
 
 BookingFormComponent.propTypes = {

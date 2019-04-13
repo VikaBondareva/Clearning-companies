@@ -10,7 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import FiltersMenu from "../SelectMenu/FilterMenu";
 import { parse } from "query-string";
-import { querySearch, getNameFormArray, statusOrders } from "../../../helpers";
+import { querySearch, getNameFormArray, statusOrdersArray } from "../../../helpers";
 import {Loader} from '../../common/loading';
 import {Pagination} from '../../common/pager';
 
@@ -89,7 +89,7 @@ class OrdersPage extends Component {
               </TableCell>
               <TableCell align="left">{order.date}</TableCell>
               <TableCell align="left">{order.startTime}</TableCell>
-              <TableCell align="left">{getNameFormArray(statusOrders,order.status,'value')}</TableCell>
+              <TableCell align="left">{getNameFormArray(statusOrdersArray,order.status,'value')}</TableCell>
             </TableRow>
           ))}
         </TableBody>

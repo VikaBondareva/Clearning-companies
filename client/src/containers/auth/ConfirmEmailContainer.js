@@ -3,7 +3,7 @@ import { asyncConfirmEmail } from '../../actions/authActions';
 import ConfirmEmailComponent from '../../components/Auth/ConfirmEmail/ConfirmEmail';
 
 const mapStateToProps = (state) => ({
-    isLoading: state.auth.isLoading,
+    isLoading: state.loading.EMAIL_CONFIRM,
     error: state.error,
 });
 

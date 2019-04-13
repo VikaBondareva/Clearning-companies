@@ -9,6 +9,8 @@ import {
   REGISTER_COMPANY_ERROR,
   SAVE_COMPANY_REGISTER,
   EMAIL_CONFIRM_ERROR,
+  EMAIL_CONFIRM_REQUEST,
+  EMAIL_CONFIRM_SUCCESS,
   SEND_EMAIL_DELETE,
   SEND_EMAIL_SUCCESS,
   USER_GET_SUCCESS,
@@ -17,11 +19,11 @@ import {
 import { AuthService } from "../services";
 import { storeToken, clearToken } from "../helpers/authentication";
 import { history } from "../helpers";
-import {makeActionCreator} from './makeCreatorAction';
+import { makeActionCreator } from "./makeCreatorAction";
 import { push, goBack } from "connected-react-router";
-import { returnErrors } from "./errorActions";
+import { returnErrors, clearErrors } from "./errorActions";
 
-export const loginSuccess = (user ) => ({
+export const loginSuccess = user => ({
   type: LOGIN_SUCCESS,
   payload: {
     profile: user
@@ -56,7 +58,8 @@ export function asyncLogin({ identifier, password }) {
       .then(async response => {
         console.log(response.status);
         await storeToken(response.data.tokens, response.data.user);
-        dispatch(loginSuccess(response.data));
+        dispatch(loginSuccess(response.data.user));
+        dispatch(clearErrors())
         if (history.length > 0) {
           dispatch(goBack());
         } else {
@@ -95,6 +98,7 @@ export function asyncRegisterUser(user) {
     return AuthService.registration(user)
       .then(() => {
         dispatch(makeActionCreator(REGISTER_SUCCESS));
+        dispatch(clearErrors())
         dispatch(makeActionCreator(SEND_EMAIL_SUCCESS));
       })
       .catch(error => {
@@ -117,6 +121,7 @@ export function asyncRegisterCompany(company) {
       .then(response => {
         if (response.status === 201) {
           dispatch(makeActionCreator(REGISTER_SUCCESS));
+          dispatch(clearErrors())
           dispatch(makeActionCreator(SEND_EMAIL_SUCCESS));
         }
       })
@@ -144,42 +149,32 @@ export function asyncGetCurrentProfile() {
           dispatch(push("/login"));
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("profile error");
-        if(error.response.status!==500){
+        if (error.response.status !== 500) {
           dispatch(makeActionCreator(USER_GET_ERROR));
           clearToken();
-        } 
+        }
       });
   };
 }
 
 export const asyncLogout = () => dispatch => {
-  return AuthService.logout().then(() => {
-    clearToken();
-    dispatch(makeActionCreator(LOGOUT_SUCCESS));
-  });
+  AuthService.logout();
+  clearToken();
+  dispatch(makeActionCreator(LOGOUT_SUCCESS));
 };
 
 export const asyncConfirmEmail = (token, email) => dispatch => {
+  dispatch(makeActionCreator(EMAIL_CONFIRM_REQUEST))
   return AuthService.confirmEmail(token, email)
     .then(response => {
-      if (response.status === 200) {
         storeToken(response.data.tokens, response.data.user);
-        dispatch(loginSuccess(response.data));
-      } else {
-        dispatch(makeActionCreator(AUTH_ERROR));
-        dispatch(
-          returnErrors(
-            response.data.message,
-            response.status,
-            EMAIL_CONFIRM_ERROR
-          )
-        );
-      }
+        dispatch(makeActionCreator(EMAIL_CONFIRM_SUCCESS))
+        dispatch(loginSuccess(response.data.user));
     })
     .catch(error => {
-      dispatch(makeActionCreator(AUTH_ERROR));
+      dispatch(makeActionCreator(EMAIL_CONFIRM_ERROR));
       dispatch(
         returnErrors(
           error.response.data.message,

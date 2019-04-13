@@ -37,7 +37,7 @@ function Registration(props) {
                     </FormControl>
                 </div>
                 <div className={classes.grid}>
-                    <FormControl margin="normal" >
+                    <FormControl margin="normal" required>
                         <InputLabel 
                         htmlFor="email"
                         >Email</InputLabel>
@@ -48,7 +48,7 @@ function Registration(props) {
                         error={touched.email && Boolean(errors.email)}
                         />
                     </FormControl>
-                    <FormControl margin="normal" >
+                    <FormControl margin="normal" required>
                          <InputLabel 
                         htmlFor="phone"
                         >Мобильный телефон</InputLabel>

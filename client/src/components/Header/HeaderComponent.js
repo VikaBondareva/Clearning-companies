@@ -16,7 +16,7 @@ import { roles } from "../../helpers";
 import styles from "./style";
 
 function HeaderComponent(props) {
-  const { classes, role,isAuthenticated } = props;
+  const { classes, role, isAuthenticated } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -78,10 +78,40 @@ function HeaderComponent(props) {
             <IconButton color="inherit">
               <MailIcon />
             </IconButton>
-            <Link to="/profile/orders" className={classes.linkMenu}>
-              Заказы
+            <Link to="/profile/edit" className={classes.linkMenu}>
+              Редактировать
             </Link>
           </MenuItem>
+          {role !== roles.admin ? (
+            <MenuItem>
+              <IconButton color="inherit">
+                <MailIcon />
+              </IconButton>
+              <Link to="/profile/orders" className={classes.linkMenu}>
+                Заказы
+              </Link>
+            </MenuItem>
+          ) : (
+            <>
+              <MenuItem>
+                <IconButton color="inherit">
+                  <MailIcon />
+                </IconButton>
+                <Link to="/admin/users" className={classes.linkMenu}>
+                  Пользователи
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <IconButton color="inherit">
+                  <MailIcon />
+                </IconButton>
+                <Link to="/admin/companies" className={classes.linkMenu}>
+                  Компании
+                </Link>
+              </MenuItem>
+            </>
+          )}
+
           <MenuItem onClick={handleClickLogout}>
             <IconButton color="inherit">
               <NotificationsIcon />

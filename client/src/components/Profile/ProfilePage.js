@@ -1,32 +1,26 @@
 import React, { Component } from "react";
 import ProfileCompany from "./ProfileCompany";
 import ProfileUser from "./ProfileUser";
-import ButtonProfile from './ButtonsProfile';
+import ButtonProfile from "./ButtonsProfile";
 import PropTypes from "prop-types";
 import { roles } from "../../helpers";
-import './style/style.css';
+import "./style/style.css";
 
-export default class Profile extends Component {
-
-  renderProfile(){
-    const {role,profile}= this.props;
-    if (role === roles.user) {
+export default function Profile(props) {
+  function renderProfile() {
+    const { role, profile } = props;
+    if (role !== roles.executor) {
       return <ProfileUser user={profile} />;
-    } else if (role === roles.executor)
-      return <ProfileCompany company={profile} />;
+    } else return <ProfileCompany company={profile} />;
   }
 
-  render() {
-    return(
-      <div className="profile-main main__profile-main">
-          <p>Профиль</p>
-          <main className="profile-main__card-info">
-            {this.renderProfile()}   
-          </main>
-          <ButtonProfile />
-      </div>
-    )
-  }
+  return (
+    <div className="profile-main main__profile-main">
+      <p>Профиль</p>
+      <main className="profile-main__card-info">{renderProfile()}</main>
+      <ButtonProfile role={props.profile.role} />
+    </div>
+  );
 }
 
 Profile.propTypes = {
@@ -34,4 +28,3 @@ Profile.propTypes = {
   profile: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired
 };
-

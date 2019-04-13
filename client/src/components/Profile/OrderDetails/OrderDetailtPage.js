@@ -3,7 +3,7 @@ import { Button } from "../../common/buttons";
 import Modal from "../../common/modal/ModalInputCompanent";
 import Details from "./OrderDetailsForm";
 import { Loader } from "../../common/loading";
-import { orderStatuses } from "../../../helpers";
+import { orderStatusesEnum } from "../../../helpers";
 
 export class OrdersDetailsComponent extends Component {
   constructor(props) {
@@ -51,7 +51,7 @@ export class OrdersDetailsComponent extends Component {
   };
 
   renderButton(order) {
-    if (order && order.status === orderStatuses.Confirmed) {
+    if (order && order.status === orderStatusesEnum.Confirmed) {
       return (
         <>
           <Button name="Отменить" onClick={this.handleClickShowModal} />
@@ -59,7 +59,7 @@ export class OrdersDetailsComponent extends Component {
         </>
       );
     }
-    if (order && order.status === orderStatuses.Pending) {
+    if (order && order.status === orderStatusesEnum.Pending) {
       return (
         <>
           <Button name="Отменить" onClick={this.handleClickShowModal} />

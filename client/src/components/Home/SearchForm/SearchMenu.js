@@ -9,8 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
 import {querySearch} from '../../../helpers';
-import Select from '../../common/select/SetectComponent';
-import {SelectChip} from '../../common/select'
+import {SelectChip,Select} from '../../common/select'
 import styles from './style';
 import {serviceTypes,selectCity,selectSort,selectCountCard} from '../../../helpers'
 import {parse} from 'query-string';
