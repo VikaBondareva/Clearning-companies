@@ -22,10 +22,7 @@ const schema = joi
 
     GMAIL_USER_NAME: joi.string(),
     GMAIL_USER_PASSWORD: joi.string(),
-
-    GMAIL_SERVER_NAME: joi.string(),
     GMAIL_SERVER_HOST: joi.string(),
-
     EMAIL_SERVER_PORT: joi.number(),
 
     GITHUB_CLIENT_ID: joi.string(),
@@ -76,7 +73,6 @@ module.exports = {
     phoneFrom: envVars.TWILLIO_PHONE_NUMBER
   },
   gmailServer: {
-    name: envVars.GMAIL_SERVER_NAME,
     host: envVars.GMAIL_SERVER_HOST
   },
   gmailUser: {

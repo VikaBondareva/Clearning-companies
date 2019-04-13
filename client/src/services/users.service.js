@@ -1,28 +1,19 @@
-import Axios from 'axios'
-import { authHeader } from '../helpers/headers.js'
+import Axios from "axios";
+import { authHeader } from "../helpers/headers.js";
 
-export default {
-    getUsers () {
-        return Axios.request({
-            method: 'GET',
-            url: 'api/users',
-            headers: authHeader()
-        })
-    },
-    editUser (formData) {
-        return Axios.request({
-            method: 'PUT',
-            url: '/api/users/'+formData.id,
-            data: formData,
-            headers: authHeader()
-        })
-    },
-    deleteUser (formData) {
-        return Axios.request({
-            method: 'DELETE',
-            url: '/api/users/'+formData.id,
-            data: formData,
-            headers: authHeader()
-        })
-    }
-}
+export const UserService = {
+  getUsers(queries) {
+    return Axios.get("/users" + queries, { headers: authHeader() });
+  },
+  editUser(formData) {
+    return Axios.put("/users" + formData.id, formData, {
+      headers: authHeader()
+    });
+  },
+  changeStatus(formData, id) {
+    return Axios.put(`/users/${id}/block`, formData, { headers: authHeader() })
+  },
+  deleteUser(formData) {
+    return Axios.delete("/users" + formData.id, { headers: authHeader() });
+  }
+};

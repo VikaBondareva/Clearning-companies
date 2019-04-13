@@ -9,14 +9,19 @@ const emailService = require("../../services/email.service");
 const authHelper = require("../../config/authHelper");
 const StatusUser = require("../../enums/status.user.enum");
 
-async function getAllUsers({ page, perPage }) {
+async function getAllUsers({ page, perPage, status }) {
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
-    select: "name surname address email"
+    select: "name surname email status phone created_at lockMessage"
   };
   const query = {
-    role: Role.Customer
+    role: Role.Customer,
+    status: status || [
+      StatusUser.notVerified,
+      StatusUser.verified,
+      StatusUser.locked
+    ]
   };
   const users = User.paginate(query, options);
   return users;

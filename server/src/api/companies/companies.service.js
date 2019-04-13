@@ -33,11 +33,30 @@ async function getCompanies({
     sort: `${sort}`
   };
   const query = {};
-  query.status = { $gte: 1 };
-  (query["address.city"] = { $regex: city || "" }),
-    (query.name = { $regex: name || "" }),
-    (query["services.name"] = services || { $regex: "" }),
-    (query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 });
+  query.status = StatusUser.verified;
+  query["address.city"] = { $regex: city || "" };
+  query.name = { $regex: name || "" };
+  query["services.name"] = services || { $regex: "" };
+  query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 };
+
+  const companies = await Company.paginate(query, options);
+
+  return companies;
+}
+
+async function getCompaniesAdmin({ page, status }) {
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: 10,
+    select: "name email status lockMessage created_at"
+  };
+  const query = {
+    status: status || [
+      StatusUser.locked,
+      StatusUser.notVerified,
+      StatusUser.verified
+    ]
+  };
 
   const companies = await Company.paginate(query, options);
 
@@ -137,5 +156,6 @@ module.exports = {
   getByIdCompany,
   updateCompany,
   deleteCompany,
-  blockCompany
+  blockCompany,
+  getCompaniesAdmin
 };

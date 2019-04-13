@@ -3,71 +3,33 @@ import { authRefreshHeader, authHeader } from '../helpers'
 
 export const AuthService = {
     registration(formData) {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/register',
-            data: formData
-        })
+        return Axios.post('/auth/register',formData )
     },
     authVkonkte(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/vkontakte',
-        })
+        return Axios.post('/auth/vkontakte')
     },
     confirmEmail(token, email){
-        return Axios.request({
-            method: 'POST',
-            url: `/auth/activation`,
-            data: {email},
-            headers: {'Authorization': 'Bearer ' + token}
-        })
+        return Axios.post(`/auth/activation`,{email}, { headers: {'Authorization': 'Bearer ' + token}} )
     },
     authGoogle(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/google',
-        })
+        return Axios.post('/auth/google')
     },
     authGitHub(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/github',
-        })
+        return Axios.post('/auth/github')
     },
     registrationCompany(formData) {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/register/company',
-            data: formData
-        })
+        return Axios.post('/auth/register/company',formData )
     },
     login(formData) {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/login',
-            data: formData
-        })
+        return Axios.post('/auth/login',formData )
     },
     refreshToken() {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/refresh-token',
-            headers: authRefreshHeader()
-        })
+        return Axios.post( '/auth/refresh-token',{headers: authRefreshHeader()} )
     },
     getCurrentUser() {
-        return Axios.request({
-            method: 'GET',
-            url: '/auth/current',
-            headers: authHeader()
-        })
+        return Axios.get('/auth/current', {headers: authHeader()})
     },
     logout(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/logout',
-            headers: authHeader()
-        })
+        return Axios.post('/auth/logout',{headers: authRefreshHeader()} )
     }
 }   

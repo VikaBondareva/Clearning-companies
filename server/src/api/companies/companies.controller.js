@@ -8,6 +8,13 @@ module.exports.get = async (req, res, next) => {
     .catch(err => next(err));
 };
 
+module.exports.getForAdmin = async (req, res, next) => {
+  service
+    .getCompaniesAdmin(req.query)
+    .then(data => res.status(httpStatus.OK).json(data))
+    .catch(err => next(err));
+};
+
 module.exports.getById = async (req, res, next) => {
   service
     .getByIdCompany(req.params.id)

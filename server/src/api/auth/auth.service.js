@@ -1,5 +1,5 @@
 const authHelper = require("../../config/authHelper");
-const { mailForVerified } = require("../../config/email");
+const { mailVerifiedEmail } = require("../../config/email");
 const emailService = require("../../services/email.service");
 const User = require("../../models").user;
 const Company = require("../../models").company;
@@ -87,25 +87,22 @@ async function register(
 ) {
   try {
     if (!phone && !email) throw "Enter email or phone";
-    const addresses = [address];
-    const user = new User({
+    const newUser = {
       name,
       surname,
       password,
-      email,
-      phone,
       role,
-      addresses,
       isNotify
-    });
+    };
+    if (phone) newUser.phone = phone;
+    if (email) newUser.email = email;
+    newUser.addresses = [address];
+    const user = new User({ ...newUser });
     await user.save();
     const token = authHelper.verifiedToken(user);
     if (email) {
-      emailService.sendGMail(user.email, mailForVerified(user, token));
+      emailService.sendGMail(user.email, mailVerifiedEmail(user, token));
     }
-    // else if (phone) {
-    //   user.sendSMS("Ваш код подтверждения: 25864");
-    // }
     return true;
   } catch (err) {
     throw err;
@@ -137,7 +134,7 @@ async function registerCompany({
     await company.save();
     const token = authHelper.verifiedToken(company);
     if (email) {
-      emailService.sendGMail(company.email, mailForVerified(company, token));
+      emailService.sendGMail(company.email, mailVerifiedEmail(company, token));
     }
     return true;
   } catch (err) {
@@ -170,7 +167,7 @@ function authSocialNetwork(data) {
   } else {
     const token = authHelper.verifiedToken(data);
     console.log(token);
-    emailService.sendGMail(data.email, mailForVerified(data, token));
+    emailService.sendGMail(data.email, mailVerifiedEmail(data, token));
     throw new Error("Invalid activation");
   }
 }

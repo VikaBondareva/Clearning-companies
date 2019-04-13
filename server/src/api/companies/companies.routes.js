@@ -6,6 +6,7 @@ const validation = require("../../middleware/validation");
 const schemas = require("../../validation").company;
 
 router.get("/", validation(schemas.companyQUERY, "query"), controller.get);
+router.get("/admin", controller.getForAdmin);
 router.get("/:id", controller.getById);
 router.delete("/", permit(Role.Executor), controller._delete);
 router.put("/:id/block", permit(Role.Admin), controller.blockById);
