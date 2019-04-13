@@ -5,12 +5,32 @@ export const roles = {
 };
 
 
-export const orderStatuses = {
+export const orderStatusesEnum = {
   Canceled: "canceled",
   Confirmed: "confirmed",
   Made: "made",
   Pending: "pending"
 }
+
+export const statusUsersEnum = {
+  notVerified: 1,
+  verified: 2,
+  deleted: 3,
+  locked: 4
+}
+
+export const statusOrdersArray =[
+  {value: statusUsersEnum.Canceled, name: "Отказано"},
+  {value: statusUsersEnum.Pending, name: "Открытый"},
+  {value: statusUsersEnum.Confirmed, name: "Принят"},
+  {value: statusUsersEnum.Made, name: "Сделано"},
+];
+
+export const statusUsersArray = [
+  {value: statusUsersEnum.notVerified, name: "Email не подтвержден"},
+  {value: statusUsersEnum.verified, name: 'Активный'},
+  {value: statusUsersEnum.locked, name: 'Заблокирован'},
+]
 
 export const serviceTypes = [
   { name: "Стандартная уборки помещения", _id: 11 },
@@ -64,12 +84,7 @@ export const selectCity =[
   {value: "Брест", name: "Брест"},
 ];
 
-export const statusOrders =[
-    {value: orderStatuses.Canceled, name: "Отказано"},
-    {value: orderStatuses.Pending, name: "Открытый"},
-    {value: orderStatuses.Confirmed, name: "Принят"},
-    {value: orderStatuses.Made, name: "Сделано"},
-];
+
 
 export const getNameFormArray = (values, current, nameSearch) => {
   const reg = values.filter(value=> value[nameSearch]=== current);

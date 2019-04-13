@@ -12,24 +12,12 @@ const schemas = {
       .min(3)
       .max(50),
     address: Joi.string().required(),
-    // addresses: Joi.array().items(
-    //   Joi.object({
-    //     country: Joi.string().required(),
-    //     city: Joi.string().required(),
-    //     district: Joi.string(),
-    //     street: Joi.string().required(),
-    //     house: Joi.number().required(),
-    //     apartment: Joi.number()
-    //   })
-    // ),
-    email: Joi.string().email(),
-    phone: Joi.when("email", {
-      is: null,
-      then: Joi.string()
-        .trim()
-        .regex(PhoneNumber)
-        .required()
-    }),
+    email: Joi.string()
+      .email()
+      .required(),
+    phone: Joi.string()
+      .trim()
+      .regex(PhoneNumber),
     password: Joi.when("email" || "phone", {
       is: Joi.string(),
       then: Joi.string()

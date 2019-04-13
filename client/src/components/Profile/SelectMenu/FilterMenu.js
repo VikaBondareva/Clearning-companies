@@ -1,7 +1,6 @@
 import React from "react";
-import Select from "../../common/select/SetectComponent";
-import { SelectChip } from "../../common/select";
-import { statusOrders } from "../../../helpers";
+import { SelectChip,Select } from "../../common/select";
+import { statusOrdersArray } from "../../../helpers";
 
 export default function FilterMenu(props) {
   const {
@@ -16,7 +15,7 @@ export default function FilterMenu(props) {
         value={statusValue}
         name="Статус заказа"
         targetValue="status"
-        options={statusOrders}
+        options={statusOrdersArray}
         onChange={onChange}
       />
       <SelectChip

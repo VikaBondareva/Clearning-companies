@@ -14,24 +14,26 @@ const schema = new mongoose.Schema(
   {
     name: { type: String, required: true, validate: nameValidator },
     surname: { type: String, required: true, validate: nameValidator },
-    email: { type: String, validate: emailValidator },
-    phone: { type: String, validate: pnumberValidator },
+    email: {
+      type: String,
+      trim: true,
+      unique: true,
+      required: true,
+      validate: emailValidator
+    },
+    phone: {
+      type: String,
+      trim: true,
+      unique: true,
+      required: true,
+      validate: pnumberValidator
+    },
     password: { type: String, select: false, validate: passwordValidator },
     addresses: [{ type: String, required: true }],
-    // addresses: [
-    //   {
-    //     country: { type: String, require: true },
-    //     city: { type: String, require: true },
-    //     district: { type: String },
-    //     street: { type: String, require: true },
-    //     house: { type: Number, require: true },
-    //     apartment: { type: Number }
-    //   }
-    // ],
     status: { type: Number, required: true, default: StatusUser.notVerified },
-    githubId: { type: String, unique: true },
-    googleId: { type: String, unique: true },
-    vkontakteId: { type: String, unique: true },
+    githubId: { type: String },
+    googleId: { type: String },
+    vkontakteId: { type: String },
     role: { type: String, required: true, lowercase: true },
     isNotify: { type: Boolean, required: true, default: false },
     lockMessage: { type: String }
@@ -64,7 +66,8 @@ schema.pre("update", function(next) {
 
 schema.post("save", function(error, doc, next) {
   if (error.name === "MongoError" && error.code === 11000) {
-    next(new Error("User already exist"));
+    console.log(error);
+    next(new Error("Пользователь уже существует"));
   } else if (
     !doc.githubId &&
     !doc.googleId &&

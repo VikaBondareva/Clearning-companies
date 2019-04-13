@@ -18,7 +18,7 @@ class ModalComponent extends Component{
     }
 
     render(){
-        const {maxWidth, fullWidth, title, description, onClose}= this.props;
+        const {maxWidth, fullWidth, title, description, onClose, onClick}= this.props;
         const {isOpen} = this.state;
         return (
             <Dialog
@@ -35,8 +35,13 @@ class ModalComponent extends Component{
             </DialogContent>
             <DialogActions>
             <Button onClick={onClose} color="primary">
-                Close
+                Закрыть
             </Button>
+            {onClick && 
+                <Button onClick={onClick} color="primary">
+                    Подтвердить
+                </Button>
+            }
             </DialogActions>
         </Dialog>
         );
