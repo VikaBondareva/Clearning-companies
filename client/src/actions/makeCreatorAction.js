@@ -1,3 +1,3 @@
 export const makeActionCreator = type => ({
-    type
-  });
+  type
+});

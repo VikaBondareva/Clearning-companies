@@ -10,6 +10,13 @@ body {
   height: 100%
 
 }
+h3{
+  font-weight: 400;
+}
+
+p{
+  font-weight: 200;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

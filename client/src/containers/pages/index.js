@@ -6,3 +6,4 @@ export * from './OrdersPageContainer';
 export * from './OrderDetailsContainer';
 export * from './AdminControlCompaniesContainer';
 export * from './AdminControlUsersContainer';
+export * from './EditProfileContainer';

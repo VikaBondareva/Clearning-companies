@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../common/buttons";
 import {Select} from '../common/select';
-import { statusUsersArray } from "../../helpers";
+import { statusUsersArray } from "../../utils";
 
 const selectStatus = [
   {value: '', name:"Все"},

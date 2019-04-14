@@ -13,7 +13,7 @@ import {
   statusUsersEnum,
   statusUsersArray,
   roles
-} from "../../../helpers";
+} from "../../../utils";
 
 const styles = theme => ({
   table: {

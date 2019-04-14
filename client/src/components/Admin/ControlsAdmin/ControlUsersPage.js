@@ -1,6 +1,6 @@
 import React from "react";
 import { AdminPageComponent as AdminPage } from "../AdminPage";
-import { roles } from "../../../helpers";
+import { roles } from "../../../utils";
 
 export function ControlUsers({
   docs,

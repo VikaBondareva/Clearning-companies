@@ -10,7 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import FiltersMenu from "../SelectMenu/FilterMenu";
 import { parse } from "query-string";
-import { querySearch, getNameFormArray, statusOrdersArray } from "../../../helpers";
+import { querySearch, getNameFormArray, statusOrdersArray } from "../../../utils";
 import {Loader} from '../../common/loading';
 import {Pagination} from '../../common/pager';
 

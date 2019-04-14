@@ -7,7 +7,7 @@ import MainInformation from "./CompanyMain";
 import Reviews from "./CompanyReviws";
 import { Link } from "react-router-dom";
 import { ReviewForm } from "./ReviewForm";
-import { roles } from "../../helpers";
+import { roles } from "../../utils";
 const styles = {
   section: {
     width: "100%"

@@ -10,7 +10,7 @@ import {
     regularityTypes,
     preliminaryCalculation,
     querySearch
-} from '../../helpers'
+} from '../../utils'
 
 function BookingFormComponent(props){
 

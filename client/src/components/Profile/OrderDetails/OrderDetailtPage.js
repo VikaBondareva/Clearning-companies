@@ -3,7 +3,7 @@ import { Button } from "../../common/buttons";
 import Modal from "../../common/modal/ModalInputCompanent";
 import Details from "./OrderDetailsForm";
 import { Loader } from "../../common/loading";
-import { orderStatusesEnum } from "../../../helpers";
+import { orderStatusesEnum } from "../../../utils";
 
 export class OrdersDetailsComponent extends Component {
   constructor(props) {

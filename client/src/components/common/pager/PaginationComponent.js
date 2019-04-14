@@ -1,5 +1,5 @@
 import React from 'react';
-import {querySearch} from '../../../helpers';
+import {querySearch} from '../../../utils';
 import Pager from './Pages'
 import { withRouter } from 'react-router-dom';
 

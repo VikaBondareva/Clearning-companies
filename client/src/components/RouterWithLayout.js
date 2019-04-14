@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from './Footer/Footer';
 import Header from'../containers/HeaderContainer';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from './common/ErrorBoundary/ErrorBoundary';
 import './App.css'
 
 const RouteWithLayout = Component => props=>{

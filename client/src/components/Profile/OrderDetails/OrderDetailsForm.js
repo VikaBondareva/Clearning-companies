@@ -1,5 +1,5 @@
 import React from "react";
-import {regularityTypes, statusOrdersArray,getNameFormArray}  from '../../../helpers'
+import {regularityTypes, statusOrdersArray,getNameFormArray}  from '../../../utils'
 
 function OrderDetails ({order}) {
 

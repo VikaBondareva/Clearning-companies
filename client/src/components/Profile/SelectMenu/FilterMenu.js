@@ -1,6 +1,6 @@
 import React from "react";
 import { SelectChip,Select } from "../../common/select";
-import { statusOrdersArray } from "../../../helpers";
+import { statusOrdersArray } from "../../../utils";
 
 export default function FilterMenu(props) {
   const {

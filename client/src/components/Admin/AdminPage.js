@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import ModalInput from "../common/modal/ModalInputCompanent";
 import Modal from "../common/modal/ModalComponent";
-import { querySearch } from "../../helpers";
+import { querySearch } from "../../utils";
 import FiltersMenu from "./FilersMenuAdmin";
 import { Pagination } from "../common/pager";
 import { Loader } from "../common/loading";

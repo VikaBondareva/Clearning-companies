@@ -21,8 +21,11 @@ const styles = theme =>({
         gridRowGap: "30px",
         margin: "20px 0px",
         [theme.breakpoints.down("sm")]: {
-             gridTemplateColumns: "1fr",
-        },
+             margin: "20px 0px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+        }
     },
     pagination:{
         display: "flex",
