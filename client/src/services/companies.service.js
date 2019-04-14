@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { authHeader } from '../helpers/headers.js'
+import { authHeader } from '../utils'
 
 export const CompanyService = {
     getCompanies (queries) {
@@ -9,7 +9,7 @@ export const CompanyService = {
        return Axios.get('/companies/'+id)
     },
     editCompany (formData) {
-        return Axios.put('/companies/'+formData.id,formData, {headers: authHeader()} )
+        return Axios.put('/companies',formData, {headers: authHeader()} )
     },
     deleteCompany (formData) {
         return Axios.delete('/companies/'+formData.id, {headers: authHeader()} )

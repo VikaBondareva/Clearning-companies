@@ -13,12 +13,10 @@ import {
   EMAIL_CONFIRM_SUCCESS,
   SEND_EMAIL_DELETE,
   SEND_EMAIL_SUCCESS,
-  USER_GET_SUCCESS,
-  USER_GET_ERROR
 } from "./actionTypes";
 import { AuthService } from "../services";
-import { storeToken, clearToken } from "../helpers/authentication";
-import { history } from "../helpers";
+import { storeToken,storeUser, clearToken } from "../utils/authentication";
+import { history } from "../utils";
 import { makeActionCreator } from "./makeCreatorAction";
 import { push, goBack } from "connected-react-router";
 import { returnErrors, clearErrors } from "./errorActions";
@@ -41,14 +39,6 @@ export const deleteSendEmail = () => ({
   type: SEND_EMAIL_DELETE
 });
 
-export function getProfileSuccess(profile) {
-  return {
-    type: USER_GET_SUCCESS,
-    payload: {
-      profile
-    }
-  };
-}
 
 //redax-thunk
 export function asyncLogin({ identifier, password }) {
@@ -57,7 +47,8 @@ export function asyncLogin({ identifier, password }) {
     return AuthService.login({ identifier, password })
       .then(async response => {
         console.log(response.status);
-        await storeToken(response.data.tokens, response.data.user);
+        await storeToken(response.data.tokens);
+        await storeUser(response.data.user);
         dispatch(loginSuccess(response.data.user));
         dispatch(clearErrors())
         if (history.length > 0) {
@@ -138,27 +129,6 @@ export function asyncRegisterCompany(company) {
   };
 }
 
-export function asyncGetCurrentProfile() {
-  return function(dispatch) {
-    return AuthService.getCurrentUser()
-      .then(response => {
-        if (response.status !== 401) {
-          console.log("profile success");
-          dispatch(getProfileSuccess(response.data));
-        } else {
-          dispatch(push("/login"));
-        }
-      })
-      .catch(error => {
-        console.log("profile error");
-        if (error.response.status !== 500) {
-          dispatch(makeActionCreator(USER_GET_ERROR));
-          clearToken();
-        }
-      });
-  };
-}
-
 export const asyncLogout = () => dispatch => {
   AuthService.logout();
   clearToken();
@@ -169,7 +139,8 @@ export const asyncConfirmEmail = (token, email) => dispatch => {
   dispatch(makeActionCreator(EMAIL_CONFIRM_REQUEST))
   return AuthService.confirmEmail(token, email)
     .then(response => {
-        storeToken(response.data.tokens, response.data.user);
+        storeToken(response.data.tokens);
+        storeUser(response.data.user);
         dispatch(makeActionCreator(EMAIL_CONFIRM_SUCCESS))
         dispatch(loginSuccess(response.data.user));
     })
@@ -184,3 +155,16 @@ export const asyncConfirmEmail = (token, email) => dispatch => {
       );
     });
 };
+
+export const asyncRefreshToken = () => dispatch => {
+  dispatch(makeActionCreator("TOKEN_REFRESH_REQUEST"))
+  return AuthService.refreshToken()
+    .then((response)=> {
+      storeToken(response.data.tokens);
+      storeUser( response.data.user);
+      dispatch(makeActionCreator("TOKEN_REFRESH_SUCCESS"))
+    })
+    .catch(()=>{
+      dispatch(makeActionCreator("TOKEN_REFRESH_ERROR"))
+    })
+}

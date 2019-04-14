@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { authRefreshHeader, authHeader } from '../helpers'
+import { authRefreshHeader, authHeader } from '../utils'
 
 export const AuthService = {
     registration(formData) {

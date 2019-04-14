@@ -34,6 +34,10 @@ export const REVIEW_CREATED_ERROR = 'REVIEW_CREATE_ERROR';
 //user types
 export const USER_GET_SUCCESS = 'USER_GET_SUCCESS';
 export const USER_GET_ERROR = 'USER_GET_ERROR';
+//user edit profile types
+export const USER_EDIT_REQUEST = 'USER_EDIT_REQUEST';
+export const USER_EDITED_SUCCESS = 'USER_EDIT_SUCCESS';
+export const USER_EDITED_ERROR = 'USER_EDIT_ERROR';
 //error types
 export const ERRORS_GET = 'ERRORS_GET';
 export const ERRORS_CLEAR = 'ERRORS_CLEAR';

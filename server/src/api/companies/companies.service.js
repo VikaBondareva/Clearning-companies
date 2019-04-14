@@ -71,6 +71,7 @@ async function getByIdCompany(id) {
 }
 
 async function updateCompany(
+  { _id },
   {
     name,
     description,
@@ -81,31 +82,26 @@ async function updateCompany(
     rooms,
     oldPassword,
     newPassword
-  },
-  { _id }
+  }
 ) {
   try {
     let company;
     if (!oldPassword) {
-      company = await User.findByIdAndUpdate(
+      company = await Company.findByIdAndUpdate(
         _id,
         { $set: { name, description, address, services, workPlan, rooms } },
         { new: true }
       );
     } else {
-      company = await User.findById(_id)
-        .select("+password")
+      company = await Company.findById(_id)
+        .select("password email name")
         .exec();
 
       const success = await company.comparePassword(oldPassword);
-      if (success === false) throw "Not wrong old password";
+      if (success === false) return "Wrong old password";
+      if (newPassword === oldPassword)
+        return "Old password and new password id equal";
 
-      company.name = name;
-      company.description = description;
-      company.address = address;
-      company.services = services;
-      company.workPlan = workPlan;
-      company.rooms = rooms;
       company.password = newPassword;
       await company.save();
     }
@@ -117,10 +113,8 @@ async function updateCompany(
         mailVerifiedEmail(company.name, email, token)
       );
     }
-
-    return true;
-  } catch {
-    return false;
+  } catch (error) {
+    throw error;
   }
 }
 

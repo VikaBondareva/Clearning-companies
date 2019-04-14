@@ -12,9 +12,9 @@ router.delete("/", permit(Role.Executor), controller._delete);
 router.put("/:id/block", permit(Role.Admin), controller.blockById);
 
 router.put(
-  "/:id",
+  "/",
   permit(Role.Executor),
-  validation(schemas.companyPUT, "body"),
+  // validation(schemas.companyPUT, "body"),
   controller.put
 );
 module.exports = router;

@@ -9,6 +9,6 @@ router.delete("/:id", permit(Role.Customer), controller._delete);
 
 router.put("/:id/block", permit(Role.Admin), controller.blockById);
 
-router.put("/:id", permit([Role.Customer, Role.Admin]), controller.put);
+router.put("/", permit([Role.Customer, Role.Admin]), controller.put);
 
 module.exports = router;

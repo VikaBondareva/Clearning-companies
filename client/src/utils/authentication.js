@@ -1,5 +1,5 @@
 import {loginSuccess} from '../actions/authActions';
-import {asyncGetCurrentProfile} from '../actions/authActions';
+import {asyncGetCurrentProfile} from '../actions/userActions';
 
 const AUTH_TOKE_KEY = "tokens";
 const USER_KEY = "user";
@@ -14,10 +14,13 @@ export const initializePreviousToken = async store => {
   
 };
 
-export const storeToken = (tokens, user) => {
+export const storeToken = tokens => {
   localStorage.setItem(AUTH_TOKE_KEY, JSON.stringify(tokens));
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
 };
+
+export const storeUser = user => {
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
+}
 
 export const clearToken = () => {
   localStorage.removeItem(AUTH_TOKE_KEY);

@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { authHeader } from '../helpers/headers.js'
+import { authHeader } from '../utils'
 
 export const ReviewsService = {
     createReview (formData) {

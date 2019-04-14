@@ -3,7 +3,7 @@ import rootReduce from '../reducers/index';
 import {createLogger} from 'redux-logger';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from "connected-react-router";
-import {history} from '../helpers';
+import {history} from '../utils';
 
 const composeEnhancers =
     process.env.NODE_ENV !== "production" &&

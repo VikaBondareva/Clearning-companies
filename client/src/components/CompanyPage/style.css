@@ -1,0 +1,18 @@
+.title-card{
+    display: flex;
+    margin: 20px 0;
+}
+
+.title-card__article{
+    margin: 0 50px;
+}
+
+.title-card__ratting{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.company-text{
+    margin: 0;
+}

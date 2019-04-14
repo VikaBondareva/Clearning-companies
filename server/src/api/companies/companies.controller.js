@@ -24,11 +24,11 @@ module.exports.getById = async (req, res, next) => {
 
 module.exports.put = async (req, res, next) => {
   service
-    .updateCompany(req.body, req.user)
+    .updateCompany(req.user, req.body)
     .then(result => {
-      result
+      !result
         ? res.status(httpStatus.OK).json(result)
-        : res.status(httpStatus.BAD_REQUEST).json("Error");
+        : res.status(httpStatus.BAD_REQUEST).json({ message: result });
     })
     .catch(err => next(err));
 };

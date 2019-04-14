@@ -90,9 +90,8 @@ const schemas = {
     email: Joi.string()
       .email()
       .required(),
-    password: Joi.string()
-      .required()
-      .regex(Password),
+    oldPassword: Joi.string().regex(Password),
+    newPassword: Joi.string().regex(Password),
     rooms: Joi.object({
       toilet: Joi.object({
         price: Joi.number()

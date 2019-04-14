@@ -29,29 +29,27 @@ async function getAllUsers({ page, perPage, status }) {
 
 async function update(
   { _id },
-  { name, surname, email, addresses, oldPassword, newPassword, isNotify }
+  { name, surname, email, addresses, phone, oldPassword, newPassword, isNotify }
 ) {
   try {
     let user;
     if (!oldPassword) {
-      await User.findByIdAndUpdate(
+      user = await User.findByIdAndUpdate(
         _id,
-        { $set: { name, surname, addresses, isNotify } },
+        { $set: { name, surname, addresses, isNotify, phone } },
         { new: true }
       );
     } else {
       user = await User.findById(_id)
-        .select("+password")
+        .select("password email name")
         .exec();
 
       const success = await user.comparePassword(oldPassword);
-      if (success === false) throw "Not wrong old password";
+      if (success === false) return "Wrong old password";
 
-      user.name = name;
-      user.surname = surname;
-      user.addresses = addresses;
+      if (newPassword === oldPassword)
+        return "Old password and new password id equal";
       user.password = newPassword;
-      user.isNotify = isNotify;
       await user.save(err => {
         if (err) throw err;
       });
@@ -64,9 +62,8 @@ async function update(
         mailVerifiedEmail(user.name, email, token)
       );
     }
-    return true;
-  } catch {
-    return false;
+  } catch (error) {
+    throw error;
   }
 }
 

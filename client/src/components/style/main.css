@@ -1,0 +1,20 @@
+.main__section{
+    margin: 10px 50px 50px;
+}
+.main__section-form{
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.info-company{
+    display: flex;
+}
+.info-img{
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-basic {
+    padding-bottom: 20px;
+    border-bottom: 1px solid;
+}

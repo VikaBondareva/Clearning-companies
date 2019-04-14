@@ -6,7 +6,7 @@ import orders from './orders.reducer'
 import loading from './loader.reducer';
 import admin from './admin.reducer';
 import { connectRouter} from "connected-react-router";
-import {history} from '../helpers';
+import {history} from '../utils';
 
 const rootReducer = combineReducers({
      auth, 

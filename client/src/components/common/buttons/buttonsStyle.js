@@ -11,10 +11,20 @@ const styles = theme => ({
       color: theme.palette.text.primary,
       textDecoration: 'none'
     },
-    btnLink: {
+    btnLinkWhite: {
       background: theme.palette.common.white,
-      margin: "0 15px"
     },
+    btnLinkDark: {
+      background: theme.palette.primary.dark,
+    },
+    btnMarginLeft:{
+      // marginLeft: 15,
+      marginRight: 15
+    },
+    btnMarginTop: {
+      marginTop: 15,
+      marginBottom: 15
+    }
   });
 
 export default styles;
