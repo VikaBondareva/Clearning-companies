@@ -138,24 +138,40 @@ const schemas = {
         })
       )
       .required(),
-    workPlan: Joi.array()
-      .items(
-        Joi.object({
-          day: Joi.string()
-            .alphanum()
-            .required()
-            .allow(["пн", "вт", "ср", "чт", "пт", "сб", "вс"]),
-          workHours: Joi.object({
-            start: Joi.string().regex(Time),
-            end: Joi.string().regex(Time)
-          }).required(),
-          lunchHours: Joi.object({
-            start: Joi.string().regex(Time),
-            end: Joi.string().regex(Time)
-          })
-        })
-      )
-      .required()
+    workPlan: Joi.array().items(
+      Joi.object({
+        day: Joi.number()
+          .required()
+          .max(7)
+          .min(0),
+        start: Joi.number()
+          .required()
+          .min(0)
+          .max(2400),
+        end: Joi.number()
+          .required()
+          .max(2400)
+          .min(0)
+      })
+    )
+    // workPlan: Joi.array()
+    //   .items(
+    //     Joi.object({
+    //       day: Joi.string()
+    //         .alphanum()
+    //         .required()
+    //         .allow(["пн", "вт", "ср", "чт", "пт", "сб", "вс"]),
+    //       workHours: Joi.object({
+    //         start: Joi.string().regex(Time),
+    //         end: Joi.string().regex(Time)
+    //       }).required(),
+    //       lunchHours: Joi.object({
+    //         start: Joi.string().regex(Time),
+    //         end: Joi.string().regex(Time)
+    //       })
+    //     })
+    //   )
+    //   .required()
   }),
   companyQUERY: {
     page: Joi.number(),

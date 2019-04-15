@@ -2,18 +2,40 @@ import { Formik } from "formik";
 import React from "react";
 import EditProfileSchemaValid from "./EditProfileSchemaValid";
 import EditProfileCompany from "./EditProfileCompany";
+import {replaceWorkPlanInNumber} from  '../../../../utils';
 
 export function EditCompany({ error, company, saveChanged }) {
   return (
     <Formik
       initialValues={{
         ...company,
-        error
+        error,
+        actionName: "",
+        removeIndex: null,
+        removeIndexService: null
       }}
       validationSchema={EditProfileSchemaValid}
-      onSubmit={values => {
-        const { error, ...profile } = values;
-        saveChanged(profile);
+      onSubmit={(values, {setValues}) => {
+        const { error,actionName, removeIndex,removeIndexService,...profile } = values;
+        console.log("submit, isNext : " +values.actionName+" index: ")
+        if(actionName === "save") {
+          profile.workPlan = replaceWorkPlanInNumber(profile.workPlan);
+          saveChanged(profile);
+        }
+        else if (actionName === "addDay") {
+          console.log("add action");
+          values.workPlan.push({day: '', start: "7:00", end: "17:00"});
+          setValues(values);
+        } else if (actionName === "deleteDay") {
+          values.workPlan.pop(removeIndex);
+          setValues(values); 
+        } else if (actionName==="addService") {
+          values.services.push({name: '', coefficient: ""});
+          setValues(values);
+        } else if (actionName === "removeService"){
+          values.services.pop(removeIndexService);
+          setValues(values); 
+        }
       }}
       component={EditProfileCompany}
     />

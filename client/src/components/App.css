@@ -135,6 +135,15 @@ button.github:hover {
 .card_shadow{
   box-shadow:-5px 20px 25px rgba(0,0,0,0.25), 5px 10px 10px rgba(0,0,0,0.22);
 }
+
+.card-from_blue-white {
+  background: #e6f1e5;
+}
+.card-from{
+    padding: 20px;
+    border: 1px solid;
+    margin: 10px 0;
+}
 .error-text{
   color:red;
 }

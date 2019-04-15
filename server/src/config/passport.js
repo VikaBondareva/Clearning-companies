@@ -32,9 +32,10 @@ function jwtStrategy() {
       } else {
         user = await User.findById(userId);
       }
-      console.log(user);
-      if (user) {
-        return done(null, user);
+      const data = user.toObject();
+      console.log(data);
+      if (data) {
+        return done(null, data);
       } else {
         return done(null, false);
       }

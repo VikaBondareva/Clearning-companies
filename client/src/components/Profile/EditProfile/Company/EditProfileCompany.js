@@ -3,12 +3,16 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { ButtonLink } from "../../../common/buttons";
+import {
+  ServiceForm,
+  RoomsForm,
+  WorkPlan
+} from "../../../common/company-forms";
+import Input from "@material-ui/core/Input";
 import { styles } from "../styleEdit";
 
-function EditProfileUser(props) {
+function EditProfileCompany(props) {
   const {
     classes,
     errors,
@@ -16,6 +20,7 @@ function EditProfileUser(props) {
     touched,
     handleChange,
     handleBlur,
+    setFieldValue,
     handleSubmit
   } = props;
 
@@ -32,7 +37,6 @@ function EditProfileUser(props) {
 
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
-      {values.error && <p>{values.error}</p>}
       <div className={classes.gridBig}>
         <FormControl
           margin="normal"
@@ -78,34 +82,11 @@ function EditProfileUser(props) {
           value={values.description}
           name="description"
           onBlur={handleBlur}
-          error={touched.description && Boolean(errors.description)}
+          error={Boolean(errors.description)}
           onChange={handleChange}
           id="review"
         />
-        {/* <Input
-          name="description"
-          multiline
-          rowsMax="10"
-          className={classes.inputBig}
-          value={values.description}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.description && Boolean(errors.description)}
-        /> */}
       </div>
-
-      {/* <div className={classes.grid}>
-        <p>Мобильный телефон</p>
-        <Input
-          name="phone"
-          className={classes.input}
-          value={values.phone}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.phone && Boolean(errors.phone)}
-        />
-      </div> */}
-
       <p>Адрес</p>
       <div className={classes.gridBig}>
         <FormControl
@@ -140,7 +121,6 @@ function EditProfileUser(props) {
             error={isError("city")}
           />
         </FormControl>
-
         <FormControl
           margin="normal"
           required
@@ -158,12 +138,47 @@ function EditProfileUser(props) {
           />
         </FormControl>
       </div>
+      <div className="card-from card-from_blue-white">
+        <WorkPlan
+          setFieldValue={setFieldValue}
+          errors={errors.workPlan}
+          workPlan={values.workPlan}
+          touched={touched.workPlan}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+        />
+      </div>
+      <div className="card-from card-from_blue-white">
+        <ServiceForm
+          setFieldValue={setFieldValue}
+          errors={errors.services}
+          services={values.services}
+          touched={touched.services}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+        />
+      </div>
+      <div className="card-from card-from_blue-white">
+        <RoomsForm
+          setFieldValue={setFieldValue}
+          errors={errors.rooms}
+          values={values.rooms}
+          touched={touched.rooms}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+        />
+      </div>
       <Button
         fullWidth
         variant="contained"
         color="primary"
-        type="submit"
-        // className={classes.submit}
+        onClick={async () => {
+          await setFieldValue("actionName", "save");
+          handleSubmit();
+        }}
       >
         Сохранить
       </Button>
@@ -171,8 +186,8 @@ function EditProfileUser(props) {
   );
 }
 
-EditProfileUser.propTypes = {
+EditProfileCompany.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(EditProfileUser);
+export default withStyles(styles)(EditProfileCompany);

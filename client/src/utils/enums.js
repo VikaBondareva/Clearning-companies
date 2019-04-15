@@ -43,13 +43,13 @@ export const serviceTypes = [
 ];
 
 export const daysSelect = [
-  { _id: 1, name: "Понедельник" },
-  { _id: 2, name: "Вторник" },
-  { _id: 3, name: "Среда" },
-  { _id: 4, name: "Четверг" },
-  { _id: 5, name: "Пятница" },
-  { _id: 6, name: "Суббота" },
-  { _id: 7, name: "Воскресенье" }
+  { value: 0, name: "Понедельник" },
+  { value: 1, name: "Вторник" },
+  { value: 2, name: "Среда" },
+  { value: 3, name: "Четверг" },
+  { value: 4, name: "Пятница" },
+  { value: 5, name: "Суббота" },
+  { value: 6, name: "Воскресенье" }
 ];
 
 export const regularityTypes = [

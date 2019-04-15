@@ -13,7 +13,6 @@ export default function Profile(props) {
       return (
         <>
           <ProfileUser user={profile} />
-          <ButtonProfile role={props.profile.role} />
         </>
       );
     } else return <ProfileCompany company={profile} />;
@@ -21,7 +20,10 @@ export default function Profile(props) {
 
   return (
     <div className="main__section">
-      <p className="title_big title_bold">Профиль</p>
+      <div className="profile-buttons">
+        <p className="title_big title_bold">Профиль</p>
+        <ButtonProfile role={props.role} />
+      </div>
       <main>{renderProfile()}</main>
     </div>
   );

@@ -10,6 +10,21 @@ const {
 const StatusUser = require("../enums/status.user.enum");
 var mongoosePaginate = require("mongoose-paginate");
 
+const getStringTime = timeNumber => {
+  let str = timeNumber.toString();
+  const length = str.length;
+  let hours = "";
+
+  if (length === 3) {
+    hours = "0" + str.substring(0, 1);
+  } else {
+    hours = str.substring(0, 2);
+  }
+  let minutes = str.slice(-2);
+  let timeString = `${hours}:${minutes}`;
+  return timeString;
+};
+
 const schema = new mongoose.Schema(
   {
     // logoUrl: {type: String, required: true, get: v => `${root}${v}`},
@@ -23,7 +38,7 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 50,
-      maxlength: 1000
+      maxlength: 9999
     },
     address: {
       country: { type: String, require: true },
@@ -56,19 +71,25 @@ const schema = new mongoose.Schema(
         coefficient: { type: SchemaTypes.Double, required: true }
       }
     ],
-    workPlan: [
-      {
-        day: { type: String, require: true },
-        workHours: {
-          start: { type: String, require: true },
-          end: { type: String, require: true }
-        },
-        lunchHours: {
-          start: { type: String, require: true },
-          end: { type: String, require: true }
+    workPlan: {
+      type: [
+        {
+          day: { type: Number, required: true },
+          start: { type: Number, required: true, get: getStringTime },
+          end: { type: Number, required: true, get: getStringTime }
+          // day: { type: String, require: true },
+          // workHours: {
+          //   start: { type: String, require: true },
+          //   end: { type: String, require: true }
+          // },
+          // lunchHours: {
+          //   start: { type: String, require: true },
+          //   end: { type: String, require: true }
+          // }
         }
-      }
-    ],
+      ],
+      maxlength: 7
+    },
     price: { type: SchemaTypes.Double, required: true },
     role: { type: String, required: true, lowercase: true },
     status: { type: Number, required: true, default: StatusUser.notVerified },
@@ -124,6 +145,9 @@ schema.methods.comparePassword = function(candidatePassword) {
 };
 
 schema.set("toObject", {
+  getters: true,
+  setters: true,
+  virtuals: true,
   transform: function(doc, ret) {
     delete ret.__v;
   }

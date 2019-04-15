@@ -34,13 +34,8 @@ function MainInformationCompany(props) {
       <div key={i * 51 - i * 5}>
         <p>День: {day.day}</p>
         <p>
-          Рабочие часы: {day.workHours.start} - {day.workHours.end}
-        </p>
-        {day.lanchHours && (
-          <p>
-            Обед: {day.lanchHours.start} - {day.lanchHours.end}
+          Рабочие часы: {day.start} - {day.end}
           </p>
-        )}
       </div>
     );
   }

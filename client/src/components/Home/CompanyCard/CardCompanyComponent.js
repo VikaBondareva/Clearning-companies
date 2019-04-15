@@ -42,8 +42,7 @@ class CardCompanyComponent extends Component {
 
   renderWorkPlan(day){
     return (
-          <p  key={day._id}>{day.day}: {day.workHours.start} - {day.workHours.end}
-          {day.lanchHours && `Обед: ${day.lanchHours.start} - ${day.lanchHours.end}`}</p>
+          <p  key={day.day}>{day.day}: {day.start} - {day.end}</p>
     );
   }
 

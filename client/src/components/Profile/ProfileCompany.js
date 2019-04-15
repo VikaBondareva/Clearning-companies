@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from 'react-router-dom';
 import { withStyles } from "@material-ui/core/styles";
-import { ButtonLink } from "../common/buttons";
 import Table from "../common/table";
 
 export default function ProfileCompanyComponent(props) {
   const { classes, company } = props;
   const {
+    _id,
     name,
     description,
     email,
@@ -34,31 +35,34 @@ export default function ProfileCompanyComponent(props) {
                 Адрес: {address.country}, {address.city}, {address.other}
               </p>
             </div>
+            <div>
+              <Link to={`/companies/${_id}`}>Моя страница на сайте</Link>
+            </div>
           </div>
         </div>
         <div className="profile-basic__info-company">
           <p className="title_standart title_bold"> Описание:</p>
           <p> {description} </p>
         </div>
-        <ButtonLink
+        {/* <ButtonLink
           name="Редатировать профиль"
           to="/profile/edit"
           margin="left"
-          dark={true}
+          // dark={true}
         />
         <ButtonLink
           name="Сменить пароль"
-          dark={true}
+          // dark={true}
           to="/profile/edit/password"
-        />
+        /> */}
       </div>
       <section className="profile-basic">
         <Table rooms={rooms} services={services} />
-        <ButtonLink
+        {/* <ButtonLink
           name="Редатировать цены"
           to="/profile/edit/services"
           dark={true}
-        />
+        /> */}
       </section>
     </>
   );

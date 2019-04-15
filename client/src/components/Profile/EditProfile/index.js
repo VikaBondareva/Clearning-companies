@@ -20,7 +20,7 @@ export function EditProfilePage(props) {
 
   return (
     <div className="main__section-form">
-      <h3>Редактирование аккаунта</h3>
+      <h3 className="title_bold title_big">Редактирование аккаунта</h3>
       {renderProfileEdit()}
     </div>
   );
