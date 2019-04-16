@@ -1,50 +1,14 @@
 const authHelper = require("../../config/authHelper");
-const { mailVerifiedEmail } = require("../../config/email");
+const { mailVerifiedEmail, mailSendVerifyCode } = require("../../config/email");
 const emailService = require("../../services/email.service");
 const User = require("../../models").user;
 const Company = require("../../models").company;
 const Role = require("../../enums/roles.enum");
 const StatusUser = require("../../enums/status.user.enum");
 const { middlePriceForCompany } = require("../../config/pricingFunction");
-
-function updateToken(user) {
-  const accessToken = authHelper.generateAccessToken(user);
-  const refreshToken = authHelper.generateRefreshToken(user);
-  return {
-    accessToken,
-    refreshToken
-  };
-}
-
-async function activation(_id, role) {
-  let user;
-
-  if (role === Role.Customer || role === Role.Admin) {
-    user = await User.findByIdAndUpdate(
-      { _id },
-      { $set: { status: StatusUser.verified } }
-    );
-  } else if (role === Role.Executor) {
-    user = await Company.findByIdAndUpdate(
-      { _id },
-      { $set: { status: StatusUser.verified } }
-    );
-  } else {
-    throw "Not fount role";
-  }
-  if (user) {
-    const { accessToken, refreshToken } = updateToken(user);
-
-    const data = user.toObject();
-    return {
-      user: data,
-      tokens: {
-        accessToken,
-        refreshToken
-      }
-    };
-  } else return null;
-}
+const randToken = require("rand-token").generator({
+  chars: "0-9"
+});
 
 async function authenticate({ identifier, password }) {
   let data;
@@ -75,24 +39,6 @@ async function authenticate({ identifier, password }) {
   }
 }
 
-async function verifiedEmail({ _id, role, notVerifiedEmail }) {
-  let user;
-  if (role === Role.Customer || role === Role.Admin) {
-    user = await User.updateOne(
-      { _id },
-      { $set: { email: notVerifiedEmail }, $unset: { notVerifiedEmail } }
-    );
-    // } else if (role === Role.Executor) {
-    //   user = await Company.findByIdAndUpdate(
-    //     { _id },
-    //     { $set: { status: StatusUser.verified } }
-    //   );
-  } else {
-    throw "Not fount role";
-  }
-  if (!user) throw "Not fount user";
-}
-
 async function logout() {
   console.log("logout: service ");
 
@@ -100,27 +46,27 @@ async function logout() {
 }
 
 async function register(
-  { name, surname, password, email, phone, address, isNotify },
+  { name, surname, password, email, phone, address },
   role
 ) {
   try {
-    if (!phone && !email) throw "Enter email or phone";
+    var verificationCode = randToken.generate(6);
     const newUser = {
       name,
       surname,
+      verificationCode,
       password,
       role,
-      isNotify
+      email,
+      phone
     };
-    if (phone) newUser.phone = phone;
-    if (email) newUser.email = email;
     newUser.addresses = [address];
     const user = new User({ ...newUser });
     await user.save();
-    const token = authHelper.verifiedToken(user);
-    if (email) {
-      emailService.sendGMail(user.email, mailVerifiedEmail(user, token));
-    }
+    emailService.sendGMail(
+      user.email,
+      mailSendVerifyCode(user, verificationCode)
+    );
     return true;
   } catch (err) {
     throw err;
@@ -162,7 +108,7 @@ async function registerCompany({
 
 async function refreshToken(user) {
   console.log("service refresh token user id: " + user._id);
-  const { accessToken, refreshToken } = updateToken(user);
+  const { accessToken, refreshToken } = authHelper.updateToken(user);
 
   return {
     accessToken,
@@ -176,7 +122,7 @@ function authSocialNetwork(data) {
     data.status !== StatusUser.locked &&
     data.status !== StatusUser.notVerified
   ) {
-    const { accessToken, refreshToken } = updateToken(data);
+    const { accessToken, refreshToken } = authHelper.updateToken(data);
 
     return {
       accessToken,
@@ -195,8 +141,6 @@ module.exports = {
   logout,
   register,
   refreshToken,
-  activation,
   registerCompany,
-  authSocialNetwork,
-  verifiedEmail
+  authSocialNetwork
 };

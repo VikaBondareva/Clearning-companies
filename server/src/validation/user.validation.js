@@ -18,12 +18,9 @@ const schemas = {
     phone: Joi.string()
       .trim()
       .regex(PhoneNumber),
-    password: Joi.when("email" || "phone", {
-      is: Joi.string(),
-      then: Joi.string()
-        .required()
-        .regex(Password)
-    }),
+    password: Joi.string()
+      .required()
+      .regex(Password),
     isNotify: Joi.boolean().default(true)
   })
 };

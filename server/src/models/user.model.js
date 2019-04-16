@@ -26,6 +26,13 @@ const schema = new mongoose.Schema(
       trim: true,
       validate: emailValidator
     },
+    verificationCode: {
+      type: Number
+    },
+    attempts: {
+      type: Number,
+      default: 0
+    },
     phone: {
       type: String,
       trim: true,
@@ -110,6 +117,7 @@ schema.set("toObject", {
   transform: function(doc, ret) {
     delete ret.__v;
     delete ret.password;
+    delete ret.verificationCode;
   }
 });
 

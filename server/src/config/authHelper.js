@@ -3,6 +3,15 @@ const config = require("./environment");
 const uuid = require("uuid/v4");
 const Token = require("../models").token;
 
+function updateToken(user) {
+  const accessToken = generateAccessToken(user);
+  const refreshToken = generateRefreshToken(user);
+  return {
+    accessToken,
+    refreshToken
+  };
+}
+
 const generateAccessToken = ({ _id, role }) => {
   const token = jwt.sign(
     { id: _id, role, type: config.jwt.access.type },
@@ -50,5 +59,6 @@ const verifiedToken = ({ role, _id }) => {
 module.exports = {
   generateAccessToken,
   generateRefreshToken,
-  verifiedToken
+  verifiedToken,
+  updateToken
 };

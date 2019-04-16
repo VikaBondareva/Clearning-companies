@@ -10,6 +10,7 @@ router.get("/", (req, res) => {
 });
 
 router.use("/auth", require("./api/auth").router);
+router.use("/auth/confirm", require("./api/auth/confirm").router);
 router.use("/orders", require("./api/orders").router);
 router.use("/users", require("./api/users").router);
 router.use("/companies", require("./api/companies").router);

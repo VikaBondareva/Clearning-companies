@@ -10,5 +10,6 @@ router.delete("/:id", permit(Role.Customer), controller._delete);
 router.put("/:id/block", permit(Role.Admin), controller.blockById);
 
 router.put("/", permit([Role.Customer, Role.Admin]), controller.put);
+// router.put("/newVerificationCode",permit([Role.Customer, Role.Admin]), controller.newVerificationCode);
 
 module.exports = router;

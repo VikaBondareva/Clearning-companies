@@ -60,26 +60,6 @@ module.exports.refreshToken = (req, res, next) => {
     .catch(err => next(err));
 };
 
-module.exports.activation = (req, res, next) => {
-  authService
-    .activation(req.user._id, req.user.role)
-    .then(results =>
-      results
-        ? res.status(httpStatus.OK).json(results)
-        : res
-            .status(httpStatus.BAD_REQUEST)
-            .json({ success: false, message: "Invalid token" })
-    )
-    .catch(err => next(err));
-};
-
-module.exports.verifiedEmail = (req, res, next) => {
-  authService
-    .verifiedEmail(req.user)
-    .then(() => res.status(httpStatus.OK).json("success"))
-    .catch(err => next(err));
-};
-
 module.exports.getCurrent = (req, res, next) => {
   res.json(req.user);
 };

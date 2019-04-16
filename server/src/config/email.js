@@ -11,6 +11,19 @@ module.exports.mailVerifiedEmail = ({ name }, token) => {
   return { content, subject };
 };
 
+module.exports.mailSendVerifyCode = ({ name }, verificationCode) => {
+  const subject = "Verify Your E-mail Account";
+  const content = contentHtml(
+    subject,
+    name,
+    `Only one step left to register your Optunli account successfully,
+    Please click following link to activate your Optunli account:`,
+    null,
+    `Your verification code: ${verificationCode}`
+  );
+  return { content, subject };
+};
+
 module.exports.mailVerifiedNewEmail = ({ name }, token) => {
   const subject = "Verify Your new Email ";
   const content = contentHtml(
