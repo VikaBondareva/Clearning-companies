@@ -62,7 +62,7 @@ module.exports.refreshToken = (req, res, next) => {
 
 module.exports.activation = (req, res, next) => {
   authService
-    .activation(req.user._id, req.user.role, req.body.email)
+    .activation(req.user._id, req.user.role)
     .then(results =>
       results
         ? res.status(httpStatus.OK).json(results)
@@ -70,6 +70,13 @@ module.exports.activation = (req, res, next) => {
             .status(httpStatus.BAD_REQUEST)
             .json({ success: false, message: "Invalid token" })
     )
+    .catch(err => next(err));
+};
+
+module.exports.verifiedEmail = (req, res, next) => {
+  authService
+    .verifiedEmail(req.user)
+    .then(() => res.status(httpStatus.OK).json("success"))
     .catch(err => next(err));
 };
 

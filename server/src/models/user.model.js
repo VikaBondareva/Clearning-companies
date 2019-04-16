@@ -21,6 +21,11 @@ const schema = new mongoose.Schema(
       required: true,
       validate: emailValidator
     },
+    notVerifiedEmail: {
+      type: String,
+      trim: true,
+      validate: emailValidator
+    },
     phone: {
       type: String,
       trim: true,
@@ -104,6 +109,7 @@ schema.methods.sendSMS = function(message) {
 schema.set("toObject", {
   transform: function(doc, ret) {
     delete ret.__v;
+    delete ret.password;
   }
 });
 

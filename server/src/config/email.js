@@ -1,11 +1,23 @@
-module.exports.mailVerifiedEmail = ({ name, email }, token) => {
+module.exports.mailVerifiedEmail = ({ name }, token) => {
   const subject = "Verify Your E-mail Account";
   const content = contentHtml(
     subject,
     name,
     `Only one step left to register your Optunli account successfully,
     Please click following link to activate your Optunli account:`,
-    `${process.env.CLIENT_URL}/activation?token=${token}&email=${email}`,
+    `${process.env.CLIENT_URL}/activation?token=${token}`,
+    "Please be noted that the above link will expire in 8 hours"
+  );
+  return { content, subject };
+};
+
+module.exports.mailVerifiedNewEmail = ({ name }, token) => {
+  const subject = "Verify Your new Email ";
+  const content = contentHtml(
+    subject,
+    name,
+    `You changed mail. To confirm this email, click the link`,
+    `${process.env.CLIENT_URL}/verify?token=${token}`,
     "Please be noted that the above link will expire in 8 hours"
   );
   return { content, subject };

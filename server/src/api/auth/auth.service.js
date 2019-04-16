@@ -16,18 +16,18 @@ function updateToken(user) {
   };
 }
 
-async function activation(_id, role, email) {
+async function activation(_id, role) {
   let user;
 
   if (role === Role.Customer || role === Role.Admin) {
     user = await User.findByIdAndUpdate(
       { _id },
-      { $set: { status: StatusUser.verified, email } }
+      { $set: { status: StatusUser.verified } }
     );
   } else if (role === Role.Executor) {
     user = await Company.findByIdAndUpdate(
       { _id },
-      { $set: { status: StatusUser.verified, email } }
+      { $set: { status: StatusUser.verified } }
     );
   } else {
     throw "Not fount role";
@@ -73,6 +73,24 @@ async function authenticate({ identifier, password }) {
   } catch (err) {
     throw err;
   }
+}
+
+async function verifiedEmail({ _id, role, notVerifiedEmail }) {
+  let user;
+  if (role === Role.Customer || role === Role.Admin) {
+    user = await User.updateOne(
+      { _id },
+      { $set: { email: notVerifiedEmail }, $unset: { notVerifiedEmail } }
+    );
+    // } else if (role === Role.Executor) {
+    //   user = await Company.findByIdAndUpdate(
+    //     { _id },
+    //     { $set: { status: StatusUser.verified } }
+    //   );
+  } else {
+    throw "Not fount role";
+  }
+  if (!user) throw "Not fount user";
 }
 
 async function logout() {
@@ -179,5 +197,6 @@ module.exports = {
   refreshToken,
   activation,
   registerCompany,
-  authSocialNetwork
+  authSocialNetwork,
+  verifiedEmail
 };

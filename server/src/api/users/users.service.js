@@ -3,7 +3,7 @@ const Role = require("../../enums/roles.enum");
 const {
   mailForBlocked,
   mailForUnblocked,
-  mailVerifiedEmail
+  mailVerifiedNewEmail
 } = require("../../config/email");
 const emailService = require("../../services/email.service");
 const authHelper = require("../../config/authHelper");
@@ -36,7 +36,16 @@ async function update(
     if (!oldPassword) {
       user = await User.findByIdAndUpdate(
         _id,
-        { $set: { name, surname, addresses, isNotify, phone } },
+        {
+          $set: {
+            name,
+            surname,
+            addresses,
+            isNotify,
+            phone,
+            notVerifiedEmail: email
+          }
+        },
         { new: true }
       );
     } else {
@@ -55,11 +64,11 @@ async function update(
       });
     }
 
-    if (user.email !== email) {
+    if (user.notVerifiedEmail) {
       const token = authHelper.verifiedToken(user);
       await emailService.sendGMail(
         email,
-        mailVerifiedEmail(user.name, email, token)
+        mailVerifiedNewEmail(user.name, token)
       );
     }
   } catch (error) {

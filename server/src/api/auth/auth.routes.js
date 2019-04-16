@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const controller = require(`./auth.controller`);
 const permit = require("../../middleware/permission");
-const jwt = require("../../middleware/activation");
 const {
   authenticateGithub,
   authenticateGoogle,
@@ -28,6 +27,7 @@ router.post(
 router.get("/current", permit(), controller.getCurrent);
 router.post("/refresh-token", permit(), controller.refreshToken);
 router.post("/activation", permit(), controller.activation);
+router.put("/verify-email", permit(), controller.verifiedEmail);
 
 router.post("/github", authenticateGithub());
 router.get(
