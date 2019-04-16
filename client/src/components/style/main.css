@@ -3,9 +3,16 @@
     width: calc(100% - 100px);
 }
 .main__section-form{
-    margin-bottom: 20px;
-    margin-top: 10px;
+    margin: 0 0 50px;
+    width: calc(100% - 300px);
 }
+
+@media (max-width: 748px) {
+    .main__section-form{
+        width: calc(100% - 100px);
+    }
+  }
+  
 
 .info-company{
     display: flex;

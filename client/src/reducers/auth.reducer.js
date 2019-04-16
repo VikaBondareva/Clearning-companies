@@ -9,7 +9,8 @@ import {
   SAVE_COMPANY_REGISTER,
   EMAIL_CONFIRM_ERROR,
   SEND_EMAIL_DELETE,
-  SEND_EMAIL_SUCCESS
+  SEND_SUCCESS_EMAIL,
+  SAVE_EMAIL_STORE
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -66,6 +67,14 @@ function setNewUserState(state, payload) {
   };
 }
 
+function saveEmailStore(state, payload) {
+  return {
+    ...state,
+    email: payload.email,
+    isSendCode: true
+  };
+}
+
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case AUTH_REQUEST:
@@ -85,6 +94,8 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         isLoading: false
       };
+    case SAVE_EMAIL_STORE:
+      return saveEmailStore(state, payload);
     case REGISTER_SUCCESS:
       return {
         isAuthenticated: false,
@@ -99,7 +110,7 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         company: payload.company
       };
-    case SEND_EMAIL_SUCCESS:
+    case SEND_SUCCESS_EMAIL:
       return {
         ...state,
         isSendEmail: true

@@ -8,6 +8,10 @@
   margin-top: 4px;
   color: goldenrod;
 }
+.card-ratting {
+  display: flex;
+  align-items: baseline;
+}
 .stars:after {
   content: "☆☆☆☆☆";
 }

@@ -58,6 +58,7 @@ function ChangePasswordForm(props) {
             fullWidth
             variant="contained"
             color="primary"
+            className={classes.btnMarginTop}
           >
             Сменить пароль
           </Button>

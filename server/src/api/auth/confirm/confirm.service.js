@@ -15,7 +15,7 @@ async function activationCode({ verificationCode, email }) {
 
   if (user.verificationCode === verificationCode) {
     const attempts = user.attempts;
-    user = await User.findByIdAndUpdate(
+    user = await User.findOneAndUpdate(
       { email },
       {
         $set: { status: StatusUser.verified },

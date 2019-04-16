@@ -6,17 +6,17 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_ERROR,
   REGISTER_SUCCESS,
-  REGISTER_COMPANY_ERROR,
   SAVE_COMPANY_REGISTER,
   EMAIL_CONFIRM_ERROR,
   EMAIL_CONFIRM_REQUEST,
   EMAIL_CONFIRM_SUCCESS,
   SEND_EMAIL_DELETE,
-  SEND_EMAIL_SUCCESS,
+  SEND_SUCCESS_EMAIL,
+  SAVE_EMAIL_STORE
 } from "./actionTypes";
 import { AuthService } from "../services";
 import { storeToken,storeUser, clearToken } from "../utils/authentication";
-import { history } from "../utils";
+import { history, roles } from "../utils";
 import { makeActionCreator } from "./makeCreatorAction";
 import { push, goBack } from "connected-react-router";
 import { returnErrors, clearErrors } from "./errorActions";
@@ -39,9 +39,16 @@ export const deleteSendEmail = () => ({
   type: SEND_EMAIL_DELETE
 });
 
+export const saveEmailStore = email => ({
+  type: SAVE_EMAIL_STORE,
+  payload: {
+    email
+  }
+})
+
 
 //redax-thunk
-export function asyncLogin({ identifier, password }) {
+export function asyncLogin({ identifier, password },isExecutor) {
   return function(dispatch) {
     dispatch(makeActionCreator(AUTH_REQUEST));
     return AuthService.login({ identifier, password })
@@ -51,7 +58,7 @@ export function asyncLogin({ identifier, password }) {
         await storeUser(response.data.user);
         dispatch(loginSuccess(response.data.user));
         dispatch(clearErrors())
-        if (history.length > 0) {
+        if (history.length > 1) {
           dispatch(goBack());
         } else {
           dispatch(push("/profile"));
@@ -70,7 +77,9 @@ export function asyncLogin({ identifier, password }) {
           );
         } else {
           await dispatch(makeActionCreator(AUTH_ERROR));
-          await dispatch(makeActionCreator(SEND_EMAIL_SUCCESS));
+          if(isExecutor){
+            await dispatch(makeActionCreator(SEND_SUCCESS_EMAIL));
+          } else  await dispatch(saveEmailStore(identifier));
           dispatch(
             returnErrors(
               error.response.data.message,
@@ -83,14 +92,18 @@ export function asyncLogin({ identifier, password }) {
   };
 }
 
-export function asyncRegisterUser(user) {
+export function asyncRegisterUser(user, role) {
   return function(dispatch) {
     dispatch(makeActionCreator(AUTH_REQUEST));
-    return AuthService.registration(user)
+    return AuthService.registration(user, role)
       .then(() => {
         dispatch(makeActionCreator(REGISTER_SUCCESS));
         dispatch(clearErrors())
-        dispatch(makeActionCreator(SEND_EMAIL_SUCCESS));
+        if(role === roles.user) {
+          dispatch(saveEmailStore(user.email));
+        } else {
+           dispatch(makeActionCreator(SEND_SUCCESS_EMAIL));
+        }
       })
       .catch(error => {
         dispatch(makeActionCreator(AUTH_ERROR));
@@ -105,39 +118,15 @@ export function asyncRegisterUser(user) {
   };
 }
 
-export function asyncRegisterCompany(company) {
-  return function(dispatch) {
-    dispatch(makeActionCreator(AUTH_REQUEST));
-    return AuthService.registrationCompany(company)
-      .then(response => {
-        if (response.status === 201) {
-          dispatch(makeActionCreator(REGISTER_SUCCESS));
-          dispatch(clearErrors())
-          dispatch(makeActionCreator(SEND_EMAIL_SUCCESS));
-        }
-      })
-      .catch(error => {
-        dispatch(makeActionCreator(AUTH_ERROR));
-        dispatch(
-          returnErrors(
-            error.response.data.message,
-            error.response.status,
-            REGISTER_COMPANY_ERROR
-          )
-        );
-      });
-  };
-}
-
 export const asyncLogout = () => dispatch => {
   AuthService.logout();
   clearToken();
   dispatch(makeActionCreator(LOGOUT_SUCCESS));
 };
 
-export const asyncConfirmEmail = (token, email) => dispatch => {
+export const asyncConfirmEmail = ({token, email, verificationCode}, role) => dispatch => {
   dispatch(makeActionCreator(EMAIL_CONFIRM_REQUEST))
-  return AuthService.confirmEmail(token, email)
+  return AuthService.confirmEmail({token, email, verificationCode},role)
     .then(response => {
         storeToken(response.data.tokens);
         storeUser(response.data.user);
@@ -156,6 +145,25 @@ export const asyncConfirmEmail = (token, email) => dispatch => {
     });
 };
 
+export const asyncSendNewVerificationCode = email => dispatch => {
+  dispatch(makeActionCreator(EMAIL_CONFIRM_REQUEST))
+  return AuthService.createNewCode(email)
+    .then(response => {
+        dispatch(makeActionCreator(SEND_SUCCESS_EMAIL));
+        dispatch(makeActionCreator(EMAIL_CONFIRM_SUCCESS))
+    })
+    .catch(error => {
+      dispatch(makeActionCreator(EMAIL_CONFIRM_ERROR));
+      dispatch(
+        returnErrors(
+          error.response.data.message,
+          error.status,
+          EMAIL_CONFIRM_ERROR
+        )
+      );
+    });
+}
+
 export const asyncRefreshToken = () => dispatch => {
   dispatch(makeActionCreator("TOKEN_REFRESH_REQUEST"))
   return AuthService.refreshToken()
@@ -167,4 +175,4 @@ export const asyncRefreshToken = () => dispatch => {
     .catch(()=>{
       dispatch(makeActionCreator("TOKEN_REFRESH_ERROR"))
     })
-}
+};

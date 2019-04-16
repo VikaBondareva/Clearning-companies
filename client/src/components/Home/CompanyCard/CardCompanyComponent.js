@@ -64,12 +64,12 @@ class CardCompanyComponent extends Component {
                       Адрес:   {address.country}, {address.city}, {address.other && `${address.other }`}
                   </Typography>
               </Grid>
-              <Grid item>
+              <div className="card-ratting">
               {ratting}
                 <span className="stars stars--large">
                   <span style={{width: `${ratting/5.3*100}%`}} />
                 </span>
-              </Grid>
+              </div>
           </Grid>
           <CardContent>
             <div >

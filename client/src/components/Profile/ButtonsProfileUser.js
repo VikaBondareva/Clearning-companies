@@ -29,7 +29,11 @@ export default function ButtonsProfile({ role }) {
           to="/profile/edit"
         />
         <ButtonLink name="Заказы" margin="left" to="/profile/orders" />
-        <ButtonLink name="Отзывы" to="/profile/reviews" />
+        <ButtonLink
+          name="Сменить пароль"
+          // dark={true}
+          to="/profile/edit/password"
+        />
       </div>
     );
   }

@@ -1,7 +1,10 @@
 export const styles = theme => ({
   grid: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    [theme.breakpoints.down("xs")]: {
+      display: "block",
+    }
   },
   gridBig: {
     display: "flex",
@@ -14,16 +17,16 @@ export const styles = theme => ({
     width: "100%"
   },
   input: {
-    width: 350,
-    [theme.breakpoints.down("md")]: {
-      width: "calc(100% - 20px)"
-    }
-  },
-  inputText: {
     width: 350
+  },
+  btnMarginTop:{
+    margin: "15px 0"
   },
   inputTextAddress: {
     width: 280
+  },
+  inputProfile:{
+    width: 400
   },
   flex: {
     display: "flex"
@@ -48,5 +51,14 @@ export const styles = theme => ({
     },
     maxWidth: 700,
     minWidth: 700,
+  },
+  submitMain:{
+    [theme.breakpoints.down("xs")]: {
+      width: 350,
+    }
+  },
+  textError:{
+    fontWeight: 500,
+    color: "#a14400"
   }
 });

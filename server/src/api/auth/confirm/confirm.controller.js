@@ -27,7 +27,7 @@ module.exports.activationCode = (req, res, next) => {
     .catch(err => next(err));
 };
 
-module.exports.verifiedEmail = (req, res, next) => {
+module.exports.verifiedNewEmail = (req, res, next) => {
   service
     .verifiedEmail(req.user)
     .then(() => res.status(httpStatus.OK).json("success"))

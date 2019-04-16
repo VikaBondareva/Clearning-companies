@@ -19,7 +19,6 @@ export function getProfileSuccess(profile) {
     };
   }
   
-
 export function asyncGetCurrentProfile() {
   return function(dispatch) {
     return AuthService.getCurrentUser()

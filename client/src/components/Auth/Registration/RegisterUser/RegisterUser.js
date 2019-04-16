@@ -5,8 +5,10 @@ import RegisterUserFrom from './RegisterUserFrom'
 import PropTypes from 'prop-types';
 import loadingHOC from '../../../common/loading/loadingHOC';
 import AuthPage from '../../AuthPage';
+import { VerificationCode } from "../../../../containers/forms";
 
-export default function RegisterUser(props){
+export default function RegisterUser({registerUser,isSendCode, error }){
+
     return (
         <AuthPage 
             title='Зарегестрироваться в качетсве пользователя'
@@ -14,8 +16,7 @@ export default function RegisterUser(props){
             link='/login'
             size='big'
             isShowAuth={true}
-            error={props.error}
-            isSendEmail={props.isSendEmail}
+            error={error}
             nameAction='Войти.'
             otherRegisterLink="/register-company"
             otherRegisterText="Зарегестрироваться как компания">
@@ -33,10 +34,12 @@ export default function RegisterUser(props){
                 onSubmit={(values) => {
                     const { confirmPassword,...userWithoutConfPassword} = values;
                     const user  = getUser(userWithoutConfPassword);
-                    props.registerUser(user);
+                    registerUser(user);
                 }}
+                render={(props)=> <RegisterUserFrom {...props} isSendCode={isSendCode} />}
                 component= {RegisterUserFrom}
             />
+            {isSendCode && <VerificationCode />}
         </AuthPage>
     );
 }
@@ -53,7 +56,7 @@ function getUser(user){
 
 RegisterUser.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    isSendEmail: PropTypes.bool,
+    isSendCode: PropTypes.bool,
     registerUser: PropTypes.func.isRequired,
     error: PropTypes.string
   };

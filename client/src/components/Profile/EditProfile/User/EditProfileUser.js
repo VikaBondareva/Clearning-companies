@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import Input from "@material-ui/core/Input";
+import {Input, FilledInput} from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { ButtonLink } from "../../../common/buttons";
 import { styles } from "../styleEdit";
+import classNames from 'classnames';
 
 function EditProfileUser(props) {
   const {
@@ -22,7 +23,7 @@ function EditProfileUser(props) {
 
   const renderAddress = (address, i) => {
     return (
-      <div className={classes.inputText} key={i}>
+      <div className={classes.input} key={i}>
         <Input
           className={classes.inputTextAddress}
           onChange={handleChange}
@@ -77,7 +78,10 @@ function EditProfileUser(props) {
         />
       </div>
       <div className={classes.grid}>
-        <p>Email</p>
+          <p>Email</p>
+          
+        <div>
+        
         <Input
           name="email"
           className={classes.input}
@@ -86,6 +90,9 @@ function EditProfileUser(props) {
           value={values.email}
           error={touched.email && Boolean(errors.email)}
         />
+        {values.notVerifiedEmail && <p className={classes.textError}> Потдтвердите: {values.notVerifiedEmail}</p>}
+        </div>
+
       </div>
       <div className={classes.grid}>
         <p>Мобильный телефон</p>
@@ -105,7 +112,7 @@ function EditProfileUser(props) {
 
           <Button
             variant="contained"
-            className={classes.submit}
+            className={classNames(classes.submit,classes.input )}
             onClick={async () => {
               await setFieldValue("actionName", "addAddress");
               handleSubmit();
@@ -116,7 +123,7 @@ function EditProfileUser(props) {
         </div>
       </div>
       <div className={classes.flex}>
-        <p>Оповещать?</p>
+        <p>Вы хотите получать оповещания на Email?</p>
         <FormControlLabel
           control={
             <Switch
@@ -129,10 +136,6 @@ function EditProfileUser(props) {
           label={values.isNotify ? "Да" : "Нет"}
         />
       </div>
-      <div className={classes.grid}>
-        <p>Пароль</p>
-        <ButtonLink name="Сменить" to="/profile/edit/password" />
-      </div>
       <Button
         fullWidth
         variant="contained"
@@ -141,7 +144,7 @@ function EditProfileUser(props) {
           await setFieldValue("actionName", "save");
           handleSubmit();
         }}
-        className={classes.submit}
+        className={classes.submitMain}
       >
         Сохранить
       </Button>

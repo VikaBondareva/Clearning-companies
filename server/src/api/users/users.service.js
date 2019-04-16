@@ -42,15 +42,23 @@ async function update(
             surname,
             addresses,
             isNotify,
-            phone,
-            notVerifiedEmail: email
+            phone
           }
         },
         { new: true }
       );
+      if (user.email !== email) {
+        console.log(user.email !== email);
+        await User.updateOne({ _id }, { $set: { notVerifiedEmail: email } });
+        const token = authHelper.verifiedToken(user);
+        await emailService.sendGMail(
+          email,
+          mailVerifiedNewEmail(user.name, token)
+        );
+      }
     } else {
       user = await User.findById(_id)
-        .select("password email name")
+        .select("password")
         .exec();
 
       const success = await user.comparePassword(oldPassword);
@@ -62,14 +70,6 @@ async function update(
       await user.save(err => {
         if (err) throw err;
       });
-    }
-
-    if (user.notVerifiedEmail) {
-      const token = authHelper.verifiedToken(user);
-      await emailService.sendGMail(
-        email,
-        mailVerifiedNewEmail(user.name, token)
-      );
     }
   } catch (error) {
     throw error;

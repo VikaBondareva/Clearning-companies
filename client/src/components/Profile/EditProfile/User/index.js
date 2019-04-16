@@ -11,6 +11,7 @@ export function EditUser({ error,user,saveChanged }) {
     phone: user.phone,
     addresses: user.addresses,
     isNotify: user.isNotify,
+    notVerifiedEmail: user.notVerifiedEmail
   };
 
   return (

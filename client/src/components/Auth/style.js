@@ -1,3 +1,5 @@
+import green from '@material-ui/core/colors/green';
+
 const styles = theme => ({
     main: {
       width: 'auto',
@@ -36,6 +38,13 @@ const styles = theme => ({
     form: {
       width: '100%', // Fix IE 11 issue.
     },
+    formCode:{
+      width: '100%',
+      margin : "10px 0",
+    },
+    btnMargin: {
+      margin: "10px 5px"
+    },
     submit: {
       marginTop: theme.spacing.unit * 3,
     },
@@ -60,7 +69,14 @@ const styles = theme => ({
     },
     stepper: {
       background: theme.palette.secondary.light
-    }
+    },
+    root: {
+      color: green[600],
+      '&$checked': {
+        color: green[500],
+      },
+    },
+    checked: {},
   });
 
   export default styles;

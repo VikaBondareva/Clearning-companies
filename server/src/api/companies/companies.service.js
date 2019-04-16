@@ -36,7 +36,7 @@ async function getCompanies({
   query.status = StatusUser.verified;
   query["address.city"] = { $regex: city || "" };
   query.name = { $regex: name || "" };
-  query["services.name"] = { $all: services } || { $regex: "" };
+  query["services.name"] = services ? { $all: services } : { $regex: "" };
   query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 };
 
   const companies = await Company.paginate(query, options);
@@ -92,9 +92,17 @@ async function updateCompany(
         { $set: { name, description, address, services, workPlan, rooms } },
         { new: true }
       );
+      if (company.email !== email) {
+        Company.updateOne({ _id }, { $set: { notVerifiedEmail: email } });
+        const token = authHelper.verifiedToken(company);
+        await emailService.sendGMail(
+          email,
+          mailVerifiedNewEmail(company.name, token)
+        );
+      }
     } else {
       company = await Company.findById(_id)
-        .select("password email name")
+        .select("password")
         .exec();
 
       const success = await company.comparePassword(oldPassword);
@@ -104,14 +112,6 @@ async function updateCompany(
 
       company.password = newPassword;
       await company.save();
-    }
-
-    if (company.email !== email) {
-      const token = authHelper.verifiedToken(company);
-      await emailService.sendGMail(
-        email,
-        mailVerifiedEmail(company.name, email, token)
-      );
     }
   } catch (error) {
     throw error;
