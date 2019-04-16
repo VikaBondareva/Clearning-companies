@@ -28,7 +28,7 @@ const schema = new mongoose.Schema(
     days: [{ type: String, required: true }],
     date: [{ type: String, required: true }],
     startTime: { type: String, required: true },
-    services: [{ type: String, required: true }],
+    service: { type: String, required: true },
     countRooms: {
       toilet: { type: Number, required: true, default: 0 },
       standart: { type: Number, required: true, default: 0 },

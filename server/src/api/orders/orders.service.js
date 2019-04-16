@@ -13,7 +13,7 @@ async function createOrder(
   userID,
   {
     executor,
-    services,
+    service,
     address,
     date,
     days,
@@ -25,23 +25,26 @@ async function createOrder(
 ) {
   const company = await Company.findOne({
     _id: executor,
-    "services.name": { $in: services }
+    "services.name": service
   });
 
   if (!company) throw "Not found service in company";
 
-  console.log(company);
-  let price = 0,
-    cleanTime = 0;
-  for (let serviceId of services) {
-    const service = company.services.find(serv => serv.name === serviceId);
-    price += pricingPrice(company.rooms, countRooms, service.coefficient);
-    cleanTime += pricingTime(company.rooms, countRooms, service.coefficient);
-  }
+  const serviceCompany = company.services.find(serv => serv.name === service);
+  const price = pricingPrice(
+    company.rooms,
+    countRooms,
+    serviceCompany.coefficient
+  );
+  const cleanTime = pricingTime(
+    company.rooms,
+    countRooms,
+    serviceCompany.coefficient
+  );
   const order = new Order({
     customer: userID,
     executor,
-    services,
+    service,
     address,
     days,
     regularity,
@@ -64,7 +67,7 @@ async function createOrder(
   return true;
 }
 
-async function getOrders({ _id, role }, { page, perPage, status, services }) {
+async function getOrders({ _id, role }, { page, perPage, status, service }) {
   let selectCustomer = "name surname";
   if (role === Role.Executor) {
     selectCustomer = "name surname email phone";
@@ -74,14 +77,15 @@ async function getOrders({ _id, role }, { page, perPage, status, services }) {
     limit: parseInt(perPage, 10) || 10,
     populate: [
       { path: "customer", select: selectCustomer },
-      { path: "company", select: "name email" }
+      { path: "executor", select: "name email" }
     ],
     sort: "-created_at"
   };
   const query = {
     $or: [{ executor: _id }, { customer: _id }],
     status: status || { $regex: "" },
-    services: services || { $regex: "" }
+    service: service || { $regex: "" },
+    isDeleted: false
   };
   const orders = await Order.paginate(query, options);
   return orders;

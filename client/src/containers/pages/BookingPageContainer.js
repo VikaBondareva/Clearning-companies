@@ -6,7 +6,8 @@ const mapStateToProps = (state) => ({
     company: state.companies.company,
     userAddress: state.auth.profile? state.auth.profile.addresses : "",
     error: state.error.message,
-    isLoading: state.loading.COMPANY_LOAD,
+    order: state.orders.orderCreate || null,
+    isLoading: state.loading.COMPANY_LOAD || state.loading.ORDER_CREATE,
     isAuth: state.auth.isAuthenticated
 });
 

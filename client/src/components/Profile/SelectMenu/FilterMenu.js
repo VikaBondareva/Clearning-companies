@@ -10,7 +10,7 @@ export default function FilterMenu(props) {
     onChange,
   } = props;
   return (
-    <div>
+    < >
       <Select
         value={statusValue}
         name="Статус заказа"
@@ -24,6 +24,6 @@ export default function FilterMenu(props) {
         servicesTypes={servicesTypes}
         name="services"
       />
-    </div>
+    </>
   );
 }

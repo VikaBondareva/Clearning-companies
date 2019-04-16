@@ -36,7 +36,7 @@ async function getCompanies({
   query.status = StatusUser.verified;
   query["address.city"] = { $regex: city || "" };
   query.name = { $regex: name || "" };
-  query["services.name"] = services || { $regex: "" };
+  query["services.name"] = { $all: services } || { $regex: "" };
   query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 };
 
   const companies = await Company.paginate(query, options);

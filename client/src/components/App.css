@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 500px;
+  min-height: calc(100vh - 210px);
   margin: 0 200px;
   background: #fff;
 }
@@ -143,6 +143,9 @@ button.github:hover {
     padding: 20px;
     border: 1px solid;
     margin: 10px 0;
+}
+.card-form_flex{
+  display: flex;
 }
 .error-text{
   color:red;

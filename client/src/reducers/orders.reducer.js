@@ -17,6 +17,8 @@ import {
     switch (type) {
       case ORDER_SAVE_STORE:
         return addNewCreateOrder(state,payload);
+      case "ORDER_REMOVE_STORE": 
+        return removeCreateOrder(state);
       case ORDERS_LIST_LOADED_SUCCESS: 
         return addDocsOrders(payload);
       case ORDER_LOADED_SUCCESS: 
@@ -58,6 +60,11 @@ import {
     if(payload.lockMessage){
       state.order.lockMessage = payload.lockMessage;
     }
+    return state;
+  }
+
+  const removeCreateOrder = state => {
+    delete state.createOrder;
     return state;
   }
 

@@ -16,6 +16,7 @@ import {
 import { OrdersService } from "../services";
 import {makeActionCreator} from './makeCreatorAction';
 import { returnErrors } from "./errorActions";
+import { push } from "connected-react-router";
 
 export const saveOrderInStore = order => ({
   type: ORDER_SAVE_STORE,
@@ -63,7 +64,9 @@ export const asyncCreateOrder = date => dispatch => {
   return OrdersService.createOrder(date)
     .then(response => {
       console.log(response);
+      dispatch(makeActionCreator("ORDER_REMOVE_STORE"))
       dispatch(makeActionCreator(ORDER_CREATED_SUCCESS));
+      dispatch(push('/profile/orders'));
     })
     .catch(error => {
       dispatch(makeActionCreator(ORDER_CREATED_ERROR));
@@ -107,7 +110,17 @@ export const asyncChangeStatusOrder = (_id,status, lockMessage = null) => dispat
       dispatch(updateStatusOrderSuccess(status, lockMessage))
     })
     .catch((error)=>{
-      // console.log(error.response.data);
       dispatch(makeActionCreator(ORDER_UPDATED_STATUS_ERROR));
+    })
+}
+
+export const asyncDeleteOrder = id => dispatch => {
+  dispatch(makeActionCreator("ORDER_DELETE"));
+  OrdersService.deleteOrder(id)
+    .then((response)=>{
+      dispatch(asyncGetOrders());
+    })
+    .catch(error=>{
+      dispatch(asyncGetOrders());
     })
 }

@@ -18,5 +18,8 @@ export const OrdersService = {
   },
   getOrderById(id) {
     return Axios.get("/orders/" + id, { headers: authHeader() });
+  },
+  deleteOrder(id) {
+    return Axios.delete('/orders/'+id,  { headers: authHeader() });
   }
 };

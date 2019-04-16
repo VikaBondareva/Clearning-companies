@@ -4,33 +4,32 @@ export const roles = {
   executor: "executor"
 };
 
-
 export const orderStatusesEnum = {
   Canceled: "canceled",
   Confirmed: "confirmed",
   Made: "made",
   Pending: "pending"
-}
+};
 
 export const statusUsersEnum = {
   notVerified: 1,
   verified: 2,
   deleted: 3,
   locked: 4
-}
+};
 
-export const statusOrdersArray =[
-  {value: statusUsersEnum.Canceled, name: "Отказано"},
-  {value: statusUsersEnum.Pending, name: "Открытый"},
-  {value: statusUsersEnum.Confirmed, name: "Принят"},
-  {value: statusUsersEnum.Made, name: "Сделано"},
+export const statusOrdersArray = [
+  { value: orderStatusesEnum.Canceled, name: "Отказано" },
+  { value: orderStatusesEnum.Pending, name: "Открытый" },
+  { value: orderStatusesEnum.Confirmed, name: "Принят" },
+  { value: orderStatusesEnum.Made, name: "Сделано" }
 ];
 
 export const statusUsersArray = [
-  {value: statusUsersEnum.notVerified, name: "Email не подтвержден"},
-  {value: statusUsersEnum.verified, name: 'Активный'},
-  {value: statusUsersEnum.locked, name: 'Заблокирован'},
-]
+  { value: statusUsersEnum.notVerified, name: "Email не подтвержден" },
+  { value: statusUsersEnum.verified, name: "Активный" },
+  { value: statusUsersEnum.locked, name: "Заблокирован" }
+];
 
 export const serviceTypes = [
   { name: "Стандартная уборки помещения", _id: 11 },
@@ -59,48 +58,46 @@ export const regularityTypes = [
   { _id: 4, name: "Каждый месяц" }
 ];
 
-export const selectSort =[
-  {value: "", name: ""},
-  {value: "asc", name: "По возрастанию цены"},
-  {value: "desc", name: "По убиванию цены"},
-  {value: "ratting", name: "По популярности"}
+export const selectSort = [
+  { value: "", name: "" },
+  { value: "asc", name: "По возрастанию цены" },
+  { value: "desc", name: "По убиванию цены" },
+  { value: "ratting", name: "По популярности" }
 ];
 
-export const selectCountCard =[
-  {value: 10, name: 10},
-  {value: 20, name: 20},
-  {value: 25, name: 25},
-  {value: 30, name: 30},
-  {value: 40, name: 40},
+export const selectCountCard = [
+  { value: 10, name: 10 },
+  { value: 20, name: 20 },
+  { value: 25, name: 25 },
+  { value: 30, name: 30 },
+  { value: 40, name: 40 }
 ];
 
-export const selectCity =[
-  {value: "", name: "Все города"},
-  {value: "Могилев", name: "Могилев"},
-  {value: "Витебск", name: "Витебск"},
-  {value: "Гродно", name: "Гродно"},
-  {value: "Минcк", name: "Минcк"},
-  {value: "Гомель", name: "Гомель"},
-  {value: "Брест", name: "Брест"},
+export const selectCity = [
+  { value: "", name: "Все города" },
+  { value: "Могилев", name: "Могилев" },
+  { value: "Витебск", name: "Витебск" },
+  { value: "Гродно", name: "Гродно" },
+  { value: "Минcк", name: "Минcк" },
+  { value: "Гомель", name: "Гомель" },
+  { value: "Брест", name: "Брест" }
 ];
-
-
 
 export const getNameFormArray = (values, current, nameSearch) => {
-  const reg = values.filter(value=> value[nameSearch]=== current);
-  return reg[0].name;
-}  
+  const index = values.filter(value => value[nameSearch] === current);
+  if (index) {
+    return index[0].name;
+  }
+  return null;
+};
 
-export function preliminaryCalculation(rooms, countRooms, services) {
-  const result = services.reduce(
-    (res, service) => {
-      res.time += pricingTime(rooms, countRooms, service.coefficient);
-      res.price += pricingPrice(rooms, countRooms, service.coefficient);
-      return res;
-    },
-    { time: 0, price: 0 }
-  );
-  return result;
+export function preliminaryCalculation(rooms, countRooms, coefficient) {
+  const time = pricingTime(rooms, countRooms, coefficient);
+  const price = pricingPrice(rooms, countRooms, coefficient);
+  return {
+    time,
+    price
+  };
 }
 
 const pricingPrice = (rooms, countRooms, serviceCoeff) => {
