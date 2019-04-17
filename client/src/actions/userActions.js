@@ -40,11 +40,14 @@ export function asyncGetCurrentProfile() {
   };
 }
 
-export const asyncEditProfile = changedUser => dispatch => {
+export const asyncEditProfile = (changedUser,redirect)  => dispatch => {
   dispatch(makeActionCreator("USER_EDIT_REQUEST"));
   return UserService.editUser(changedUser)
     .then(response => {
       dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
+      if(redirect){
+        dispatch(push(redirect));
+      }
       dispatch(asyncGetCurrentProfile())
        dispatch(clearErrors());
     })
@@ -60,32 +63,14 @@ export const asyncEditProfile = changedUser => dispatch => {
     });
 };
 
-export const asyncChangePassword = changedUser => dispatch => {
-  dispatch(makeActionCreator("USER_EDIT_PASSWORD_REQUEST"));
-  return UserService.editUser(changedUser)
-    .then(response => {
-      dispatch(makeActionCreator("USER_EDIT_PASSWORD_SUCCESS"));
-      dispatch(asyncGetCurrentProfile())
-      dispatch(clearErrors());
-      dispatch(push('/profile'))
-    })
-    .catch((error) => {
-      dispatch(makeActionCreator("USER_EDIT_PASSWORD_ERROR"));
-      dispatch(
-        returnErrors(
-          error.response.data.message,
-          error.status,
-          "USER_EDIT_PASSWORD_ERROR"
-        )
-      );
-    });
-}
-
-export const asyncEditCompanyProfile = changedUser => dispatch => {
+export const asyncEditCompanyProfile = (changedUser, redirect, isLogo = false) => dispatch => {
   dispatch(makeActionCreator("USER_EDIT_REQUEST"));
-  return CompanyService.editCompany(changedUser)
+  return CompanyService.editCompany(changedUser,isLogo)
     .then(response => {
       dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
+      if(redirect){
+        dispatch(push(redirect));
+      }
       dispatch(asyncGetCurrentProfile())
        dispatch(clearErrors());
     })
@@ -100,24 +85,3 @@ export const asyncEditCompanyProfile = changedUser => dispatch => {
       );
     });
 };
-
-export const asyncChangeCompanyPassword = changedUser => dispatch => {
-  dispatch(makeActionCreator("USER_EDIT_PASSWORD_REQUEST"));
-  return CompanyService.editCompany(changedUser)
-    .then(response => {
-      dispatch(makeActionCreator("USER_EDIT_PASSWORD_SUCCESS"));
-      dispatch(asyncGetCurrentProfile())
-      dispatch(clearErrors());
-      dispatch(push('/profile'))
-    })
-    .catch((error) => {
-      dispatch(makeActionCreator("USER_EDIT_PASSWORD_ERROR"));
-      dispatch(
-        returnErrors(
-          error.response.data.message,
-          error.status,
-          "USER_EDIT_PASSWORD_ERROR"
-        )
-      );
-    });
-}

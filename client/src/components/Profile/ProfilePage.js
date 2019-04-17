@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ProfileCompany from "./ProfileCompany";
 import ProfileUser from "./ProfileUser";
-import ButtonProfile from "./ButtonsProfileUser";
 import PropTypes from "prop-types";
 import { roles } from "../../utils";
 import "../style/main.css";
@@ -20,10 +19,6 @@ export default function Profile(props) {
 
   return (
     <div className="main__section">
-      <div className="profile-buttons">
-        <p className="title_big title_bold">Профиль</p>
-        <ButtonProfile role={props.role} />
-      </div>
       <main>{renderProfile()}</main>
     </div>
   );

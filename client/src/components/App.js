@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import WithLayout from "./RouterWithLayout";
 import {
   LoginPage,
   RegistrationCompany,
@@ -17,10 +16,10 @@ import {
   ControlCompanies,
   EditProfile
 } from "../containers/pages";
-import {ChangePassword} from '../containers/forms';
+import { ChangePassword, UploadLogo } from "../containers/forms";
 import Home from "./Home/HomeComponent";
 import NotFound from "./NotFound/NotFound";
-import { PrivateRoute } from "./PrivateRoutes";
+import { PrivateRoute, WithLayout, ProfileWithLayout } from "./RoutesHOC";
 import { roles } from "../utils";
 
 export default class App extends React.Component {
@@ -42,14 +41,15 @@ export default class App extends React.Component {
           path="/profile"
           exact
           role={role}
-          component={WithLayout(Profile)}
+          component={ProfileWithLayout(Profile)}
           isAuth={isAuthenticated}
           pathUrl="/login"
         />
         <PrivateRoute
           path="/profile/edit"
           exact
-          component={WithLayout(EditProfile)}
+          role={role}
+          component={ProfileWithLayout(EditProfile)}
           isAuth={isAuthenticated}
           pathUrl="/login"
         />
@@ -60,36 +60,41 @@ export default class App extends React.Component {
           isAuth={isAuthenticated}
           pathUrl="/login"
         />
-        {/* {role !== roles.executor && (
+        {role && role !== roles.admin && (
           <PrivateRoute
-            path="/profile/edit/services"
+            path="/profile/orders"
             exact
             role={role}
-            component={WithLayout(ProfileEditServices)}
+            component={ProfileWithLayout(OrdersPage)}
             isAuth={isAuthenticated}
             pathUrl="/login"
           />
-        )} */}
-        <PrivateRoute
-          path="/profile/orders"
-          exact
-          role={role}
-          component={WithLayout(OrdersPage)}
-          isAuth={isAuthenticated}
-          pathUrl="/login"
-        />
-        <PrivateRoute
-          path="/profile/orders/:id"
-          role={role}
-          component={WithLayout(OrdersDetails)}
-          isAuth={isAuthenticated}
-          pathUrl="/login"
-        />
+        )}
+        {role === roles.executor && (
+          <PrivateRoute
+            path="/profile/orders/:id"
+            role={role}
+            component={ProfileWithLayout(OrdersDetails)}
+            isAuth={isAuthenticated}
+            pathUrl="/login"
+          />
+        )}
+        {role === roles.executor && (
+          <PrivateRoute
+            path="/profile/edit/logo"
+            role={role}
+            component={ProfileWithLayout(UploadLogo)}
+            isAuth={isAuthenticated}
+            pathUrl="/login"
+          />
+        )}
+
 
         {role === roles.admin && (
           <PrivateRoute
             path="/admin/users"
-            component={WithLayout(ControlUsers)}
+            role={role}
+            component={ProfileWithLayout(ControlUsers)}
             isAuth={isAuthenticated}
             pathUrl="/login"
           />
@@ -97,7 +102,8 @@ export default class App extends React.Component {
         {role === roles.admin && (
           <PrivateRoute
             path="/admin/companies"
-            component={WithLayout(ControlCompanies)}
+            role={role}
+            component={ProfileWithLayout(ControlCompanies)}
             isAuth={isAuthenticated}
             pathUrl="/login"
           />

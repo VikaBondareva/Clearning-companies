@@ -1,0 +1,46 @@
+.article{
+    background: #fafafa;
+    border-bottom: 0;
+    padding: 15px;
+}
+
+.image{
+    overflow: hidden;
+    height: 100px;
+    width: 100px;
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+}
+.img-logo{
+    display: block;
+    position: absolute;
+}
+.img-logo_default{
+ width: 140px;
+  left: -20px;
+}
+.img-logo_ulpoad{
+    width: 100px;
+    left: 0;
+}
+.header-card{
+  display: grid;
+  grid-template-columns: 1fr 0.35fr;
+}
+.review-body{
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
+}
+
+.wrap {
+  position: relative;
+  height: 265px;
+}
+.wrap__btns{
+  position: absolute;
+  bottom: 0;
+}
+.excerpt{
+  font-family: 'Muli', sans-serif;
+}

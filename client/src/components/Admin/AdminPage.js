@@ -6,7 +6,7 @@ import { querySearch } from "../../utils";
 import FiltersMenu from "./FilersMenuAdmin";
 import { Pagination } from "../common/pager";
 import { Loader } from "../common/loading";
-import Table from "./ControlsAdmin/TableUser";
+import Table from "./ControlsAdmin/TableUserComponent";
 
 class AdminPage extends Component {
   constructor(props) {
@@ -79,7 +79,7 @@ class AdminPage extends Component {
     const { page, pages, isLoading, docs, total, role } = this.props;
     const { status, message, messageLock } = this.state;
     return (
-      <section>
+      <section className="main__section section">
         <FiltersMenu
           onClick={this.handleClickFind}
           onChange={this.handleChange}

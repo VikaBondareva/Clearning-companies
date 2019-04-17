@@ -9,7 +9,9 @@
     border-bottom-color: #fff;
     padding: 2px 2px 3px 1px;
 }
-
+.nav-pagination{
+    width: fit-content;
+}
 .btn-page{
     margin: 0 4px;
     background: #69b9af;

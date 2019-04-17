@@ -7,6 +7,8 @@ import { Loader } from "../common/loading";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Table from "../common/table";
+import companyImg from '../../static/img/default-company.jpg';
+
 import './style.css'
 const styles = {
   card: {
@@ -26,6 +28,8 @@ function MainInformationCompany(props) {
     rooms,
     workPlan,
     services,
+    logoUrl,
+    logoName,
     description
   } = props.company;
 
@@ -39,11 +43,11 @@ function MainInformationCompany(props) {
       </div>
     );
   }
-
+const imgSrc = logoUrl || companyImg;
   return (
     <div>
       <div className="title-card">
-        <img width="150px" height="150px" atl="company" scr="./pec.png" />
+         <img width="150px" height="150px" src={imgSrc} alt={logoName || "not logo"} />
         <div className="title-card__article">
           <div className="title-card__ratting">
             <p className="company-text">{name}</p>

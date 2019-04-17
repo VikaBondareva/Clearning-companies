@@ -1,0 +1,149 @@
+ .section{
+   width: auto;
+ }
+
+ .table-users-img {
+  border-radius: 20%;
+  height: 60px;
+  width: 60px;
+}
+.table{
+  width:100%;
+}
+.table-users {
+    border: 1px solid #327a80; 
+    overflow: hidden;
+    width: 100%;
+}
+.table-users-th, .table-users-td {
+  color: #2b686d;
+  padding: 10px;
+}
+.table-users-td {
+  text-align: center;
+  vertical-align: middle;
+}
+.table-users-td:last-child {
+  font-size: 0.95em;
+  line-height: 1.4;
+  text-align: left;
+}
+.table-users-th{
+  background-color: #b3bdbd;
+}
+.table-users-tr:nth-child(2n) {
+  background-color: white;
+}
+.table-users-tr:nth-child(2n+1) {
+  background-color: #ecf7f8;
+}
+ @media (min-width: 1024px) and (max-width: 1096px) {
+   .table-users-th, .table-users-td{
+     padding: 10px 5px; 
+   }
+ }
+@media screen and (max-width: 890px) {
+  .table, .table-users-tr, .table-users-td {
+    display: block;
+  }
+ .table-users-td_logo:first-child {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px;
+  }
+  .table-users-td:not(:first-child) {
+    margin-left: 150px;
+    padding: 4px 10px 4px 120px;
+    position: relative;
+    text-align: left;
+  }
+.table-users-td_big{
+    height: 36px;
+  }
+  .td_name:before, .td_email:before, .td_phone:before,.td_status:before,.td_date:before {
+   color: #90ced4;
+    content: '';
+    display: block;
+    left: -50px;
+    position: absolute;
+  }
+  .td_name:before {
+    content: 'Name:';
+  }
+  .td_email:before {
+    content: 'Email:';
+  }
+  .td_phone:before {
+    content: 'Phone:';
+  }
+  .td_status:before {
+    content: 'Status:';
+  }
+  .td_date:before  {
+    content: 'Registration date:';
+  }
+  .table-users-tr {
+    padding: 10px 0;
+    position: relative;
+  }
+  .table-users-tr:first-child {
+    display: none;
+  }
+}
+@media screen and (max-width: 538px) {
+  .header {
+    background-color: transparent;
+    color: #feffff;
+    font-size: 2em;
+    font-weight: 700;
+    padding: 0;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+  .table-users-img {
+    border: 3px solid;
+    border-color: #daeff0;
+    height: 100px;
+    margin: 0.5rem 0;
+    width: 100px;
+  }
+  .table-users-td:first-child {
+    background-color: #c7e7e9;
+    border-bottom: 1px solid #90ced4;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    top: 0;
+    transform: translateY(0);
+    width: 100%;
+  }
+  .table-users-td:not(:first-child) {
+    margin: 0;
+    padding: 5px 1em;
+    width: 100%;
+  }
+  .table-users-td:not(:first-child):before {
+    font-size: 0.8em;
+    padding-top: 0.3em;
+    position: relative;
+    left: 0;
+  }
+  .table-users-td:last-child {
+    padding-bottom: 1rem !important;
+  }
+  .table-users-tr {
+    background-color: white !important;
+    border: 1px solid #6cbec5;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0;
+    padding: 0;
+  }
+  .table-users {
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .td_name:before {
+    content: none;
+  }
+}

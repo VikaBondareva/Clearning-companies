@@ -27,7 +27,8 @@ const getStringTime = timeNumber => {
 
 const schema = new mongoose.Schema(
   {
-    // logoUrl: {type: String, required: true, get: v => `${root}${v}`},
+    logoUrl: { type: String },
+    logoName: { type: String },
     name: {
       type: String,
       required: true,

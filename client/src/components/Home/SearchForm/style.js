@@ -54,7 +54,6 @@ const styles = theme => ({
       alignItems: "center",
       background: "white",
       border: "1px solid",
-      marginBottom: "10px",
       [theme.breakpoints.down("sm")]: {
         display: "block",
         width: 300

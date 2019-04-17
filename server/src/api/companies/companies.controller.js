@@ -23,11 +23,12 @@ module.exports.getById = async (req, res, next) => {
 };
 
 module.exports.put = async (req, res, next) => {
+  if (req.files) console.log(req.files);
   service
-    .updateCompany(req.user, req.body)
+    .updateCompany(req.user, req.files, req.body)
     .then(result => {
       !result
-        ? res.status(httpStatus.OK).json(result)
+        ? res.status(httpStatus.OK).json("success")
         : res.status(httpStatus.BAD_REQUEST).json({ message: result });
     })
     .catch(err => next(err));

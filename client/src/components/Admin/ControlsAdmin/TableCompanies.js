@@ -9,27 +9,27 @@ import {
   roles
 } from "../../../utils";
 
-export default function TableUsers({ list, total,renderButton }) {
+export default function TableCompanies({ list, total, renderButton }) {
   const renderTableUser = () => (
     <div>
       <p>
-         Пользователей {total}
+      Компаний {total}
       </p>
         <div class="table-users">  
             <table cellspacing="0" className="table">
                 <tr className="table-users-tr">
-                    <th className="table-users-th">Name Surname</th>
+                    <th className="table-users-th">Logo</th>
+                    <th className="table-users-th"> Name</th>
                     <th className="table-users-th">Email</th>
-                    <th className="table-users-th">Phone</th>
                     <th className="table-users-th">Status</th>
                     <th className="table-users-th" width="230">Registration date</th>
                     <th className="table-users-th" width="100">Action</th>
                 </tr>
                 {list.map(user => (
                 <tr  key={user._id}  className="table-users-tr">
-                    <td className="table-users-td td_name"> {user.name} {user.surname} </td>
+                    <td className="table-users-td"><img className="table-users-img" src="http://lorempixel.com/100/100/people/2" alt="" /></td>
+                    <td className="table-users-td td_name"> {user.name} </td>
                     <td className="table-users-td td_email">{user.email}</td>
-                    <td className="table-users-td td_phone">{user.phone || "Отсуствует"}</td>
                     <td className="table-users-td td_status"> {getNameFormArray(statusUsersArray, user.status, "value")}</td>
                     <td className="table-users-td td_date"> {new Date(user.created_at).toISOString().substring(0, 10)}</td>
                     <td className="table-users-td"> {renderButton(user.status, user._id, user.lockMessage || null)}</td>
@@ -43,8 +43,7 @@ export default function TableUsers({ list, total,renderButton }) {
   return renderTableUser();
 }
 
-TableUsers.propTypes = {
+TableCompanies.propTypes = {
   list: PropTypes.array.isRequired,
   total: PropTypes.string.isRequired,
-  role: PropTypes.number.isRequired
 };

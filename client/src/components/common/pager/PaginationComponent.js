@@ -21,7 +21,7 @@ function PaginationComponent (props){
             total={pages}
             current={page}
             visiblePages={5}
-            titles={{ first: 'Prev', last: "Next" }}
+            titles={{ first: '<<', last: ">>" }}
             className="pagination-sm pull-right"
             onPageChanged={handlePageChanged}
         />

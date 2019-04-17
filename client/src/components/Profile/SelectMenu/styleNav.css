@@ -1,0 +1,19 @@
+.navigation {
+    background: #52635e;
+    /* position: relative; */
+    width: 100%;
+    /* height: 50px; */
+    text-align: center;
+  }
+
+  .navigation a {
+    text-decoration: none;
+    color: #fcfff5;
+    /* width: 25%; */
+    padding: 12px 40px 20px;
+
+  }
+  
+  .nav-active {
+    background: #a2b8c7;
+  }

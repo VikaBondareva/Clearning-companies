@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import {
-  asyncChangePassword,
-  asyncChangeCompanyPassword
+  asyncEditProfile,
+  asyncEditCompanyProfile
 } from "../../actions/userActions";
 import {roles} from '../../utils'
 import { ChangePassword as ChangePasswordComponent } from "../../components/Profile/EditProfile/ChangePassword";
@@ -17,8 +17,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     changePassword: (passwords, role) => {
       if (role === roles.executor)
-        dispatch(asyncChangeCompanyPassword(passwords));
-      else dispatch(asyncChangePassword(passwords));
+        dispatch(asyncEditCompanyProfile(passwords));
+      else dispatch(asyncEditProfile(passwords));
     }
   };
 };

@@ -9,7 +9,7 @@ function OrderDetails ({order}) {
         )
     }
 
-    const {customer, address, services, countRooms, days, startTime,status, date, price, cleanTime, regularity} = order;
+    const {customer, address, service, countRooms, days, startTime,status, date, price, cleanTime, regularity} = order;
 
     return (
         <div>
@@ -19,7 +19,7 @@ function OrderDetails ({order}) {
             <p>Адрес уборки: {address} </p>
             <div>
                 <p>Тип уборки</p>
-                <p>{services.map(service=>`${service}, `)}</p>
+                <p>{service}</p>
             </div>
             <div>
                 <p>описание помещение</p>
