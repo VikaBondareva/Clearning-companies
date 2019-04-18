@@ -6,7 +6,7 @@ body {
  sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: url(/static/media/home_cleaner_header.3769afed.jpg) no-repeat fixed center;
+    background: url(./static/img/home_cleaner_header.jpg) no-repeat fixed center;
     height: 100%;
 }
 

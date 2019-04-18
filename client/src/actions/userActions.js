@@ -44,20 +44,18 @@ export const asyncEditProfile = (changedUser,redirect)  => dispatch => {
   dispatch(makeActionCreator("USER_EDIT_REQUEST"));
   return UserService.editUser(changedUser)
     .then(response => {
+      dispatch(getProfileSuccess(changedUser));
       dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
       if(redirect){
         dispatch(push(redirect));
       }
-      dispatch(asyncGetCurrentProfile())
        dispatch(clearErrors());
     })
     .catch((error) => {
       dispatch(makeActionCreator("USER_EDIT_ERROR"));
       dispatch(
         returnErrors(
-          error.response.data.message,
-          error.status,
-          "USER_EDIT_ERROR"
+          error.response.data.message
         )
       );
     });
@@ -67,20 +65,20 @@ export const asyncEditCompanyProfile = (changedUser, redirect, isLogo = false) =
   dispatch(makeActionCreator("USER_EDIT_REQUEST"));
   return CompanyService.editCompany(changedUser,isLogo)
     .then(response => {
+      if(!isLogo){
+        dispatch(getProfileSuccess(changedUser));
+      }
       dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
       if(redirect){
         dispatch(push(redirect));
       }
-      dispatch(asyncGetCurrentProfile())
        dispatch(clearErrors());
     })
     .catch((error) => {
       dispatch(makeActionCreator("USER_EDIT_ERROR"));
       dispatch(
         returnErrors(
-          error.response.data.message,
-          error.status,
-          "USER_EDIT_ERROR"
+          error.response.data.message
         )
       );
     });

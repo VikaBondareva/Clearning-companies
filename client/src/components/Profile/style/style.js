@@ -22,9 +22,11 @@ const styles = theme=>({
   table: {
     display: "flex",
     justifyContent: "space-between",
-    width: "calc(80% - 150px)",
     padding: "10px 30px 0 0",
-    fontFamily: "sans-serif"
+    fontFamily: "sans-serif",
+    [theme.breakpoints.down('xs')]: {
+      display: "block",
+    },
   },
   tableRowHover: {
     "&:hover": {
@@ -33,9 +35,6 @@ const styles = theme=>({
   },
   text: {
     borderBottom: "1px solid"
-  },
-  table: {
-    width: 700
   }
 });
 export default styles;

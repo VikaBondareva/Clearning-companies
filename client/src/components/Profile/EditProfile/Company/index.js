@@ -2,7 +2,7 @@ import { Formik } from "formik";
 import React from "react";
 import EditProfileSchemaValid from "./EditProfileSchemaValid";
 import EditProfileCompany from "./EditProfileCompany";
-import {replaceWorkPlanInNumber} from  '../../../../utils';
+// import {replaceWorkPlanInNumber} from  '../../../../utils';
 
 export function EditCompany({ error, company, saveChanged }) {
   return (
@@ -19,12 +19,12 @@ export function EditCompany({ error, company, saveChanged }) {
         const { error,actionName, removeIndex,removeIndexService,...profile } = values;
         console.log("submit, isNext : " +values.actionName+" index: ")
         if(actionName === "save") {
-          profile.workPlan = replaceWorkPlanInNumber(profile.workPlan);
+          // profile.workPlan = replaceWorkPlanInNumber(profile.workPlan);
           saveChanged(profile);
         }
         else if (actionName === "addDay") {
           console.log("add action");
-          values.workPlan.push({day: '', start: "7:00", end: "17:00"});
+          values.workPlan.push({day: '', start: "07:00", end: "17:00"});
           setValues(values);
         } else if (actionName === "deleteDay") {
           values.workPlan.pop(removeIndex);

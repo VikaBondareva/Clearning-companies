@@ -3,6 +3,12 @@
     margin: 20px 0;
 }
 
+@media (max-width: 550px) {
+    .title-card{
+        display: block;
+    }
+}
+
 .title-card__article{
     margin: 0 50px;
 }

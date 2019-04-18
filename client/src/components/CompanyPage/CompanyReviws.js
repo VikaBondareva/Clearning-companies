@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Review from "./Review/ReviewComponent";
-import { Loader } from "../common/loading";
+import loadingHOC from "../common/loading/loadingHOC";
 
 function CompanyReviewsComponent({ reviews, onClick }) {
-  const isShowButton = reviews && reviews.page !== reviews.pages ? true : false;
+  const isShowButton = reviews.page !== reviews.pages ? true : false;
 
   const renderReview = review => {
     return (
@@ -18,7 +18,7 @@ function CompanyReviewsComponent({ reviews, onClick }) {
       />
     );
   };
-  if (!reviews || (reviews && !reviews.docs) || reviews.docs.length ===0) {
+  if (reviews.total===0) {
     return <p>Нет отзывов</p>;
   }
   return (
@@ -44,4 +44,4 @@ CompanyReviewsComponent.propTypes = {
   isLoading: PropTypes.bool
 };
 
-export default CompanyReviewsComponent;
+export default loadingHOC("isLoading")(CompanyReviewsComponent);

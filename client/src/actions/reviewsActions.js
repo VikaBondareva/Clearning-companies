@@ -63,6 +63,6 @@ export const asyncCreateReview = ({ratting, reviewText, company, user}) => dispa
         })
         .catch((error)=> {
             dispatch(createdReviewError());
-            dispatch(returnErrors(error.response.data.message, error.status, REVIEW_CREATED_ERROR ));
+            dispatch(returnErrors(error.response.data.message));
         })
 }

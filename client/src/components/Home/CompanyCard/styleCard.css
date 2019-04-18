@@ -2,6 +2,7 @@
     background: #fafafa;
     border-bottom: 0;
     padding: 15px;
+    position: relative;
 }
 
 .image{
@@ -34,8 +35,8 @@
 }
 
 .wrap {
-  position: relative;
-  height: 265px;
+  height: auto;
+  margin-bottom: 40px;
 }
 .wrap__btns{
   position: absolute;
@@ -43,4 +44,5 @@
 }
 .excerpt{
   font-family: 'Muli', sans-serif;
+  margin-bottom: 0;
 }

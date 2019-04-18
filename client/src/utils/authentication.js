@@ -22,6 +22,11 @@ export const storeUser = user => {
   localStorage.setItem(USER_KEY, JSON.stringify(user));
 }
 
+export const storeTokenUser = (tokens, user) => {
+  storeToken(tokens);
+  storeUser(user);
+}
+
 export const clearToken = () => {
   localStorage.removeItem(AUTH_TOKE_KEY);
   localStorage.removeItem(USER_KEY);

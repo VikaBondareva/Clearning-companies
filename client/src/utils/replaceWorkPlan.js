@@ -12,19 +12,3 @@ export function replaceWorkPlanInNumber(workPlan){
 function replaceTime(time){
     return +time.replace(":", "");
   }
-
-// export function replaceWorkPlanInString(workPlan){
-//     var newWorkPlan = workPlan.map(dayWork=>{
-//       return {
-//         day: dayWork.day,
-//         start: replaceTimeStrng( dayWork.start),
-//         end: replaceTimeStrng( dayWork.end),
-//       }
-//     });
-//     return newWorkPlan;
-//   }
-
-// function replaceTimeStrng(time){
-//     return +time.replace(":", "");
-//   }
-

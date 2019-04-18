@@ -22,6 +22,7 @@
 .table-users-td {
   text-align: center;
   vertical-align: middle;
+  border-top: none !important;
 }
 .table-users-td:last-child {
   font-size: 0.95em;

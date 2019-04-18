@@ -12,10 +12,6 @@ export default class Footer extends React.Component {
           name: "Основное",
           items: [
             {
-              name: "О проекте",
-              href: "/contact"
-            },
-            {
               name: "Главная",
               href: "/"
             }
@@ -53,7 +49,6 @@ export default class Footer extends React.Component {
   render() {
     return (
         <footer className="footer root__footer">
-          <div className="logo footer__logo">Клининговые компании</div>
           <nav className="footer-nav">
             {this.state.menus.map(this.renderMenu)}
           </nav>

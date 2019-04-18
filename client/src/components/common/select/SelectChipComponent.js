@@ -27,12 +27,6 @@ const styles = theme => ({
     chip: {
         margin: theme.spacing.unit / 4,
     },
-    noLabel: {
-        marginTop: theme.spacing.unit * 3,
-    },
-    formBooking: {
-          margin: "10px 30px"
-    },
     inputLabel:{
           marginRight: 5,
           marginLeft: 5,
@@ -42,6 +36,13 @@ const styles = theme => ({
             minWidth: 200,
           },
     },
+    formControlSmall: {
+        maxWidth: 350,
+        width: 350
+    },
+    formControlBig: {
+        width: "100%"
+    }
 })
 
 function SelectChipComponent(props){
@@ -55,10 +56,10 @@ function SelectChipComponent(props){
         ))
     }
 
-    const {classes} = props;
-
+    const {classes, isSmall} = props;
+    const classFormControl = isSmall ? classes.formControlSmall : classes.formControlBig;
     return (
-        <FormControl margin="normal" fullWidth>
+        <FormControl margin="normal" className={classFormControl}>
             <InputLabel htmlFor={props.name}>Выберите услуги</InputLabel>
             <Select
                 multiple
@@ -67,9 +68,8 @@ function SelectChipComponent(props){
                 onChange={props.onChange}
                 renderValue={selected => (
                     <div className={classes.chips}>
-                    {selected.map(value => (
-                        <Chip key={value} label={value} className={classes.chip} />
-                    ))}
+                     <InputLabel  className={classes.chip} >{selected.map(value => value+"; ")}
+                        </InputLabel>
                     </div>
                 )}
                 MenuProps={MenuProps}

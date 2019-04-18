@@ -87,6 +87,14 @@ function HeaderComponent(props) {
               Редактировать
             </MenuItem>
           </Link>
+          <Link to="/profile/edit/password" className={classes.linkMenu}>
+            <MenuItem>
+              <IconButton color="inherit">
+                <Edit />
+              </IconButton>
+              Сменить пароль
+            </MenuItem>
+          </Link>
           {role !== roles.admin ? (
             <Link to="/profile/orders" className={classes.linkMenu}>
               <MenuItem>

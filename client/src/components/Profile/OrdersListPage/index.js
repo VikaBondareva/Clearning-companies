@@ -74,7 +74,6 @@ export class OrdersPageComponent extends Component {
     const { total, servicesCompany, isLoading, pages, page } = this.props;
     return (
       <div className="main__section">
-        <p className="title_big title_bold">Заказы</p>
         <div className="card-form_flex card-from_blue-white card-from">
           <FiltersMenu
             servicesTypes={servicesCompany}

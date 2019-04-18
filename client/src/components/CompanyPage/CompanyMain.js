@@ -1,25 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import { Redirect } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import { Loader } from "../common/loading";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import Table from "../common/table";
 import companyImg from '../../static/img/default-company.jpg';
-
+import {WorkPlanCompany} from '../common/company-forms';
 import './style.css'
-const styles = {
-  card: {
-    maxWidth: 480
-  },
-  logo: {
-    width: 200
-  }
-};
 
-function MainInformationCompany(props) {
+export default function MainInformationCompany(props) {
   const {
     name,
     email,
@@ -33,24 +19,14 @@ function MainInformationCompany(props) {
     description
   } = props.company;
 
-  function renderWorkPlan(day, i) {
-    return (
-      <div key={i * 51 - i * 5}>
-        <p>День: {day.day}</p>
-        <p>
-          Рабочие часы: {day.start} - {day.end}
-          </p>
-      </div>
-    );
-  }
 const imgSrc = logoUrl || companyImg;
   return (
     <div>
       <div className="title-card">
-         <img width="150px" height="150px" src={imgSrc} alt={logoName || "not logo"} />
+         <img width="150px" height="150px" src={imgSrc} alt={logoName} />
         <div className="title-card__article">
           <div className="title-card__ratting">
-            <p className="company-text">{name}</p>
+            <p className="title_big">{name}</p>
 
             <div>
               <span className="stars stars--large">
@@ -67,21 +43,18 @@ const imgSrc = logoUrl || companyImg;
       </div>
       <div className="article">
         <p>{description}</p>
+        <div>
+         <p className="title_big"> График работы </p>
+          <WorkPlanCompany workPlan={workPlan}/>
+        </div>
       </div>
       <div className="article">
         <Table rooms={rooms} services={services} />
-      </div>
-      <div>
-        График работы
-        {workPlan.map(renderWorkPlan)}
       </div>
     </div>
   );
 }
 
 MainInformationCompany.propTypes = {
-  classes: PropTypes.object.isRequired,
   company: PropTypes.object.isRequired
 };
-
-export default withStyles(styles)(MainInformationCompany);

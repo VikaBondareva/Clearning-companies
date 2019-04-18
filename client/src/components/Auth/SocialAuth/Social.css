@@ -9,11 +9,11 @@
     flex-flow: row;
 }
 .social-vk{
-    background-image: url('../../../img/vk-icon.png') ;
+    background-image: url('../../../static/img/vk-icon.png') ;
 }
 .social-google{
-    background-image: url('../../../img/google-icon.png');
+    background-image: url('../../../static/img/google-icon.png');
 }
 .social-github{
-    background-image:  url('../../../img/github-icon.png');
+    background-image:  url('../../../static/img/github-icon.png');
 }

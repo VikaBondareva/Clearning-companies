@@ -37,7 +37,6 @@ class CompanyPage extends Component {
     this.handleClickAddNewReview = this.handleClickAddNewReview.bind(this);
     this.renderButtons = this.renderButtons.bind(this);
     this.renderCompany = this.renderCompany.bind(this);
-    // this.renderError =this.renderError.bind(this);
   }
 
   componentDidMount() {
@@ -74,18 +73,14 @@ class CompanyPage extends Component {
         {this.renderButtons()}
         <div className={classes.reviewsSection}>
           {/* {this.props.isLoadingReviews ? (
+            <Loader isSmall={true} />
+          ) : ( */}
             <Reviews
               reviews={this.props.reviews}
+              isLoading={this.props.isLoadingReviews}
               onClick={this.handleClickShowReviews}
             />
-          ) : (
-            <Loader />
-          )} */}
-          <Reviews
-            reviews={this.props.reviews}
-            isLoading={this.props.isLoadingReviews}
-            onClick={this.handleClickShowReviews}
-          />
+          {/* )} */}
         </div>
       </div>
     );
@@ -93,7 +88,7 @@ class CompanyPage extends Component {
 
   renderButtons() {
     const { role, isAuthenticated } = this.props;
-    if (role !== roles.executor) {
+    if (!role || role === roles.user) {
       return (
         <>
           <Link to="/booking">
@@ -122,11 +117,6 @@ class CompanyPage extends Component {
     return null;
   }
 
-  // renderError(){
-  //   const {match: {params}} = this.props;
-  //   throw new Error("Not found "+params.id);
-  // }
-
   render() {
     const { company, classes, isLoadingCompany } = this.props;
     if (isLoadingCompany) {
@@ -142,11 +132,10 @@ class CompanyPage extends Component {
 
 CompanyPage.propTypes = {
   classes: PropTypes.object.isRequired,
-  company: PropTypes.object,
-  reviews: PropTypes.object,
+  company: PropTypes.object.isRequired,
+  reviews: PropTypes.object.isRequired,
   isLoadingCompany: PropTypes.bool.isRequired,
   isLoadingReviews: PropTypes.bool.isRequired,
-  userId: PropTypes.string,
   createReview: PropTypes.func.isRequired
 };
 

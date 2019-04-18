@@ -72,9 +72,7 @@ export const asyncCreateOrder = date => dispatch => {
       dispatch(makeActionCreator(ORDER_CREATED_ERROR));
       dispatch(
         returnErrors(
-          error.response.data.message,
-          error.status,
-          ORDER_CREATED_ERROR
+          error.response.data.message
         )
       );
     });

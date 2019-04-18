@@ -15,7 +15,7 @@ import {
   SAVE_EMAIL_STORE
 } from "./actionTypes";
 import { AuthService } from "../services";
-import { storeToken,storeUser, clearToken } from "../utils/authentication";
+import { storeTokenUser, clearToken } from "../utils/authentication";
 import { history, roles } from "../utils";
 import { makeActionCreator } from "./makeCreatorAction";
 import { push, goBack } from "connected-react-router";
@@ -54,15 +54,17 @@ export function asyncLogin({ identifier, password },isExecutor) {
     return AuthService.login({ identifier, password })
       .then(async response => {
         console.log(response.status);
-        await storeToken(response.data.tokens);
-        await storeUser(response.data.user);
+        await storeTokenUser(response.data.tokens,response.data.user);
         dispatch(loginSuccess(response.data.user));
+        if(response.data.user.role !== roles.admin){
+          dispatch(push("/profile/orders"));
+        } else dispatch(push("/profile"));
         dispatch(clearErrors())
-        if (history.length > 1) {
-          dispatch(goBack());
-        } else {
-          dispatch(push("/profile"));
-        }
+        // if (history.length > 1) {
+        //   dispatch(goBack());
+        // } else {
+        //   dispatch(push("/profile"));
+        // }
       })
       .catch(async error => {
         if (error.response.status === 400) {
@@ -70,9 +72,7 @@ export function asyncLogin({ identifier, password },isExecutor) {
           await dispatch(makeActionCreator(AUTH_ERROR));
           dispatch(
             returnErrors(
-              error.response.data.message,
-              error.response.status,
-              LOGIN_ERROR
+              error.response.data.message
             )
           );
         } else {
@@ -82,9 +82,7 @@ export function asyncLogin({ identifier, password },isExecutor) {
           } else  await dispatch(saveEmailStore(identifier));
           dispatch(
             returnErrors(
-              error.response.data.message,
-              error.response.status,
-              LOGIN_ERROR
+              error.response.data.message
             )
           );
         }
@@ -109,9 +107,7 @@ export function asyncRegisterUser(user, role) {
         dispatch(makeActionCreator(AUTH_ERROR));
         dispatch(
           returnErrors(
-            error.response.data.message,
-            error.response.status,
-            REGISTER_ERROR
+            error.response.data.message
           )
         );
       });
@@ -127,9 +123,8 @@ export const asyncLogout = () => dispatch => {
 export const asyncConfirmEmail = ({token, email, verificationCode}, role) => dispatch => {
   dispatch(makeActionCreator(EMAIL_CONFIRM_REQUEST))
   return AuthService.confirmEmail({token, email, verificationCode},role)
-    .then(response => {
-        storeToken(response.data.tokens);
-        storeUser(response.data.user);
+    .then(async response => {
+        await storeTokenUser(response.data.tokens,response.data.user);
         dispatch(makeActionCreator(EMAIL_CONFIRM_SUCCESS))
         dispatch(loginSuccess(response.data.user));
     })
@@ -137,9 +132,7 @@ export const asyncConfirmEmail = ({token, email, verificationCode}, role) => dis
       dispatch(makeActionCreator(EMAIL_CONFIRM_ERROR));
       dispatch(
         returnErrors(
-          error.response.data.message,
-          error.status,
-          EMAIL_CONFIRM_ERROR
+          error.response.data.message
         )
       );
     });
@@ -156,9 +149,7 @@ export const asyncSendNewVerificationCode = email => dispatch => {
       dispatch(makeActionCreator(EMAIL_CONFIRM_ERROR));
       dispatch(
         returnErrors(
-          error.response.data.message,
-          error.status,
-          EMAIL_CONFIRM_ERROR
+          error.response.data.message
         )
       );
     });
@@ -167,9 +158,8 @@ export const asyncSendNewVerificationCode = email => dispatch => {
 export const asyncRefreshToken = () => dispatch => {
   dispatch(makeActionCreator("TOKEN_REFRESH_REQUEST"))
   return AuthService.refreshToken()
-    .then((response)=> {
-      storeToken(response.data.tokens);
-      storeUser( response.data.user);
+    .then(async (response)=> {
+      await storeTokenUser(response.data.tokens,response.data.user);
       dispatch(makeActionCreator("TOKEN_REFRESH_SUCCESS"))
     })
     .catch(()=>{

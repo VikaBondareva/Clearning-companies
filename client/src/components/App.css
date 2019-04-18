@@ -148,6 +148,12 @@ button.github:hover {
 .card-form_flex{
   display: flex;
 }
+.mini-card-info{
+  width: 250px;
+  display: flex; 
+  height: 25px;
+  justify-content: space-between;
+}
 .error-text{
   color:red;
 }
@@ -166,8 +172,9 @@ button.github:hover {
 .title_bold{
   font-weight: 600;
 }
-
-
+.text-desc{
+  font-weight: 300;
+}
 @media (max-width: 1024px) {
   .main,
   .root__footer {
@@ -199,17 +206,12 @@ button.github:hover {
   }
 }
 
-@media (max-width: 748px) {
+@media (max-width: 550px) {
   .card-pass {
     width: 400px;
   }
 }
 
-@media (max-width: 528px) {
-  .card-pass {
-    width: 300px;
-  }
-}
 
 
 

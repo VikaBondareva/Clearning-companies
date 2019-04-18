@@ -15,10 +15,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    changePassword: (passwords, role) => {
+    changePassword: (user, role) => {
       if (role === roles.executor)
-        dispatch(asyncEditCompanyProfile(passwords));
-      else dispatch(asyncEditProfile(passwords));
+        dispatch(asyncEditCompanyProfile(user));
+      else dispatch(asyncEditProfile(user));
     }
   };
 };
