@@ -6,7 +6,6 @@ const {
   pnumberValidator,
   nameValidator
 } = require("../validation/model.validation");
-const { sendMessage } = require("../services/phone.service");
 const StatusUser = require("../enums/status.user.enum");
 var mongoosePaginate = require("mongoose-paginate");
 

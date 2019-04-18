@@ -3,6 +3,7 @@ const { mailVerifiedEmail, mailSendVerifyCode } = require("../../config/email");
 const emailService = require("../../services/email.service");
 const User = require("../../models").user;
 const Company = require("../../models").company;
+const WorkPlan = require("../../models").workPlan;
 const Role = require("../../enums/roles.enum");
 const StatusUser = require("../../enums/status.user.enum");
 const { middlePriceForCompany } = require("../../config/pricingFunction");
@@ -78,6 +79,7 @@ async function registerCompany({
   description,
   address,
   email,
+  workPlan,
   password,
   services,
   rooms
@@ -89,6 +91,7 @@ async function registerCompany({
       description,
       address,
       email,
+      workPlan,
       password,
       role: Role.Executor,
       services,

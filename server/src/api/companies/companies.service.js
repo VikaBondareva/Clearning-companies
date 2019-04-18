@@ -1,9 +1,5 @@
 const Company = require("../../models").company;
-const {
-  mailForBlocked,
-  mailForUnblocked,
-  mailVerifiedEmail
-} = require("../../config/email");
+const { mailForBlocked, mailForUnblocked } = require("../../config/email");
 const emailService = require("../../services/email.service");
 const authHelper = require("../../config/authHelper");
 const StatusUser = require("../../enums/status.user.enum");
@@ -16,6 +12,7 @@ async function getCompanies({
   maxPrice,
   minPrice,
   sort,
+  day,
   name,
   services
 }) {
@@ -37,6 +34,9 @@ async function getCompanies({
   query["address.city"] = { $regex: city || "" };
   query.name = { $regex: name || "" };
   query["services.name"] = services ? { $all: services } : { $regex: "" };
+  if (day) {
+    query["workPlan.day"] = day;
+  }
   query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 };
 
   const companies = await Company.paginate(query, options);
@@ -48,7 +48,7 @@ async function getCompaniesAdmin({ page, status }) {
   const options = {
     page: parseInt(page, 10) || 1,
     limit: 10,
-    select: "name email status lockMessage created_at"
+    select: "name email status lockMessage created_at logoUrl logoName"
   };
   const query = {
     status: status || [
