@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import {
   LoginPage,
   RegistrationCompany,
@@ -23,10 +23,16 @@ import { PrivateRoute, WithLayout, ProfileWithLayout } from "./RoutesHOC";
 import { roles } from "../utils";
 
 export default class App extends React.Component {
+
+  // renderMain=()=>{
+  //   return <Redirect to="/companies"/>
+  // }
+
   render() {
     const { isAuthenticated, role } = this.props;
     return (
       <Switch>
+        {/* <Route path='/' component={this.renderMain}/> */}
         <Route path="/companies" exact component={WithLayout(Home)} />
         <Route
           path="/companies/:id"

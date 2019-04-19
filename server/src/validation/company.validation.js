@@ -1,6 +1,5 @@
 const Joi = require("joi");
-const { Time, Password } = require("../enums/validies.enum");
-const Rooms = require("../enums/room.enum");
+const { Password } = require("../enums/validies.enum");
 const serviceTypes = require("../enums/serviceTypes.enum");
 
 const schemas = {
@@ -62,16 +61,6 @@ const schemas = {
         })
       })
     }).required(),
-    workPlan: Joi.array().items(
-      Joi.object({
-        day: Joi.number()
-          .required()
-          .max(7)
-          .min(0),
-        start: Joi.string().regex(Time),
-        end: Joi.string().regex(Time)
-      })
-    ),
     services: Joi.array()
       .items(
         Joi.object({
@@ -94,7 +83,6 @@ const schemas = {
     services: Joi.allow(Joi.string(), Joi.array().items(Joi.string())),
     day: Joi.number(),
     start: Joi.string()
-    // days: Joi.allow(Joi.number(), Joi.array().items(Joi.number()))
   }
 };
 

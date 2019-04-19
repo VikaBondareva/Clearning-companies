@@ -4,7 +4,6 @@ import {
   } from "./actionTypes";
 import { AuthService } from "../services";
 import { UserService } from "../services";
-import { CompanyService } from "../services";
 import { makeActionCreator } from "./makeCreatorAction";
 import { push} from "connected-react-router";
 import {clearToken, storeUser } from "../utils/authentication";
@@ -40,38 +39,15 @@ export function asyncGetCurrentProfile() {
   };
 }
 
-export const asyncEditProfile = (changedUser,redirect)  => dispatch => {
+export const asyncEditProfile = (changedUser,role,isLogo = false)  => dispatch => {
   dispatch(makeActionCreator("USER_EDIT_REQUEST"));
-  return UserService.editUser(changedUser)
-    .then(response => {
-      dispatch(getProfileSuccess(changedUser));
-      dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
-      if(redirect){
-        dispatch(push(redirect));
-      }
-       dispatch(clearErrors());
-    })
-    .catch((error) => {
-      dispatch(makeActionCreator("USER_EDIT_ERROR"));
-      dispatch(
-        returnErrors(
-          error.response.data.message
-        )
-      );
-    });
-};
-
-export const asyncEditCompanyProfile = (changedUser, redirect, isLogo = false) => dispatch => {
-  dispatch(makeActionCreator("USER_EDIT_REQUEST"));
-  return CompanyService.editCompany(changedUser,isLogo)
+  return UserService.editUser(changedUser,role,isLogo)
     .then(response => {
       if(!isLogo){
         dispatch(getProfileSuccess(changedUser));
+        dispatch(push('/profile'));
       }
       dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
-      if(redirect){
-        dispatch(push(redirect));
-      }
        dispatch(clearErrors());
     })
     .catch((error) => {

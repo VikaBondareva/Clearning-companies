@@ -9,7 +9,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Modal from "../common/modal/ModalComponent";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import SocialAuth from "./SocialAuth/SosialAuthComponent";
+import {Social} from "../../containers/auth";
 import { deleteSendEmail } from "../../actions/authActions";
 import styles from "./style";
 
@@ -50,8 +50,7 @@ function AuthPage(props) {
           {children}
           {isShowAuth ? (
             <div style={{ textAlign: "center" }}>
-              <p>Войти через социальные сети</p>
-              <SocialAuth />
+              <Social />
             </div>
           ) : null}
           <p>

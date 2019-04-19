@@ -8,9 +8,6 @@ export const CompanyService = {
   getCompanyById(id) {
     return Axios.get("/companies/" + id);
   },
-  deleteCompany(formData) {
-    return Axios.delete("/companies/" + formData.id, { headers: authHeader() });
-  },
   getCompaniesAdmin(queries) {
     return Axios.get("/companies/admin" + queries);
   },

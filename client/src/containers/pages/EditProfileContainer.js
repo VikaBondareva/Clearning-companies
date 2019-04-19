@@ -1,10 +1,8 @@
 import { connect } from "react-redux";
 import {
-  asyncEditProfile,
-  asyncEditCompanyProfile
+  asyncEditProfile
 } from "../../actions/userActions";
 import { EditProfilePage } from "../../components/Profile/EditProfile";
-import { roles } from "../../utils";
 
 const mapStateToProps = state => ({
   profile: state.auth.profile,
@@ -15,10 +13,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    saveChanges: (changedProfile, role) => {
-      if (role === roles.executor)
-        dispatch(asyncEditCompanyProfile({ ...changedProfile }));
-      else dispatch(asyncEditProfile({ ...changedProfile }));
+    saveChanges: (changedProfile, role,isLogo) => {
+      dispatch(asyncEditProfile(changedProfile, role,isLogo));
     }
   };
 };

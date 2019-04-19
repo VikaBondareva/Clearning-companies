@@ -1,63 +1,20 @@
-import React from 'react';
-// import io from 'socket.io-client';
-// import OAuth from './OAuth';
-import {AuthService} from '../../../services';
-import IconButton from '@material-ui/core/IconButton';
-import './Social.css';
-// const providers = ['google', 'github', 'vkontakte'];
-// const socket = io('https://localhost:7040')
+import React from "react";
+import { GoogleLogin } from "react-google-login";
+import "./Social.css";
 
-export default function Social(){
+export  function SocialComponent({authSocial}) {
+  const onFailure = (error) => {
+    alert(error);
+ };
 
-    const handleClickVk = () => {
-        AuthService.authVkonkte()
-            .then((res)=>{
-                localStorage.setItem("token", res.data);
-                console.log(res);
-            })
-            .catch((err)=>{
-                console.error(err);
-            })
-    }
-
-    const handleClickGoogle = () => {
-        AuthService.authGoogle()
-            .then((res)=>{
-                localStorage.setItem("token", res.data);
-                console.log(res);
-            })
-            .catch((err)=>{
-                console.error(err);
-            })
-    }
-
-    const handleClickGitHub = () => {
-        AuthService.authGitHub()
-            .then((res)=>{
-                localStorage.setItem("token", res.data);
-                console.log(res);
-            })
-            .catch((err)=>{
-                console.error(err);
-            })
-    }
-
-    // const buttons = (providers, socket) => {
-    //     providers.map(provider => 
-    //         <OAuth 
-    //             provider={provider}
-    //             key={provider}
-    //             // socket={socket}
-    //         />
-    //     )
-    // }
-
-    return(
-            <div className='social'>
-                {/* {buttons(providers, socket)} */}
-                <IconButton><a  className="img-social social-vk" onClick={handleClickVk}></a></IconButton>
-                <IconButton><a className="img-social social-google" onClick={handleClickGoogle}></a></IconButton>
-                <IconButton><a className="img-social social-github" onClick={handleClickGitHub}></a></IconButton>
-            </div>
-    );
+  return (
+    <div className="social">
+      <GoogleLogin
+        clientId={"263232388667-naii2nto8e34sv3bb7vsp8jf2h8jchbu.apps.googleusercontent.com"}
+        onSuccess={(response)=>authSocial("google", response)}
+        buttonText="Войти через Google"
+        onFailure={onFailure}
+      />
+    </div>
+  );
 }

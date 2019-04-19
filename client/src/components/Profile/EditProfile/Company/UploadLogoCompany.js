@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Progress } from "reactstrap";
 import { UploadFile } from "../../../common/card/upload-file-card";
-import { Button } from "@material-ui/core";
+import {roles} from '../../../../utils';
 
 export class UploadLogoCompany extends Component {
   constructor(props) {
@@ -45,7 +44,7 @@ export class UploadLogoCompany extends Component {
   onClickHandler = (event) => {
     event.preventDefault();
     const file = this.state.selectedFile;
-    this.props.saveChanges(file);
+    this.props.saveChanges(file,roles.executor,true);
   };
 
   render() {

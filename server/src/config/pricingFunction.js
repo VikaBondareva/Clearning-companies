@@ -35,22 +35,3 @@ module.exports.middleRatting = reviews => {
   const rat = Math.round((ratting / reviews.length) * 10) / 10;
   return rat;
 };
-
-module.exports.getStringTime = timeNumber => {
-  let hours;
-  console.log(timeNumber);
-
-  if (timeNumber.length === 3) {
-    hours = "0" + timeNumber.substring(0, 1);
-  } else {
-    hours = timeNumber.substring(0, 2);
-  }
-  let minutes = timeNumber.slice(-2);
-  let timeString = `${hours}:${minutes}`;
-  console.log(timeString);
-  return timeString;
-};
-
-module.exports.replaceTime = time => {
-  return +time.replace(":", "");
-};

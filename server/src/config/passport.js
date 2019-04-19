@@ -47,7 +47,6 @@ function googleStrategy() {
       {
         clientID: config.google.clientID,
         clientSecret: config.google.clientSecret
-        // callbackURL: `/api/auth/google/redirect`
       },
       (accessToken, refreshToken, profile, done) => {
         User.findOne({ googleId: profile.id }).then(user => {

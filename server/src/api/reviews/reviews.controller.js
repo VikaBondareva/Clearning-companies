@@ -8,13 +8,6 @@ module.exports.get = async (req, res, next) => {
     .catch(err => next(err));
 };
 
-module.exports.getById = (req, res, next) => {
-  service
-    .getByIdReview(req.params.id)
-    .then(data => res.status(httpStatus.OK).json(data))
-    .catch(err => next(err));
-};
-
 module.exports.getReviewsCompany = (req, res, next) => {
   service
     .getByIdReviewsCompany(req.params.id, req.query)

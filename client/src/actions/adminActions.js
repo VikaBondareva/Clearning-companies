@@ -1,7 +1,7 @@
 import {
   LIST_CONTROL_LOAD_REQUEST,
   LIST_CONTROL_LOADED_SUCCESS,
-  LIST_CONTROL_LOADED_ERROR
+  LIST_CONTROL_LOADED_ERROR,
 } from "./actionTypes";
 import { makeActionCreator } from "./makeCreatorAction";
 import { UserService, CompanyService } from "../services";
@@ -56,7 +56,7 @@ export const asyncChangeStatusCompany = (data, id) => dispatch => {
   return CompanyService.changeStatus(data, id)
     .then(() => {
       dispatch(makeActionCreator("USER_CHANGE_STATUS_SUCCESS"));
-      dispatch(asyncGetControlUsers(""));
+      dispatch(asyncGetControlCompanies(""));
     })
     .catch(() => {
       dispatch(makeActionCreator("USER_CHANGE_STATUS_ERROR"));

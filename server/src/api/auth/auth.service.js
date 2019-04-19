@@ -3,7 +3,6 @@ const { mailVerifiedEmail, mailSendVerifyCode } = require("../../config/email");
 const emailService = require("../../services/email.service");
 const User = require("../../models").user;
 const Company = require("../../models").company;
-const WorkPlan = require("../../models").workPlan;
 const Role = require("../../enums/roles.enum");
 const StatusUser = require("../../enums/status.user.enum");
 const { middlePriceForCompany } = require("../../config/pricingFunction");
@@ -25,21 +24,19 @@ async function authenticate({ identifier, password }) {
   }
 
   if (data === null) return false;
-
+  if (data.status !== StatusUser.verified) throw "Your account is blocking";
   let success = await data.comparePassword(password);
   if (success === false) return false;
 
   const user = data.toObject();
   try {
-    return authSocialNetwork(data);
+    return authSocialNetwork(user);
   } catch (err) {
     throw err;
   }
 }
 
 async function logout() {
-  console.log("logout: service ");
-
   return true;
 }
 
@@ -107,9 +104,7 @@ async function registerCompany({
 }
 
 async function refreshToken(user) {
-  console.log("service refresh token user id: " + user._id);
   const { accessToken, refreshToken } = authHelper.updateToken(user);
-
   return {
     accessToken,
     refreshToken
@@ -117,13 +112,11 @@ async function refreshToken(user) {
 }
 
 async function authSocialNetwork(data) {
-  console.log(data);
   if (
     data.status !== StatusUser.locked &&
     data.status !== StatusUser.notVerified
   ) {
     const { accessToken, refreshToken } = authHelper.updateToken(data);
-
     return {
       user: data,
       tokens: {
@@ -133,7 +126,6 @@ async function authSocialNetwork(data) {
     };
   } else {
     const token = authHelper.verifiedToken(data);
-    console.log(token);
     emailService.sendGMail(data.email, mailVerifiedEmail(data, token));
     throw new Error("Invalid activation");
   }

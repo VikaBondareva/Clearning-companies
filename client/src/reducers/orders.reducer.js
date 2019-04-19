@@ -67,26 +67,3 @@ import {
     delete state.createOrder;
     return state;
   }
-
-  // function orderReducer(orderState, {type, payload}){
-  //   switch (type) {
-  //     case ORDER_LOADED_SUCCESS:
-  //       return addOrder(payload)
-  //     default:
-  //       return orderState
-  // }
-
-  // function ordersDocsReducer(ordersDocsState, {type, payload}){
-  //   switch (type) {
-  //     case ORDERS_LIST_LOADED_SUCCESS:
-  //       return addDocsOrders(payload)
-  //     default:
-  //       return ordersDocsState
-  // }
-
-  // function ordersReducer(state = initialState, action){
-  //   return {
-  //     order: ordersReducer(state.order, action),
-  //     orders: ordersDocsReducer(state.orders, action)
-  //   }
-  // }

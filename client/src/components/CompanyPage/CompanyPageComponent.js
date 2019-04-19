@@ -72,15 +72,11 @@ class CompanyPage extends Component {
         <MainInformation company={this.props.company} />
         {this.renderButtons()}
         <div className={classes.reviewsSection}>
-          {/* {this.props.isLoadingReviews ? (
-            <Loader isSmall={true} />
-          ) : ( */}
             <Reviews
               reviews={this.props.reviews}
               isLoading={this.props.isLoadingReviews}
               onClick={this.handleClickShowReviews}
             />
-          {/* )} */}
         </div>
       </div>
     );

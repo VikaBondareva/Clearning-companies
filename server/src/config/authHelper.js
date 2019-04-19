@@ -31,7 +31,6 @@ const generateRefreshToken = ({ _id, role }) => {
   const token = jwt.sign(payload, config.jwt.secret, {
     expiresIn: config.jwt.refresh.expiration
   });
-  console.log("generateRefreshToken: " + token);
   Token.findOne({ userId: _id }, (err, data) => {
     if (data) {
       data.tokenId = tokenId;

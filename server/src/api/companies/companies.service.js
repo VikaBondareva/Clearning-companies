@@ -124,15 +124,6 @@ async function updateInformation(
   }
 }
 
-async function deleteCompany(_id) {
-  try {
-    Company.findByIdAndUpdate(_id, { $set: { status: StatusUser.deleted } });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 async function blockCompany({ message, block }, _id) {
   if (block) {
     const company = await Company.findByIdAndUpdate(_id, {
@@ -155,7 +146,6 @@ module.exports = {
   getCompanies,
   getByIdCompany,
   updateCompany,
-  deleteCompany,
   blockCompany,
   getCompaniesAdmin
 };

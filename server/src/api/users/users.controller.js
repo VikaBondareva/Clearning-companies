@@ -24,17 +24,6 @@ module.exports.put = async (req, res, next) => {
     .catch(err => next(err));
 };
 
-module.exports._delete = async (req, res, next) => {
-  service
-    .deleteUser(req.params.id, req.body)
-    .then(result => {
-      result
-        ? res.status(httpStatus.OK).json("Ok")
-        : res.status(httpStatus.BAD_REQUEST).json("Bad request");
-    })
-    .catch(err => next(err));
-};
-
 module.exports.blockById = (req, res, next) => {
   service
     .blockUser(req.body, req.params.id)

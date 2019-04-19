@@ -54,13 +54,6 @@ async function getByIdReviewsCompany(_id, { page }) {
   return reviews;
 }
 
-async function getByIdReview(_id) {
-  return await Review.findById(_id)
-    .populate({ path: "customer", select: "name surname email phone" })
-    .populate({ path: "company", select: "name email" })
-    .exec();
-}
-
 async function updateReview(_id, customer, { ratting, reviewText }) {
   console.log(ratting);
   try {
@@ -84,6 +77,5 @@ module.exports = {
   getReviews,
   updateReview,
   deleteReview,
-  getByIdReview,
   getByIdReviewsCompany
 };

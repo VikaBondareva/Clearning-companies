@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import {
-  asyncEditCompanyProfile
+  asyncEditProfile
 } from "../../actions/userActions";
 import { UploadLogoCompany } from "../../components/Profile/EditProfile/Company/UploadLogoCompany";
+import {roles} from '../../utils'
 
 const mapStateToProps = state => ({
   company: state.auth.profile,
@@ -12,7 +13,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     saveChanges: (logo) => {
-        dispatch(asyncEditCompanyProfile(logo , '/profile', true));
+        dispatch(asyncEditProfile(logo, roles.executor, true));
     }
   };
 };

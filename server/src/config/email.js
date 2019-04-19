@@ -1,3 +1,5 @@
+const clientUrl = require("../config/environment").clientUrl;
+
 module.exports.mailVerifiedEmail = ({ name }, token) => {
   const subject = "Verify Your E-mail Account";
   const content = contentHtml(
@@ -5,7 +7,7 @@ module.exports.mailVerifiedEmail = ({ name }, token) => {
     name,
     `Only one step left to register your Optunli account successfully,
     Please click following link to activate your Optunli account:`,
-    `${process.env.CLIENT_URL}/activation?token=${token}`,
+    `${clientUrl}/activation?token=${token}`,
     "Please be noted that the above link will expire in 8 hours"
   );
   return { content, subject };
@@ -30,7 +32,7 @@ module.exports.mailVerifiedNewEmail = ({ name }, token) => {
     subject,
     name,
     `You changed mail. To confirm this email, click the link`,
-    `${process.env.CLIENT_URL}/verify?token=${token}`,
+    `${clientUrl}/verify?token=${token}`,
     "Please be noted that the above link will expire in 8 hours"
   );
   return { content, subject };
@@ -57,7 +59,7 @@ module.exports.mailForChangeStatus = (orderId, status, message = null) => {
     subject,
     null,
     `${cause}\nПерейдите по ссылке, чтобы посмотреть`,
-    ` ${process.env.CLIENT_URL}/profile/orders/?status=${status}`
+    ` ${clientUrl}/profile/orders/?status=${status}`
   );
   return { content, subject };
 };
@@ -69,7 +71,7 @@ module.exports.mailForUnblocked = (name, message = null) => {
     subject,
     name,
     `Ваш профиль разблокировали\n Перейдите по ссылке, чтобы посмотреть`,
-    `${process.env.CLIENT_URL}/profile`
+    `${clientUrl}/profile`
   );
 
   return { content, subject };
@@ -81,7 +83,7 @@ module.exports.mailForBlocked = (name, message) => {
     subject,
     name,
     ` Ваш профиль заблокировали по следующей причине: ${message}`,
-    `${process.env.CLIENT_URL}/profile`
+    `${clientUrl}/profile`
   );
   return { content, subject };
 };
@@ -92,7 +94,7 @@ module.exports.mailForCreateOrder = (name, orderId) => {
     subject,
     name,
     `У вас новый заказ. Перейтиде по ссылке что бы посмотреть`,
-    `${process.env.CLIENT_URL}/profile/orders?status=pending`
+    `${clientUrl}/profile/orders?status=pending`
   );
   return { content, subject };
 };
