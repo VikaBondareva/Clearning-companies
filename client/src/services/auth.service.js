@@ -22,18 +22,11 @@ export const AuthService = {
     changeEmail(){
         return Axios.put('/auth/confirm', {headers: authRefreshHeader()})
     },
-    authVkonkte(){
-        return Axios.post('/auth/vkontakte')
+    authSocial(provider, response){
+        if(provider==="google"){
+            return Axios.post('/auth/google',{access_token: response.accessToken} )
+        }
     },
-    authGoogle(){
-        return Axios.post('/auth/google')
-    },
-    authGitHub(){
-        return Axios.post('/auth/github')
-    },
-    // registrationCompany(formData) {
-    //     return Axios.post('/auth/register/company',formData )
-    // },
     login(formData) {
         return Axios.post('/auth/login',formData )
     },

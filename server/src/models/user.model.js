@@ -35,16 +35,12 @@ const schema = new mongoose.Schema(
     phone: {
       type: String,
       trim: true,
-      unique: true,
-      required: true,
       validate: pnumberValidator
     },
     password: { type: String, select: false, validate: passwordValidator },
     addresses: [{ type: String, required: true }],
     status: { type: Number, required: true, default: StatusUser.notVerified },
-    githubId: { type: String },
     googleId: { type: String },
-    vkontakteId: { type: String },
     role: { type: String, required: true, lowercase: true },
     isNotify: { type: Boolean, required: true, default: false },
     lockMessage: { type: String }
@@ -56,7 +52,7 @@ const schema = new mongoose.Schema(
 
 ////hashing a password before saving it to the database
 schema.pre("save", function(next) {
-  if (!this.githubId && !this.googleId && !this.vkontakteId && !this.password) {
+  if (!this.googleId && !this.password) {
     next(new Error("Need password"));
   }
   bcrypt.hash(this.password, 10, (err, hash) => {
@@ -66,7 +62,7 @@ schema.pre("save", function(next) {
 });
 
 schema.pre("update", function(next) {
-  if (!this.githubId && !this.googleId && !this.vkontakteId && !this.password) {
+  if (!this.googleId && !this.password) {
     next(new Error("Need password"));
   }
   bcrypt.hash(this.password, 10, (err, hash) => {
@@ -79,12 +75,7 @@ schema.post("save", function(error, doc, next) {
   if (error.name === "MongoError" && error.code === 11000) {
     console.log(error);
     next(new Error("Пользователь уже существует"));
-  } else if (
-    !doc.githubId &&
-    !doc.googleId &&
-    !doc.vkontakteId &&
-    !doc.password
-  ) {
+  } else if (!doc.googleId && !doc.password) {
     next(new Error("Need password"));
   } else {
     next(error);

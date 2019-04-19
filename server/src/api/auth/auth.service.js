@@ -31,10 +31,7 @@ async function authenticate({ identifier, password }) {
 
   const user = data.toObject();
   try {
-    return {
-      user,
-      tokens: authSocialNetwork(data)
-    };
+    return authSocialNetwork(data);
   } catch (err) {
     throw err;
   }
@@ -119,7 +116,7 @@ async function refreshToken(user) {
   };
 }
 
-function authSocialNetwork(data) {
+async function authSocialNetwork(data) {
   console.log(data);
   if (
     data.status !== StatusUser.locked &&
@@ -128,8 +125,11 @@ function authSocialNetwork(data) {
     const { accessToken, refreshToken } = authHelper.updateToken(data);
 
     return {
-      accessToken,
-      refreshToken
+      user: data,
+      tokens: {
+        accessToken,
+        refreshToken
+      }
     };
   } else {
     const token = authHelper.verifiedToken(data);
