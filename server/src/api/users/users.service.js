@@ -5,7 +5,6 @@ const {
   mailForUnblocked,
   mailVerifiedNewEmail
 } = require("../../config/email");
-const emailService = require("../../services/email.service");
 const authHelper = require("../../config/authHelper");
 const StatusUser = require("../../enums/status.user.enum");
 
@@ -51,10 +50,7 @@ async function update(
         console.log(user.email !== email);
         await User.updateOne({ _id }, { $set: { notVerifiedEmail: email } });
         const token = authHelper.verifiedToken(user);
-        await emailService.sendGMail(
-          email,
-          mailVerifiedNewEmail(user.name, token)
-        );
+        await user.sendMailMessage(mailVerifiedNewEmail(user.name, token));
       }
     } else {
       user = await User.findById(_id)
@@ -81,14 +77,12 @@ async function blockUser({ message, block }, _id) {
     const user = await User.findByIdAndUpdate(_id, {
       $set: { status: StatusUser.locked, lockMessage: `${message}` }
     });
-    if (user.isNotify)
-      emailService.sendGMail(user.email, mailForBlocked(user.name, message));
+    await user.sendMailMessage(mailForBlocked(user.name, message));
   } else {
     const user = await User.findByIdAndUpdate(_id, {
       $set: { status: StatusUser.verified }
     });
-    if (user.isNotify)
-      emailService.sendGMail(user.email, mailForUnblocked(user.name));
+    await user.sendMailMessage(mailForUnblocked(user.name));
   }
   return true;
 }

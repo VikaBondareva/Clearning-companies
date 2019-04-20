@@ -2,7 +2,6 @@ const Order = require("../../models").order;
 const Status = require("../../enums/status.enum");
 const Company = require("../../models").company;
 const Role = require("../../enums/roles.enum");
-const emailService = require("../../services/email.service");
 const {
   mailForChangeStatus,
   mailForCreateOrder
@@ -59,10 +58,7 @@ async function createOrder(
   await order.save((err, data) => {
     if (err) throw err;
 
-    emailService.sendGMail(
-      company.email,
-      mailForCreateOrder(company.name, order._id)
-    );
+    company.sendMailMessage(mailForCreateOrder(company.name, order._id));
   });
   return true;
 }
@@ -83,7 +79,9 @@ async function getOrders({ _id, role }, { page, perPage, status, service }) {
   };
   const query = {
     $or: [{ executor: _id }, { customer: _id }],
-    status: status || { $regex: "" },
+    status: status || {
+      $all: [Status.Canceled, Status.Confirmed, Status.Pending, Status.Made]
+    },
     service: service || { $regex: "" },
     isDeleted: false
   };
@@ -99,8 +97,12 @@ async function getByIdOrder(orderId, userId, role) {
       { _id: orderId, customer: userId },
       { _id: orderId, executor: userId }
     ]
-  });
-  //  .populate("customer").select("name surname email phone");
+  })
+    .populate("customer")
+    .select(selectCustomer)
+    .populate("executer")
+    .select(selectExecutor)
+    .exec();
   return order;
 }
 
@@ -111,6 +113,7 @@ async function changeStatus(executor, orderId, { status, lockMessage = null }) {
   console.log(order);
   console.log(status);
   if (!order) throw "Not found order";
+  if (order.status === Status.Deleted) throw "Your order is deleted";
   if (order.status === Status.Pending) {
     if (status !== Status.Canceled && status !== Status.Confirmed)
       throw "Need canceled or confirmed";
@@ -125,16 +128,15 @@ async function changeStatus(executor, orderId, { status, lockMessage = null }) {
   if (status === Status.Canceled) {
     order.lockMessage = lockMessage;
   }
+  // if(order.updated_at){
+  //   delete order.updated_at;
+  // }
   order.save((err, data) => {
     if (err) throw err;
-
     const { customer } = order;
-    if (customer.isNotify && customer.email) {
-      emailService.sendGMail(
-        order.customer.email,
-        mailForChangeStatus(order._id, status, lockMessage)
-      );
-    }
+    customer.sendMailMessage(
+      mailForChangeStatus(order._id, status, lockMessage)
+    );
   });
   return true;
 }
@@ -144,18 +146,15 @@ async function deleteOrder(customer, orderId) {
     const order = await Order.findOne({ _id: orderId, customer })
       .populate("executor")
       .exec();
-    if (order.isDeleted) return false;
+    if (order.status === Status.Deleted) return false;
 
     if (order.status === Status.Confirmed || order.status === Status.Made)
       return false;
 
-    order.isDeleted = true;
+    order.status = Status.Deleted;
     order.save((err, data) => {
       if (err) throw err;
-      emailService.sendGMail(
-        order.executor.email,
-        mailForChangeStatus(order._id, "удален")
-      );
+      order.executor.sendMailMessage(mailForChangeStatus(order._id, "удален"));
     });
     return true;
   } catch (err) {

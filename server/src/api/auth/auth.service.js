@@ -1,6 +1,5 @@
 const authHelper = require("../../config/authHelper");
 const { mailVerifiedEmail, mailSendVerifyCode } = require("../../config/email");
-const emailService = require("../../services/email.service");
 const User = require("../../models").user;
 const Company = require("../../models").company;
 const Role = require("../../enums/roles.enum");
@@ -24,7 +23,9 @@ async function authenticate({ identifier, password }) {
   }
 
   if (data === null) return false;
-  if (data.status !== StatusUser.verified) throw "Your account is blocking";
+  if (data.status === StatusUser.locked) throw "Your account is blocking";
+  if (data.status === StatusUser.notVerified)
+    throw "Your account is not verified";
   let success = await data.comparePassword(password);
   if (success === false) return false;
 
@@ -58,10 +59,7 @@ async function register(
     newUser.addresses = [address];
     const user = new User({ ...newUser });
     await user.save();
-    emailService.sendGMail(
-      user.email,
-      mailSendVerifyCode(user, verificationCode)
-    );
+    user.sendMailMessage(mailSendVerifyCode(user, verificationCode));
     return true;
   } catch (err) {
     throw err;
@@ -94,9 +92,7 @@ async function registerCompany({
     });
     await company.save();
     const token = authHelper.verifiedToken(company);
-    if (email) {
-      emailService.sendGMail(company.email, mailVerifiedEmail(company, token));
-    }
+    company.sendMailMessage(mailVerifiedEmail(company, token));
     return true;
   } catch (err) {
     throw err;
@@ -126,7 +122,7 @@ async function authSocialNetwork(data) {
     };
   } else {
     const token = authHelper.verifiedToken(data);
-    emailService.sendGMail(data.email, mailVerifiedEmail(data, token));
+    data.sendMailMessage(mailVerifiedEmail(data, token));
     throw new Error("Invalid activation");
   }
 }

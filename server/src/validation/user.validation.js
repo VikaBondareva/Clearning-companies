@@ -20,8 +20,7 @@ const schemas = {
       .regex(PhoneNumber),
     password: Joi.string()
       .required()
-      .regex(Password),
-    isNotify: Joi.boolean().default(true)
+      .regex(Password)
   })
 };
 

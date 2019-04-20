@@ -19,7 +19,7 @@ const schema = joi
     JWT_REFRESH_TYPE: joi.string().default("refresh"),
     JWT_VERIFIED_EXPIRATION: joi.number().default(28800),
 
-    MONGODB_HOST: joi.string().default("mongodb://127.0.0.1:27017/example"),
+    MONGODB_HOST: joi.string().default("mongodb://127.0.0.1:27017/example123"),
 
     GMAIL_USER_NAME: joi.string().default("mega.cleaning.2019@gmail.com"),
     GMAIL_USER_PASSWORD: joi.string(),

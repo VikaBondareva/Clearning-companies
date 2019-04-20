@@ -1,5 +1,11 @@
 const clientUrl = require("../config/environment").clientUrl;
 
+module.exports.mainNewReviewForCompany = (name, reviewText) => {
+  const subject = "New review for you";
+  const content = contentHtml(subject, name, `You have new review`, reviewText);
+  return { content, subject };
+};
+
 module.exports.mailVerifiedEmail = ({ name }, token) => {
   const subject = "Verify Your E-mail Account";
   const content = contentHtml(

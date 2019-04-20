@@ -1,6 +1,5 @@
 const authHelper = require("../../../config/authHelper");
 const { mailSendVerifyCode } = require("../../../config/email");
-const emailService = require("../../../services/email.service");
 const User = require("../../../models").user;
 const Company = require("../../../models").company;
 const Role = require("../../../enums/roles.enum");
@@ -40,7 +39,9 @@ async function activationCode({ verificationCode, email }) {
 async function activationEmail({ _id }) {
   const executor = await Company.findByIdAndUpdate(
     { _id },
-    { $set: { status: StatusUser.verified } }
+    {
+      $set: { status: StatusUser.verified }
+    }
   );
 
   if (executor) {
@@ -64,11 +65,6 @@ async function verifiedEmail({ _id, role, notVerifiedEmail }) {
       { _id },
       { $set: { email: notVerifiedEmail }, $unset: { notVerifiedEmail } }
     );
-    // } else if (role === Role.Executor) {
-    //   user = await Company.findByIdAndUpdate(
-    //     { _id },
-    //     { $set: { status: StatusUser.verified } }
-    //   );
   } else {
     throw "Not fount role";
   }
@@ -91,10 +87,7 @@ async function createNewCode({ email }) {
       await User.deleteOne({ email });
       throw new Error("Too many attempts. Account deleted");
     }
-    emailService.sendGMail(
-      user.email,
-      mailSendVerifyCode(user, verificationCode)
-    );
+    user.sendMailMessage(mailSendVerifyCode(user, verificationCode));
     return true;
   } catch (err) {
     throw err;

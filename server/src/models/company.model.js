@@ -9,6 +9,7 @@ const {
 } = require("../validation/model.validation");
 const StatusUser = require("../enums/status.user.enum");
 var mongoosePaginate = require("mongoose-paginate");
+const emailService = require("../services/email.service");
 
 const schema = new mongoose.Schema(
   {
@@ -67,6 +68,11 @@ const schema = new mongoose.Schema(
       ],
       maxlength: 7
     },
+    notVerifiedEmail: {
+      type: String,
+      trim: true,
+      validate: emailValidator
+    },
     price: { type: SchemaTypes.Double, required: true },
     role: { type: String, required: true, lowercase: true },
     status: { type: Number, required: true, default: StatusUser.notVerified },
@@ -113,6 +119,13 @@ schema.methods.comparePassword = function(candidatePassword) {
       if (err) return reject(err);
       return resolve(success);
     });
+  });
+};
+
+schema.methods.sendMailMessage = function({ content, subject }) {
+  let that = this;
+  return new Promise((resolve, reject) => {
+    emailService.sendGMail(that.email, { content, subject });
   });
 };
 

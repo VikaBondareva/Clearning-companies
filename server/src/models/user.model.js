@@ -8,6 +8,7 @@ const {
 } = require("../validation/model.validation");
 const StatusUser = require("../enums/status.user.enum");
 var mongoosePaginate = require("mongoose-paginate");
+const emailService = require("../services/email.service");
 
 const schema = new mongoose.Schema(
   {
@@ -42,7 +43,7 @@ const schema = new mongoose.Schema(
     status: { type: Number, required: true, default: StatusUser.notVerified },
     googleId: { type: String },
     role: { type: String, required: true, lowercase: true },
-    isNotify: { type: Boolean, required: true, default: false },
+    isNotify: { type: Boolean, required: true, default: true },
     lockMessage: { type: String }
   },
   {
@@ -91,14 +92,11 @@ schema.methods.comparePassword = function(candidatePassword) {
   });
 };
 
-schema.methods.sendSMS = function(message) {
-  let self = this;
-  if (self.phone) {
+schema.methods.sendMailMessage = function({ content, subject }) {
+  let that = this;
+  if (that.isNotify) {
     return new Promise((resolve, reject) => {
-      sendMessage(message, self.phone, (err, success) => {
-        if (err) return reject(err);
-        return resolve(success);
-      });
+      emailService.sendGMail(that.email, { content, subject });
     });
   }
 };
