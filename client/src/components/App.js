@@ -22,43 +22,35 @@ import NotFound from "./NotFound/NotFound";
 import { PrivateRoute, WithLayout, ProfileWithLayout } from "./RoutesHOC";
 import { roles } from "../utils";
 
-export default class App extends React.Component {
+export default function App(props) {
 
-  // renderMain=()=>{
-  //   return <Redirect to="/companies"/>
-  // }
-
-  render() {
-    const { isAuthenticated, role } = this.props;
-    return (
-      <Switch>
-        {/* <Route path='/' component={this.renderMain}/> */}
-        <Route path="/companies" exact component={WithLayout(Home)} />
-        <Route
-          path="/companies/:id"
-          exact
-          component={WithLayout(CompanyPage)}
-        />
-        {role !== roles.executor && (
-          <Route path="/booking" exact component={WithLayout(Booking)} />
-        )}
-
-        <PrivateRoute
-          path="/profile"
-          exact
-          role={role}
-          component={ProfileWithLayout(Profile)}
-          isAuth={isAuthenticated}
-          pathUrl="/login"
-        />
-        <PrivateRoute
-          path="/profile/edit"
-          exact
-          role={role}
-          component={ProfileWithLayout(EditProfile)}
-          isAuth={isAuthenticated}
-          pathUrl="/login"
-        />
+  const { isAuthenticated, role, isSocial } = props;
+  return (
+    <Switch>
+      <Route path="/" exact component={WithLayout(Home)} />
+      <Route path="/:id" exact component={WithLayout(CompanyPage)} />
+      {role !== roles.executor && (
+        <Route path="/booking" exact component={WithLayout(Booking)} />
+      )}
+      <PrivateRoute
+        path="/profile"
+        exact
+        role={role}
+        isSocial={isSocial}
+        component={ProfileWithLayout(Profile)}
+        isAuth={isAuthenticated}
+        pathUrl="/login"
+      />
+      <PrivateRoute
+        path="/profile/edit"
+        exact
+        role={role}
+        isSocial={isSocial}
+        component={ProfileWithLayout(EditProfile)}
+        isAuth={isAuthenticated}
+        pathUrl="/login"
+      />
+      {!isSocial && (
         <PrivateRoute
           path="/profile/edit/password"
           exact
@@ -66,76 +58,76 @@ export default class App extends React.Component {
           isAuth={isAuthenticated}
           pathUrl="/login"
         />
-        {role && role !== roles.admin && (
-          <PrivateRoute
-            path="/profile/orders"
-            exact
-            role={role}
-            component={ProfileWithLayout(OrdersPage)}
-            isAuth={isAuthenticated}
-            pathUrl="/login"
-          />
-        )}
-        {role === roles.executor && (
-          <PrivateRoute
-            path="/profile/orders/:id"
-            role={role}
-            component={ProfileWithLayout(OrdersDetails)}
-            isAuth={isAuthenticated}
-            pathUrl="/login"
-          />
-        )}
-        {role === roles.executor && (
-          <PrivateRoute
-            path="/profile/edit/logo"
-            role={role}
-            component={ProfileWithLayout(UploadLogo)}
-            isAuth={isAuthenticated}
-            pathUrl="/login"
-          />
-        )}
-
-
-        {role === roles.admin && (
-          <PrivateRoute
-            path="/admin/users"
-            role={role}
-            component={ProfileWithLayout(ControlUsers)}
-            isAuth={isAuthenticated}
-            pathUrl="/login"
-          />
-        )}
-        {role === roles.admin && (
-          <PrivateRoute
-            path="/admin/companies"
-            role={role}
-            component={ProfileWithLayout(ControlCompanies)}
-            isAuth={isAuthenticated}
-            pathUrl="/login"
-          />
-        )}
-
+      )}
+      {role && role !== roles.admin && (
         <PrivateRoute
-          path="/login"
-          component={LoginPage}
-          isAuth={!isAuthenticated}
-          pathUrl="/profile"
+          path="/profile/orders"
+          exact
+          role={role}
+          isSocial={isSocial}
+          component={ProfileWithLayout(OrdersPage)}
+          isAuth={isAuthenticated}
+          pathUrl="/login"
         />
+      )}
+      {role === roles.executor && (
         <PrivateRoute
-          path="/register"
-          component={RegistrationUser}
-          isAuth={!isAuthenticated}
-          pathUrl="/profile"
+          path="/profile/orders/:id"
+          role={role}
+          component={ProfileWithLayout(OrdersDetails)}
+          isAuth={isAuthenticated}
+          pathUrl="/login"
         />
+      )}
+      {role === roles.executor && (
         <PrivateRoute
-          path="/register-company"
-          component={RegistrationCompany}
-          isAuth={!isAuthenticated}
-          pathUrl="/profile"
+          path="/profile/edit/logo"
+          role={role}
+          component={ProfileWithLayout(UploadLogo)}
+          isAuth={isAuthenticated}
+          pathUrl="/login"
         />
-        <Route path="/activation" component={ConfirmEmail} />
-        <Route path="/*" component={NotFound} />
-      </Switch>
-    );
-  }
+      )}
+
+      {role === roles.admin && (
+        <PrivateRoute
+          path="/admin/users"
+          role={role}
+          component={ProfileWithLayout(ControlUsers)}
+          isAuth={isAuthenticated}
+          pathUrl="/login"
+        />
+      )}
+      {role === roles.admin && (
+        <PrivateRoute
+          path="/admin/companies"
+          role={role}
+          component={ProfileWithLayout(ControlCompanies)}
+          isAuth={isAuthenticated}
+          pathUrl="/login"
+        />
+      )}
+
+      <PrivateRoute
+        path="/login"
+        component={LoginPage}
+        isAuth={!isAuthenticated}
+        pathUrl="/profile"
+      />
+      <PrivateRoute
+        path="/register"
+        component={RegistrationUser}
+        isAuth={!isAuthenticated}
+        pathUrl="/profile"
+      />
+      <PrivateRoute
+        path="/register-company"
+        component={RegistrationCompany}
+        isAuth={!isAuthenticated}
+        pathUrl="/profile"
+      />
+      <Route path="/activation" component={ConfirmEmail} />
+      <Route path="/*" component={NotFound} />
+    </Switch>
+  );
 }

@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import Logo from '../../static/img/logo.png';
 import {
   Notifications,
   AccountCircle,
@@ -146,8 +147,8 @@ function HeaderComponent(props) {
             color="inherit"
             noWrap
           >
-            <Link to="/companies" className={classes.link}>
-              Клининговые компании
+            <Link to="/" className={classes.link}>
+              <img className={classes.logo}  src={Logo} alt="Клининговые компании"/>
             </Link>
           </Typography>
           <div className={classes.grow} />

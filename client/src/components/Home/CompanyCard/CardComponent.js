@@ -74,14 +74,14 @@ export default function CardCompanyComponent(props) {
               <Button
                 name="Заказать услугу"
                 onClick={() => props.onClick(_id)}
-                to={`/companies/${_id}`}
+                to={`/${_id}`}
                 className="preview__btn-control btn-control"
               />
             )}
 
             <ButtonLink
               name="Подробнее"
-              to={`/companies/${_id}`}
+              to={`/${_id}`}
               className="preview__btn-control btn-control"
             />
           </div>
