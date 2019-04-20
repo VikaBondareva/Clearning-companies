@@ -6,13 +6,14 @@ import {LoginComponent} from '../../components/Auth/Login';
 const mapStateToProps = (state) => ({
     isLoading: state.auth.isLoading,
     error: state.error.message,
+    isSendCode: state.auth.isSendCode,
     isSendEmail: state.auth.isSendEmail,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        login: (user,redirectTo) => {
-            dispatch(asyncLogin(user,redirectTo));
+        login: (user,isExecutor) => {
+            dispatch(asyncLogin(user,isExecutor));
         },
         cleanError: () => {
             dispatch(clearErrors());

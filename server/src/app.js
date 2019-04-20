@@ -4,31 +4,26 @@ var logger = require("morgan");
 var passport = require("./config/passport");
 var initializeDb = require("./config/mongodb");
 var router = require("./routers");
-
+var fileUpload = require("express-fileupload");
 var app = express();
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
-  // res.header(
-  //   "Access-Control-Allow-Headers",
-  //   "Origin, X-Requested-With, Content-Type, Accept"
-  // );
+  res.header("Access-Control-Allow-Methods", "*");
   next();
 });
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
+app.use("/public", express.static(path.resolve(__dirname, "../public")));
 
 initializeDb(() => {
   app.use(passport.initialize());
   passport.jwtStrategy();
-  passport.githubStrategy();
   passport.googleStrategy();
-  passport.vkontakteStrategy();
   app.use("/api/", router);
 
   app.get("*", function(req, res, next) {

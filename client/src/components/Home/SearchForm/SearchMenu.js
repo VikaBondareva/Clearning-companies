@@ -8,12 +8,16 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import { withRouter } from 'react-router-dom';
-import {querySearch} from '../../../helpers';
-import Select from '../../common/select/SetectComponent';
-import {SelectChip} from '../../common/select'
+import {querySearch} from '../../../utils';
+import {SelectChip,Select} from '../../common/select'
 import styles from './style';
-import {serviceTypes,selectCity,selectSort,selectCountCard} from '../../../helpers'
+import {serviceTypes,selectCity,selectSort,selectCountCard, daysSelect} from '../../../utils'
 import {parse} from 'query-string';
+
+const selectDays = [
+  ...daysSelect,
+  {value: "", name: ""}
+]
 
 class SearchMenuComponent extends Component{
          
@@ -27,6 +31,7 @@ class SearchMenuComponent extends Component{
         maxPrice: "",
         minPrice: "",
         name:"",
+        day:"",
         services: []
       }
 
@@ -72,7 +77,7 @@ class SearchMenuComponent extends Component{
 
     render () {
       const {classes} = this.props;
-      const {city, perPage, sort, maxPrice, minPrice,name,services } = this.state;
+      const {city, perPage, sort, maxPrice, minPrice,name,services,day } = this.state;
       return (
           <div 
             className={classes.main}
@@ -115,11 +120,19 @@ class SearchMenuComponent extends Component{
                     onChange={this.handleChange}
                     options={selectCity}
                 />
+                 <Select 
+                    value={day} 
+                    targetValue="day"
+                    name="День недели работы"
+                    onChange={this.handleChange}
+                    options={selectDays}
+                />
                 <FormControl className={classes.formControl}>
                     <InputLabel shrink htmlFor="minPrice" >Минимальная цена</InputLabel>
                     <Input 
                         className={classes.select}
                         name="minPrice"
+                        type="number"
                         onChange={this.handleChange}
                         value={minPrice}
                         inputProps={{
@@ -132,10 +145,11 @@ class SearchMenuComponent extends Component{
                     <Input 
                         className={classes.select}
                         name="maxPrice"
+                        type="number"
                         onChange={this.handleChange}
                         value={maxPrice}
                         inputProps={{
-                            min:1
+                            min:10
                         }}
                     />
                 </FormControl>
@@ -143,6 +157,7 @@ class SearchMenuComponent extends Component{
                   services={services}
                   onChange={this.handleChange}
                   servicesTypes={serviceTypes}
+                  isSmall={true}
                   name="services"
                 />
                 <Button size="small" variant="contained" color="primary" onClick={this.handleClick}>

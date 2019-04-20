@@ -1,7 +1,7 @@
 import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
+import SelectUI from '@material-ui/core/Select';
 import styles from '../../Home/SearchForm/style';
 import { withStyles } from '@material-ui/styles';
 
@@ -11,7 +11,7 @@ function SelectComponent(props){
         return(
             <FormControl className={props.classes.formControl}>
                 <InputLabel shrink htmlFor={props.targetValue} >{props.name}</InputLabel>
-                <Select
+                <SelectUI
                 native
                 name={props.targetValue}
                 value={props.value}
@@ -23,7 +23,7 @@ function SelectComponent(props){
                 }}
                 >
                     {renderOptions(props.options)}
-                </Select>
+                </SelectUI>
             </FormControl>
         )
     }
@@ -37,4 +37,4 @@ function SelectComponent(props){
     return renderSelect(props)
 }
 
-export default withStyles(styles)(SelectComponent)
+export const Select = withStyles(styles)(SelectComponent)

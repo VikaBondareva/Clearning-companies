@@ -5,18 +5,25 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
+import {
+  Notifications,
+  AccountCircle,
+  Edit,
+  Event,
+  MoreVert as MoreIcon,
+  Face,
+  SupervisorAccount,
+  ExitToApp
+} from "@material-ui/icons";
+
 import { Link } from "react-router-dom";
-import { roles } from "../../helpers";
+import { roles } from "../../utils";
 import styles from "./style";
 
 function HeaderComponent(props) {
-  const { classes, role,isAuthenticated } = props;
+  const { classes, role, isAuthenticated } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -45,46 +52,82 @@ function HeaderComponent(props) {
     >
       {!isAuthenticated ? (
         <>
-          <MenuItem>
-            <IconButton color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <p>
-              <Link to="/register" className={classes.linkMenu}>
-                Регистрация
-              </Link>
-            </p>
-          </MenuItem>
-          <MenuItem>
-            <IconButton color="inherit">
-              <MailIcon />
-            </IconButton>
-            <Link to="/login" className={classes.linkMenu}>
+          <Link to="/register" className={classes.linkMenu}>
+            <MenuItem>
+              <IconButton color="inherit">
+                <AccountCircle />
+              </IconButton>
+              Регистрация
+            </MenuItem>
+          </Link>
+          <Link to="/login" className={classes.linkMenu}>
+            <MenuItem>
+              <IconButton color="inherit">
+                <AccountCircle />
+              </IconButton>
               Войти
-            </Link>
-          </MenuItem>
+            </MenuItem>
+          </Link>
         </>
       ) : (
         <>
-          <MenuItem>
-            <IconButton color="inherit">
-              <MailIcon />
-            </IconButton>
-            <Link to="/profile" className={classes.linkMenu}>
+          <Link to="/profile" className={classes.linkMenu}>
+            <MenuItem>
+              <IconButton color="inherit">
+                <AccountCircle />
+              </IconButton>
               Профиль
-            </Link>
-          </MenuItem>
-          <MenuItem>
-            <IconButton color="inherit">
-              <MailIcon />
-            </IconButton>
+            </MenuItem>
+          </Link>
+          <Link to="/profile/edit" className={classes.linkMenu}>
+            <MenuItem>
+              <IconButton color="inherit">
+                <Edit />
+              </IconButton>
+              Редактировать
+            </MenuItem>
+          </Link>
+          <Link to="/profile/edit/password" className={classes.linkMenu}>
+            <MenuItem>
+              <IconButton color="inherit">
+                <Edit />
+              </IconButton>
+              Сменить пароль
+            </MenuItem>
+          </Link>
+          {role !== roles.admin ? (
             <Link to="/profile/orders" className={classes.linkMenu}>
-              Заказы
+              <MenuItem>
+                <IconButton color="inherit">
+                  <Event />
+                </IconButton>
+                Заказы
+              </MenuItem>
             </Link>
-          </MenuItem>
+          ) : (
+            <>
+              <Link to="/admin/users" className={classes.linkMenu}>
+                <MenuItem>
+                  <IconButton color="inherit">
+                    <SupervisorAccount />
+                  </IconButton>
+                  Пользователи
+                </MenuItem>
+              </Link>
+              <MenuItem>
+                <IconButton color="inherit">
+                  <Face />
+                </IconButton>
+                <Link to="/admin/companies" className={classes.linkMenu}>
+                  Компании
+                </Link>
+              </MenuItem>
+            </>
+          )}
+
           <MenuItem onClick={handleClickLogout}>
             <IconButton color="inherit">
-              <NotificationsIcon />
+              <ExitToApp />
             </IconButton>
             <p>Выйти</p>
           </MenuItem>

@@ -67,6 +67,8 @@ function Registration(props) {
       >
         <InputLabel htmlFor="description">Описание</InputLabel>
         <Input
+          multiline
+          rowsMax="6"
           name="description"
           onChange={handleChange}
           value={values.description}

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import CardCompanyComponent from './CompanyCard/CardCompanyComponent';
+// import CardCompanyComponent from './CompanyCard/CardCompanyComponent';
+import CardCompanyComponent from './CompanyCard/CardComponent';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import {Pagination} from '../common/pager';
@@ -11,7 +12,7 @@ const styles = theme =>({
         display: "flex",
         flexWrap: "wrap",
         flexDirection: "column",
-        padding: "0 50px"
+        padding: "10px 50px"
     },
     table: {
         display: "grid",
@@ -21,8 +22,8 @@ const styles = theme =>({
         gridRowGap: "30px",
         margin: "20px 0px",
         [theme.breakpoints.down("sm")]: {
-             gridTemplateColumns: "1fr",
-        },
+            gridTemplateColumns: "1fr"
+        }
     },
     pagination:{
         display: "flex",
@@ -41,7 +42,7 @@ class CompaniesList extends  Component{
 
     renderCompany=(company)=>{
         return (
-            <CardCompanyComponent key={company._id} company={company} onClick={this.loadCompany}/>
+            <CardCompanyComponent key={company._id} company={company} onClick={this.loadCompany} isShowBtn={this.props.isShowBtn}/>
         );
     }
 
@@ -71,7 +72,7 @@ class CompaniesList extends  Component{
                     ? 
                     <>
                         <div className={classes.total}>
-                            найдено {total}
+                            <p className="title_big title_white">найдено {total}</p>
                         </div>
                         <div className={classes.table}>
                             {docs.map(this.renderCompany)}
@@ -80,7 +81,7 @@ class CompaniesList extends  Component{
                             <Pagination pages={pages} page={page}/>
                         </div>
                     </>
-                    : <p>Ничего не найдено</p>
+                    : <p className="title_big title_white">Ничего не найдено</p>
                 } 
             </div>
         )

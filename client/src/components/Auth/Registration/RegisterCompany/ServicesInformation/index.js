@@ -3,7 +3,7 @@ import React from 'react';
 import ServicesInformationSchema from './ServicesInformationSchema';
 import ServicesInformationForm from './ServicesInformationForm'
 import PropTypes from 'prop-types';
-import {serviceTypes} from '../../../../../helpers';
+import {serviceTypes} from '../../../../../utils';
 
 export function ServicesInformation(props){
     let services = [

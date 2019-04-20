@@ -11,8 +11,6 @@ const validation = (schema, property) => {
     } else {
       const { details } = error;
       const message = details.map(i => i.message).join(",");
-
-      console.log("error", message);
       res.status(httpStatus.BAD_REQUEST).json({
         message: message
       });

@@ -44,13 +44,7 @@ const schemas = {
     date: Joi.string()
       .regex(DateOrder)
       .required(),
-    services: Joi.array()
-      .items(
-        Joi.string()
-          .required()
-          .allow(serviceTypes)
-      )
-      .required()
+    service: Joi.string().required()
   }),
   orderQUERY: {
     status: Joi.string().valid([
@@ -61,7 +55,21 @@ const schemas = {
     ]),
     page: Joi.number(),
     perPage: Joi.number(),
-    services: Joi.array().items(Joi.string())
+    service: Joi.string()
+  },
+  orderPUT: {
+    status: Joi.string().valid([
+      Status.Canceled,
+      Status.Confirmed,
+      Status.Made,
+      Status.Pending
+    ]),
+    lockMessage: Joi.when("status", {
+      is: Status.Canceled,
+      then: Joi.string()
+        .required()
+        .min(10)
+    })
   }
 };
 

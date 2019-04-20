@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import styles from "./styleTable.js";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -13,8 +11,8 @@ function ProfileCompanyComponent(props) {
 
   const renderTableRooms = (rooms) => (
     <div>
-      <p>Расценки на комнаты</p>
-      <Table className={classes.table}>
+      <p className="title_standart title_bold">Расценки на комнаты</p>
+      <Table >
         <TableHead>
           <TableCell />
           <TableCell align="right">Санузел</TableCell>
@@ -41,8 +39,8 @@ function ProfileCompanyComponent(props) {
 
   const renderTableServices = (services) => (
     <div>
-        <p>Расценки услуг</p>
-      <Table className={classes.table}>
+        <p className="title_standart title_bold">Расценки услуг</p>
+      <Table >
         <TableHead>
           <TableCell  >Название услуги</TableCell>
           <TableCell >Коэффициент</TableCell>
@@ -72,4 +70,4 @@ ProfileCompanyComponent.propTypes = {
   company: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ProfileCompanyComponent);
+export default ProfileCompanyComponent;

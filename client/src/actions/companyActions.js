@@ -71,10 +71,10 @@ export const asyncGetCompanyById = id => dispatch => {
     });
 };
 
-export const asyncGetCompany = (id, page) => async dispatch => {
+export const asyncGetCompany = (id, page=1) => async dispatch => {
   return Promise.all([
-    dispatch(asyncGetCompanyById(id)),
-    dispatch(asyncGetReviews(id, page))
+    dispatch(asyncGetReviews(id, page)),
+    dispatch(asyncGetCompanyById(id))
   ]).catch(error => {
     console.log(error);
   });

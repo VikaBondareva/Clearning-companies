@@ -13,10 +13,9 @@ const styles = theme => ({
       marginRight: 20,
     },
     title: {
-      display: 'none',
-      marginLeft: "150px",
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
+      marginLeft: 150,
+      [theme.breakpoints.down('md')]: {
+        marginLeft: 10,
       },
     },
     link: {

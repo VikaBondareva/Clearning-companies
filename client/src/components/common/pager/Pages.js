@@ -138,7 +138,7 @@ class Pager extends React.Component {
 
 		if(this.props.total < 8){
 			return (
-				<nav>
+				<nav className="nav-pagination">
 					<ul className="pagination">
 						{this.renderPages(this.visibleRange())}
 					</ul>
@@ -146,7 +146,7 @@ class Pager extends React.Component {
 			);
 		}
 		return (
-			<nav>
+			<nav className="nav-pagination">
 				<div className="pagination">
 					
 					<Page

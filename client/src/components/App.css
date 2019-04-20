@@ -2,17 +2,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 500px;
-  margin: 0 100px;
+  min-height: calc(100vh - 210px);
+  margin: 0 200px;
   background: #fff;
 }
 
-.confirm-link{
-  color: #6279AB;
+
+.home-list {
+  background: #91bfa3;
+  min-height: 100px;
+  box-sizing: border-box;
+}
+
+.confirm-link {
+  color: #6279ab;
   font: inherit;
   text-decoration: none;
 }
-.confirm-link:hover{
+.confirm-link:hover {
   color: #334f8d;
 }
 
@@ -20,7 +27,7 @@
   display: inline-block;
   width: 50px;
   height: 50px;
-  border: 3px solid rgba(255,255,255,.3);
+  border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: #fff;
   animation: spin 1s ease-in-out infinite;
@@ -28,22 +35,25 @@
 }
 
 @keyframes spin {
-  to { -webkit-transform: rotate(360deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 @-webkit-keyframes spin {
-  to { -webkit-transform: rotate(360deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
-
 .card {
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 3%;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   word-wrap: break-word;
   width: 215px;
   height: 100%;
   margin-bottom: 20px;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .card:hover {
@@ -59,7 +69,7 @@
   font-size: 2em;
   position: relative;
   color: #fff;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .close:hover {
@@ -69,7 +79,7 @@
 
 button.twitter {
   border: 3px solid #ffffff;
-  background: #433e90
+  background: #433e90;
 }
 
 button.twitter:hover {
@@ -105,3 +115,103 @@ button.github {
 button.github:hover {
   background: #6e5494;
 }
+
+.card-pass {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  align-items: center;
+  width: 500px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px 0;
+}
+.root__card-pass {
+  margin: 100px auto;
+  padding: 30px 50px;
+}
+
+.card_shadow{
+  box-shadow:-5px 20px 25px rgba(0,0,0,0.25), 5px 10px 10px rgba(0,0,0,0.22);
+}
+
+.card-from_blue-white {
+  background: #e6f1e5;
+}
+.card-from{
+    padding: 20px;
+    border: 1px solid;
+    margin: 10px 0;
+}
+.card-form_flex{
+  display: flex;
+}
+.mini-card-info{
+  width: 250px;
+  display: flex; 
+  height: 25px;
+  justify-content: space-between;
+}
+.error-text{
+  color:red;
+}
+.title_standart{
+  font-size: 17px;
+}
+.title_big{
+  font-size: 20px;
+}
+.title_white{
+  color: white;
+}
+.text_bold{
+  font-weight: 400;
+}
+.title_bold{
+  font-weight: 600;
+}
+.text-desc{
+  font-weight: 300;
+}
+@media (max-width: 1024px) {
+  .main,
+  .root__footer {
+    margin: 0;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1248px) {
+  .main,
+  .root__footer {
+    margin: 0 100px;
+  }
+}
+
+@media (max-width: 960px) {
+  .home-card {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    display: flex;
+  }
+  .main__home-card {
+    margin: 20px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-list {
+    width: 100%;
+  }
+}
+
+@media (max-width: 550px) {
+  .card-pass {
+    width: 400px;
+  }
+}
+
+
+
+

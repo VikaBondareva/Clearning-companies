@@ -1,6 +1,6 @@
 import { connect} from 'react-redux';
-import { asyncGetOrders } from '../../actions/orderActions';
-import {OrdersPageComponent} from '../../components/Profile/OrdersPage';
+import { asyncGetOrders,asyncDeleteOrder } from '../../actions/orderActions';
+import {OrdersPageComponent} from '../../components/Profile/OrdersListPage';
 
 const mapStateToProps = (state) => ({
     orders: state.orders.docs,
@@ -8,7 +8,8 @@ const mapStateToProps = (state) => ({
     pages: state.orders.pages,
     total: state.orders.total,
     servicesCompany: state.auth.profile.services,
-    isLoading: state.loading.ORDERS_LOAD
+    // role: state.auth.role,
+    isLoading: state.loading.ORDERS_LIST_LOAD
 });
 
 const mapDispatchToProps = (dispatch, getState) => {
@@ -16,6 +17,9 @@ const mapDispatchToProps = (dispatch, getState) => {
         getOrders: (queries) => {
             dispatch(asyncGetOrders(queries));
         },
+        deleteOrder: (id) =>{
+            dispatch(asyncDeleteOrder(id));
+        }
     }
 };
 

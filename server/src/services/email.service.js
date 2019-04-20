@@ -1,26 +1,36 @@
-var MailConfig = require("../config/email");
-var gmailTransport = MailConfig.GmailTransport;
 const nodemailer = require("nodemailer");
+const config = require("../config/environment");
 
 const gmailSend = async (email, content, subject) => {
+  const EmailTransport = nodemailer.createTransport({
+    host: config.gmailServer.host,
+    port: config.emailPort,
+    secure: false,
+    auth: {
+      user: config.gmailUser.email,
+      pass: config.gmailUser.password
+    }
+  });
+
+  EmailTransport.verify((error, success) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Server is ready to take messages");
+    }
+  });
+
   let HelperOptions = {
-    from: `Онлайн система заказов уборки mega.clean12@mail.ru`,
+    from: `Клининговые компании mega.clean12@mail.ru`,
     to: email,
     subject,
-    text: content
+    html: content
   };
   try {
-    await nodemailer.createTestAccount((err, account) => {
-      gmailTransport.sendMail(HelperOptions, (error, info) => {
-        if (error) {
-          throw new Error(`failed sent mail ${error.name}`);
-        } else {
-          console.log("sendEmail: " + email);
-          console.log("Preview URL: " + info);
-        }
-      });
-      gmailTransport.close();
-    });
+    let info = await EmailTransport.sendMail(HelperOptions);
+    console.log("sendEmail: " + email);
+    console.log("Message sent: %s", info.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
   } catch (err) {
     throw new Error(err);
   }

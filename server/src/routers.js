@@ -10,8 +10,10 @@ router.get("/", (req, res) => {
 });
 
 router.use("/auth", require("./api/auth").router);
+router.use("/auth/confirm", require("./api/auth/confirm").router);
 router.use("/orders", require("./api/orders").router);
 router.use("/users", require("./api/users").router);
 router.use("/companies", require("./api/companies").router);
-router.use("/reviews", require("./api/reviews").router);
+router.use("/companies/:id/reviews", require("./api/reviews").router);
+
 module.exports = router;

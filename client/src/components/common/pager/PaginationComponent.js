@@ -1,5 +1,5 @@
 import React from 'react';
-import {querySearch} from '../../../helpers';
+import {querySearch} from '../../../utils';
 import Pager from './Pages'
 import { withRouter } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ function PaginationComponent (props){
             total={pages}
             current={page}
             visiblePages={5}
-            titles={{ first: 'Prev', last: "Next" }}
+            titles={{ first: '<<', last: ">>" }}
             className="pagination-sm pull-right"
             onPageChanged={handlePageChanged}
         />

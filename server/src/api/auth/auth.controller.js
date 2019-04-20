@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const authService = require("./auth.service");
 const Role = require("../../enums/roles.enum");
+const path = require("path");
 
 module.exports.login = (req, res, next) => {
   authService
@@ -53,19 +54,6 @@ module.exports.refreshToken = (req, res, next) => {
     .then(tokens =>
       tokens
         ? res.status(httpStatus.OK).json(tokens)
-        : res
-            .status(httpStatus.BAD_REQUEST)
-            .json({ success: false, message: "Invalid token" })
-    )
-    .catch(err => next(err));
-};
-
-module.exports.activation = (req, res, next) => {
-  authService
-    .activation(req.user._id, req.user.role, req.body.email)
-    .then(results =>
-      results
-        ? res.status(httpStatus.OK).json(results)
         : res
             .status(httpStatus.BAD_REQUEST)
             .json({ success: false, message: "Invalid token" })

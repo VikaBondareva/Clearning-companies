@@ -2,9 +2,8 @@ import{ string, object } from 'yup';
 
 const LoginSchema = object().shape({
     identifier: string()
-        .required("Username is required")
-        .min(4)
-        .max(50),
+        .email()
+        .required("Username is required"),
     password: string()
         .required("Enter your password")
         .min(6)

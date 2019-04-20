@@ -1,6 +1,7 @@
 import { connect} from 'react-redux';
-import { asyncRegisterCompany, saveRegisterInState } from '../../actions/authActions';
+import { asyncRegisterUser, saveRegisterInState } from '../../actions/authActions';
 import {clearErrors} from '../../actions/errorActions';
+import {roles} from '../../utils';
 import {RegistrationCompanyComponent} from '../../components/Auth/Registration';
 
 const mapStateToProps = (state) => ({
@@ -13,7 +14,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         registerCompany: (company) => {
-            dispatch(asyncRegisterCompany(company));
+            dispatch(asyncRegisterUser(company,roles.executor));
         },
         saveInState: (company) => {
             dispatch(saveRegisterInState(company))

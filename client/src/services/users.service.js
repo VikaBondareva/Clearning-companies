@@ -1,28 +1,30 @@
-import Axios from 'axios'
-import { authHeader } from '../helpers/headers.js'
+import Axios from "axios";
+import { authHeader, roles } from "../utils";
 
-export default {
-    getUsers () {
-        return Axios.request({
-            method: 'GET',
-            url: 'api/users',
-            headers: authHeader()
-        })
-    },
-    editUser (formData) {
-        return Axios.request({
-            method: 'PUT',
-            url: '/api/users/'+formData.id,
-            data: formData,
-            headers: authHeader()
-        })
-    },
-    deleteUser (formData) {
-        return Axios.request({
-            method: 'DELETE',
-            url: '/api/users/'+formData.id,
-            data: formData,
-            headers: authHeader()
-        })
+export const UserService = {
+  getUsers(queries) {
+    return Axios.get("/users" + queries, { headers: authHeader() });
+  },
+  editUser(formData,role,isLogo) {
+    if(role === roles.executor) {
+      if (isLogo) {
+        const data = new FormData();
+        data.append("logo",formData )
+        return Axios.put("/companies", data, {
+          headers: {
+            "Authorization": authHeader().Authorization,
+            "Content-Type": "multipart/form-data"
+          }
+        });
+      }
+      return Axios.put("/companies", formData, { headers: authHeader() });
+    } else {
+      return Axios.put("/users", formData, {
+        headers: authHeader()
+      });
     }
-}
+  },
+  changeStatus(formData, id) {
+    return Axios.put(`/users/${id}/block`, formData, { headers: authHeader() })
+  }
+};

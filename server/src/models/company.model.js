@@ -9,10 +9,12 @@ const {
 } = require("../validation/model.validation");
 const StatusUser = require("../enums/status.user.enum");
 var mongoosePaginate = require("mongoose-paginate");
+const emailService = require("../services/email.service");
 
 const schema = new mongoose.Schema(
   {
-    // logoUrl: {type: String, required: true, get: v => `${root}${v}`},
+    logoUrl: { type: String },
+    logoName: { type: String, default: "default logo" },
     name: {
       type: String,
       required: true,
@@ -23,7 +25,7 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 50,
-      maxlength: 1000
+      maxlength: 9999
     },
     address: {
       country: { type: String, require: true },
@@ -56,19 +58,21 @@ const schema = new mongoose.Schema(
         coefficient: { type: SchemaTypes.Double, required: true }
       }
     ],
-    workPlan: [
-      {
-        day: { type: String, require: true },
-        workHours: {
-          start: { type: String, require: true },
-          end: { type: String, require: true }
-        },
-        lunchHours: {
-          start: { type: String, require: true },
-          end: { type: String, require: true }
+    workPlan: {
+      type: [
+        {
+          day: { type: Number, required: true },
+          start: { type: String, required: true },
+          end: { type: String, required: true }
         }
-      }
-    ],
+      ],
+      maxlength: 7
+    },
+    notVerifiedEmail: {
+      type: String,
+      trim: true,
+      validate: emailValidator
+    },
     price: { type: SchemaTypes.Double, required: true },
     role: { type: String, required: true, lowercase: true },
     status: { type: Number, required: true, default: StatusUser.notVerified },
@@ -86,11 +90,6 @@ const schema = new mongoose.Schema(
   }
 );
 
-// schema.index({
-//   name: "text",
-//   "address.country": "text",
-//   "services.name": "text"
-// });
 // ////hashing a password before saving it to the database
 schema.pre("save", function(next) {
   bcrypt.hash(this.password, 10, (err, hash) => {
@@ -123,9 +122,18 @@ schema.methods.comparePassword = function(candidatePassword) {
   });
 };
 
+schema.methods.sendMailMessage = function({ content, subject }) {
+  let that = this;
+  return new Promise((resolve, reject) => {
+    emailService.sendGMail(that.email, { content, subject });
+  });
+};
+
 schema.set("toObject", {
   transform: function(doc, ret) {
     delete ret.__v;
+    delete ret.password;
+    delete ret.updated_at;
   }
 });
 

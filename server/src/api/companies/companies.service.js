@@ -1,12 +1,9 @@
 const Company = require("../../models").company;
-const {
-  mailForBlocked,
-  mailForUnblocked,
-  mailVerifiedEmail
-} = require("../../config/email");
+const { mailForBlocked, mailForUnblocked } = require("../../config/email");
 const emailService = require("../../services/email.service");
 const authHelper = require("../../config/authHelper");
 const StatusUser = require("../../enums/status.user.enum");
+const { uploadImage } = require("../../services/upload.service");
 
 async function getCompanies({
   page,
@@ -15,6 +12,7 @@ async function getCompanies({
   maxPrice,
   minPrice,
   sort,
+  day,
   name,
   services
 }) {
@@ -29,15 +27,36 @@ async function getCompanies({
   const options = {
     page: parseInt(page, 10) || 1,
     limit: parseInt(perPage, 10) || 10,
-    select: "name address ratting services workPlan rooms price",
     sort: `${sort}`
   };
   const query = {};
-  query.status = { $gte: 1 };
-  (query["address.city"] = city || { $regex: "" }),
-    (query.name = { $regex: name || "" }),
-    (query["services.name"] = services || { $regex: "" }),
-    (query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 });
+  query.status = StatusUser.verified;
+  query["address.city"] = { $regex: city || "" };
+  query.name = { $regex: name || "" };
+  query["services.name"] = services ? { $all: services } : { $regex: "" };
+  if (day) {
+    query["workPlan.day"] = day;
+  }
+  query.price = { $gte: minPrice || 0, $lte: maxPrice || 10000 };
+
+  const companies = await Company.paginate(query, options);
+
+  return companies;
+}
+
+async function getCompaniesAdmin({ page, status }) {
+  const options = {
+    page: parseInt(page, 10) || 1,
+    limit: 10,
+    select: "name email status lockMessage created_at logoUrl logoName"
+  };
+  const query = {
+    status: status || [
+      StatusUser.locked,
+      StatusUser.notVerified,
+      StatusUser.verified
+    ]
+  };
 
   const companies = await Company.paginate(query, options);
 
@@ -51,66 +70,57 @@ async function getByIdCompany(id) {
   return data;
 }
 
-async function updateCompany(
-  {
-    name,
-    description,
-    address,
-    services,
-    email,
-    workPlan,
-    rooms,
-    oldPassword,
-    newPassword
-  },
-  { _id }
-) {
+async function updateCompany({ _id }, files, information) {
   try {
-    let company;
-    if (!oldPassword) {
-      company = await User.findByIdAndUpdate(
-        _id,
-        { $set: { name, description, address, services, workPlan, rooms } },
-        { new: true }
-      );
-    } else {
-      company = await User.findById(_id)
-        .select("+password")
+    if (information.name) {
+      updateInformation(_id, information);
+    } else if (information.oldPassword) {
+      const company = await Company.findById(_id)
+        .select("password")
         .exec();
-
-      const success = await company.comparePassword(oldPassword);
-      if (success === false) throw "Not wrong old password";
-
-      company.name = name;
-      company.description = description;
-      company.address = address;
-      company.services = services;
-      company.workPlan = workPlan;
-      company.rooms = rooms;
-      company.password = newPassword;
+      const success = await company.comparePassword(information.oldPassword);
+      if (success === false) throw "Wrong old password";
+      if (information.newPassword === information.oldPassword)
+        throw "Old password and new password id equal";
+      company.password = information.newPassword;
       await company.save();
-    }
+    } else if (files && files.logo) {
+      let logoName, logoUrl;
 
-    if (company.email !== email) {
-      const token = authHelper.verifiedToken(company);
-      await emailService.sendGMail(
-        email,
-        mailVerifiedEmail(company.name, email, token)
-      );
+      await uploadImage(files.logo).then(result => {
+        logoUrl = result.logoUrl;
+        logoName = result.logoName;
+      });
+      if (logoUrl) {
+        await Company.findByIdAndUpdate(
+          _id,
+          { $set: { logoUrl, logoName } },
+          { new: true }
+        );
+      }
     }
-
-    return true;
-  } catch {
-    return false;
+  } catch (error) {
+    throw error;
   }
 }
 
-async function deleteCompany(_id) {
-  try {
-    Company.findByIdAndUpdate(_id, { $set: { status: StatusUser.deleted } });
-    return true;
-  } catch {
-    return false;
+async function updateInformation(
+  _id,
+  { name, description, address, services, email, workPlan, rooms }
+) {
+  const company = await Company.findByIdAndUpdate(
+    _id,
+    { $set: { name, description, address, services, workPlan, rooms } },
+    { new: true }
+  );
+
+  if (company.email !== email) {
+    Company.updateOne({ _id }, { $set: { notVerifiedEmail: email } });
+    const token = authHelper.verifiedToken(company);
+    await emailService.sendGMail(
+      email,
+      mailVerifiedNewEmail(company.name, token)
+    );
   }
 }
 
@@ -136,6 +146,6 @@ module.exports = {
   getCompanies,
   getByIdCompany,
   updateCompany,
-  deleteCompany,
-  blockCompany
+  blockCompany,
+  getCompaniesAdmin
 };

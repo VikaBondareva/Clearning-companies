@@ -8,6 +8,13 @@ module.exports.get = async (req, res, next) => {
     .catch(err => next(err));
 };
 
+module.exports.getForAdmin = async (req, res, next) => {
+  service
+    .getCompaniesAdmin(req.query)
+    .then(data => res.status(httpStatus.OK).json(data))
+    .catch(err => next(err));
+};
+
 module.exports.getById = async (req, res, next) => {
   service
     .getByIdCompany(req.params.id)
@@ -16,23 +23,13 @@ module.exports.getById = async (req, res, next) => {
 };
 
 module.exports.put = async (req, res, next) => {
+  if (req.files) console.log(req.files);
   service
-    .updateCompany(req.body, req.user)
+    .updateCompany(req.user, req.files, req.body)
     .then(result => {
-      result
-        ? res.status(httpStatus.OK).json(result)
-        : res.status(httpStatus.BAD_REQUEST).json("Error");
-    })
-    .catch(err => next(err));
-};
-
-module.exports._delete = async (req, res, next) => {
-  service
-    .deleteCompany(req.user.id, req.body)
-    .then(result => {
-      result
-        ? res.status(httpStatus.OK).json("Ok")
-        : res.status(httpStatus.BAD_REQUEST).json("Bad request");
+      !result
+        ? res.status(httpStatus.OK).json("success")
+        : res.status(httpStatus.BAD_REQUEST).json({ message: result });
     })
     .catch(err => next(err));
 };

@@ -1,50 +1,13 @@
 const authHelper = require("../../config/authHelper");
-const { mailForVerified } = require("../../config/email");
-const emailService = require("../../services/email.service");
+const { mailVerifiedEmail, mailSendVerifyCode } = require("../../config/email");
 const User = require("../../models").user;
 const Company = require("../../models").company;
 const Role = require("../../enums/roles.enum");
 const StatusUser = require("../../enums/status.user.enum");
 const { middlePriceForCompany } = require("../../config/pricingFunction");
-
-function updateToken(user) {
-  const accessToken = authHelper.generateAccessToken(user);
-  const refreshToken = authHelper.generateRefreshToken(user);
-  return {
-    accessToken,
-    refreshToken
-  };
-}
-
-async function activation(_id, role, email) {
-  let user;
-
-  if (role === Role.Customer || role === Role.Admin) {
-    user = await User.findByIdAndUpdate(
-      { _id },
-      { $set: { status: StatusUser.verified, email } }
-    );
-  } else if (role === Role.Executor) {
-    user = await Company.findByIdAndUpdate(
-      { _id },
-      { $set: { status: StatusUser.verified, email } }
-    );
-  } else {
-    throw "Not fount role";
-  }
-  if (user) {
-    const { accessToken, refreshToken } = updateToken(user);
-
-    const data = user.toObject();
-    return {
-      user: data,
-      tokens: {
-        accessToken,
-        refreshToken
-      }
-    };
-  } else return null;
-}
+const randToken = require("rand-token").generator({
+  chars: "0-9"
+});
 
 async function authenticate({ identifier, password }) {
   let data;
@@ -60,51 +23,43 @@ async function authenticate({ identifier, password }) {
   }
 
   if (data === null) return false;
-
+  if (data.status === StatusUser.locked) throw "Your account is blocking";
+  if (data.status === StatusUser.notVerified)
+    throw "Your account is not verified";
   let success = await data.comparePassword(password);
   if (success === false) return false;
 
+  const user = data.toObject();
   try {
-    return {
-      user: data,
-      tokens: authSocialNetwork(data)
-    };
+    return authSocialNetwork(user);
   } catch (err) {
     throw err;
   }
 }
 
 async function logout() {
-  console.log("logout: service ");
-
   return true;
 }
 
 async function register(
-  { name, surname, password, email, phone, address, isNotify },
+  { name, surname, password, email, phone, address },
   role
 ) {
   try {
-    if (!phone && !email) throw "Enter email or phone";
-    const addresses = [address];
-    const user = new User({
+    var verificationCode = randToken.generate(6);
+    const newUser = {
       name,
       surname,
+      verificationCode,
       password,
-      email,
-      phone,
       role,
-      addresses,
-      isNotify
-    });
+      email,
+      phone
+    };
+    newUser.addresses = [address];
+    const user = new User({ ...newUser });
     await user.save();
-    const token = authHelper.verifiedToken(user);
-    if (email) {
-      emailService.sendGMail(user.email, mailForVerified(user, token));
-    }
-    // else if (phone) {
-    //   user.sendSMS("Ваш код подтверждения: 25864");
-    // }
+    user.sendMailMessage(mailSendVerifyCode(user, verificationCode));
     return true;
   } catch (err) {
     throw err;
@@ -116,6 +71,7 @@ async function registerCompany({
   description,
   address,
   email,
+  workPlan,
   password,
   services,
   rooms
@@ -127,6 +83,7 @@ async function registerCompany({
       description,
       address,
       email,
+      workPlan,
       password,
       role: Role.Executor,
       services,
@@ -135,9 +92,7 @@ async function registerCompany({
     });
     await company.save();
     const token = authHelper.verifiedToken(company);
-    if (email) {
-      emailService.sendGMail(company.email, mailForVerified(company, token));
-    }
+    company.sendMailMessage(mailVerifiedEmail(company, token));
     return true;
   } catch (err) {
     throw err;
@@ -145,31 +100,29 @@ async function registerCompany({
 }
 
 async function refreshToken(user) {
-  console.log("service refresh token user id: " + user._id);
-  const { accessToken, refreshToken } = updateToken(user);
-
+  const { accessToken, refreshToken } = authHelper.updateToken(user);
   return {
     accessToken,
     refreshToken
   };
 }
 
-function authSocialNetwork(data) {
-  console.log(data);
+async function authSocialNetwork(data) {
   if (
     data.status !== StatusUser.locked &&
     data.status !== StatusUser.notVerified
   ) {
-    const { accessToken, refreshToken } = updateToken(data);
-
+    const { accessToken, refreshToken } = authHelper.updateToken(data);
     return {
-      accessToken,
-      refreshToken
+      user: data,
+      tokens: {
+        accessToken,
+        refreshToken
+      }
     };
   } else {
     const token = authHelper.verifiedToken(data);
-    console.log(token);
-    emailService.sendGMail(data.email, mailForVerified(data, token));
+    data.sendMailMessage(mailVerifiedEmail(data, token));
     throw new Error("Invalid activation");
   }
 }
@@ -179,7 +132,6 @@ module.exports = {
   logout,
   register,
   refreshToken,
-  activation,
   registerCompany,
   authSocialNetwork
 };

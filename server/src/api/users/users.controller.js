@@ -17,20 +17,9 @@ module.exports.put = async (req, res, next) => {
   service
     .update(req.user, req.body)
     .then(result => {
-      result
+      !result
         ? res.status(httpStatus.OK).json(result)
-        : res.status(httpStatus.BAD_REQUEST).json("Bad request");
-    })
-    .catch(err => next(err));
-};
-
-module.exports._delete = async (req, res, next) => {
-  service
-    .deleteUser(req.params.id, req.body)
-    .then(result => {
-      result
-        ? res.status(httpStatus.OK).json("Ok")
-        : res.status(httpStatus.BAD_REQUEST).json("Bad request");
+        : res.status(httpStatus.BAD_REQUEST).json({ message: result });
     })
     .catch(err => next(err));
 };

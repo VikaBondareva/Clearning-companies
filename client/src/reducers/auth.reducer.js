@@ -4,21 +4,23 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
+  USER_GET_ERROR,
   USER_GET_SUCCESS,
   SAVE_COMPANY_REGISTER,
   EMAIL_CONFIRM_ERROR,
   SEND_EMAIL_DELETE,
-  SEND_EMAIL_SUCCESS
-} from '../actions/actionTypes';
+  SEND_SUCCESS_EMAIL,
+  SAVE_EMAIL_STORE
+} from "../actions/actionTypes";
 
 const initialState = {
-  isAuthenticated:false,
+  isAuthenticated: false,
   role: null,
-  tokens: null,
   isLoading: false,
   isSendEmail: false,
+  profile: {},
   company: {
-    personal : {
+    personal: {
       name: "xfndfnsrt",
       email: "company@dispostable.com",
       description: "description 1mmm dfgn dg mgcnmdgcfndghndxfgnsfgngdhndgf",
@@ -29,7 +31,7 @@ const initialState = {
       },
       password: "123456Q"
     },
-    rooms : {
+    rooms: {
       toilet: {
         price: 10,
         time: 50
@@ -42,70 +44,83 @@ const initialState = {
         price: 10,
         time: 50
       }
-    },
+    }
   }
 };
 
-export default (state = initialState, {type, payload}) => {
+function loginAuth(state, payload) {
+  return {
+    ...state,
+    isLoading: false,
+    isAuthenticated: true,
+    profile: payload.profile,
+    role: payload.profile.role
+  };
+}
+
+function setNewUserState(state, payload) {
+  return {
+    ...state,
+    isLoading: false,
+    isAuthenticated: true,
+    profile: payload.profile
+  };
+}
+
+function saveEmailStore(state, payload) {
+  return {
+    ...state,
+    email: payload.email,
+    isSendCode: true
+  };
+}
+
+export default (state = initialState, { type, payload }) => {
   switch (type) {
     case AUTH_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       };
     case LOGIN_SUCCESS: {
-      return {
-        ...state,
-        isLoading: false,
-        isAuthenticated: true,
-        profile: payload.profile,
-        role:  payload.profile.role,
-        tokens: payload.tokens
-      };
+      return loginAuth(state, payload);
+    }
+    case USER_GET_ERROR: {
+      return initialState;
     }
     case AUTH_ERROR:
     case EMAIL_CONFIRM_ERROR:
       return {
         ...state,
-        isLoading: false,
-      }
-    case REGISTER_SUCCESS: 
-      return {
-        isAuthenticated:false,
-        tokens: null,
         isLoading: false
-    }
-    case LOGOUT_SUCCESS:
+      };
+    case SAVE_EMAIL_STORE:
+      return saveEmailStore(state, payload);
+    case REGISTER_SUCCESS:
       return {
-        isLoading: false,
         isAuthenticated: false,
-        tokens: null,
-        role: null,
-        profile: {}
-      }
-    case USER_GET_SUCCESS: 
-     return {
-        ...state,
-        isLoading: false,
-        isAuthenticated: true,
-        profile: payload.profile
-     }
-    case SAVE_COMPANY_REGISTER: 
-     return {
+        isLoading: false
+      };
+    case LOGOUT_SUCCESS:
+      return initialState;
+    case USER_GET_SUCCESS:
+      return setNewUserState(state, payload);
+    case SAVE_COMPANY_REGISTER:
+      return {
         ...state,
         company: payload.company
-      }
-    case SEND_EMAIL_SUCCESS: 
+      };
+    case SEND_SUCCESS_EMAIL:
       return {
         ...state,
         isSendEmail: true
-      }
-    case SEND_EMAIL_DELETE: 
+      };
+    case SEND_EMAIL_DELETE:
       return {
         ...state,
         isSendEmail: false
-      }
+      };
     default:
       return state;
   }
-}
+};

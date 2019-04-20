@@ -6,34 +6,44 @@ const {
   pnumberValidator,
   nameValidator
 } = require("../validation/model.validation");
-const { sendMessage } = require("../services/phone.service");
 const StatusUser = require("../enums/status.user.enum");
 var mongoosePaginate = require("mongoose-paginate");
+const emailService = require("../services/email.service");
 
 const schema = new mongoose.Schema(
   {
     name: { type: String, required: true, validate: nameValidator },
     surname: { type: String, required: true, validate: nameValidator },
-    email: { type: String, validate: emailValidator },
-    phone: { type: String, validate: pnumberValidator },
+    email: {
+      type: String,
+      trim: true,
+      unique: true,
+      required: true,
+      validate: emailValidator
+    },
+    notVerifiedEmail: {
+      type: String,
+      trim: true,
+      validate: emailValidator
+    },
+    verificationCode: {
+      type: Number
+    },
+    attempts: {
+      type: Number,
+      default: 0
+    },
+    phone: {
+      type: String,
+      trim: true,
+      validate: pnumberValidator
+    },
     password: { type: String, select: false, validate: passwordValidator },
     addresses: [{ type: String, required: true }],
-    // addresses: [
-    //   {
-    //     country: { type: String, require: true },
-    //     city: { type: String, require: true },
-    //     district: { type: String },
-    //     street: { type: String, require: true },
-    //     house: { type: Number, require: true },
-    //     apartment: { type: Number }
-    //   }
-    // ],
     status: { type: Number, required: true, default: StatusUser.notVerified },
-    githubId: { type: String, unique: true },
-    googleId: { type: String, unique: true },
-    vkontakteId: { type: String, unique: true },
+    googleId: { type: String },
     role: { type: String, required: true, lowercase: true },
-    isNotify: { type: Boolean, required: true, default: false },
+    isNotify: { type: Boolean, required: true, default: true },
     lockMessage: { type: String }
   },
   {
@@ -43,7 +53,7 @@ const schema = new mongoose.Schema(
 
 ////hashing a password before saving it to the database
 schema.pre("save", function(next) {
-  if (!this.githubId && !this.googleId && !this.vkontakteId && !this.password) {
+  if (!this.googleId && !this.password) {
     next(new Error("Need password"));
   }
   bcrypt.hash(this.password, 10, (err, hash) => {
@@ -53,7 +63,7 @@ schema.pre("save", function(next) {
 });
 
 schema.pre("update", function(next) {
-  if (!this.githubId && !this.googleId && !this.vkontakteId && !this.password) {
+  if (!this.googleId && !this.password) {
     next(new Error("Need password"));
   }
   bcrypt.hash(this.password, 10, (err, hash) => {
@@ -64,13 +74,9 @@ schema.pre("update", function(next) {
 
 schema.post("save", function(error, doc, next) {
   if (error.name === "MongoError" && error.code === 11000) {
-    next(new Error("User already exist"));
-  } else if (
-    !doc.githubId &&
-    !doc.googleId &&
-    !doc.vkontakteId &&
-    !doc.password
-  ) {
+    console.log(error);
+    next(new Error("Пользователь уже существует"));
+  } else if (!doc.googleId && !doc.password) {
     next(new Error("Need password"));
   } else {
     next(error);
@@ -86,14 +92,11 @@ schema.methods.comparePassword = function(candidatePassword) {
   });
 };
 
-schema.methods.sendSMS = function(message) {
-  let self = this;
-  if (self.phone) {
+schema.methods.sendMailMessage = function({ content, subject }) {
+  let that = this;
+  if (that.isNotify) {
     return new Promise((resolve, reject) => {
-      sendMessage(message, self.phone, (err, success) => {
-        if (err) return reject(err);
-        return resolve(success);
-      });
+      emailService.sendGMail(that.email, { content, subject });
     });
   }
 };
@@ -101,6 +104,8 @@ schema.methods.sendSMS = function(message) {
 schema.set("toObject", {
   transform: function(doc, ret) {
     delete ret.__v;
+    delete ret.password;
+    delete ret.verificationCode;
   }
 });
 

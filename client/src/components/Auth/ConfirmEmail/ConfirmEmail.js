@@ -2,19 +2,22 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import {EMAIL_CONFIRM_ERROR} from '../../../actions/actionTypes';
-import loadingHOC from '../../common/loading/loadingHOC';
-import queryString from "query-string";
+import {parse} from "query-string";
+import {Loader} from '../../common/loading';
 
 class ConfirmEmailComponent extends Component {
   
   componentWillMount() {
-    const {token, email} = queryString.parse(this.props.location.search);
-    console.log("token: "+token+"\nemail: "+email)
+    const {token, email} = parse(this.props.location.search);
     this.props.confirmEmail(token, email);
   }
 
-  render = () =>
-    <div>
+  render(){
+    if(this.props.isLoading){
+      return <Loader />
+    }
+    return (
+      <div>
         {(this.props.error && this.props.error.id ===  EMAIL_CONFIRM_ERROR)
           ?  <>
               <p>Something is wrong! Error: {this.props.error.message}</p>
@@ -30,6 +33,8 @@ class ConfirmEmailComponent extends Component {
             </>
         }
     </div>
+    )
+  }
 }
 
 ConfirmEmailComponent.propTypes = {
@@ -38,4 +43,4 @@ ConfirmEmailComponent.propTypes = {
   confirmEmail: PropTypes.func.isRequired
 };
 
-export default loadingHOC('isLoading')(ConfirmEmailComponent);
+export default ConfirmEmailComponent;

@@ -1,13 +1,11 @@
 import { ERRORS_GET, ERRORS_CLEAR } from './actionTypes';
 
 // RETURN ERRORS
-export const returnErrors = (message, status, id = null) => {
+export const returnErrors = (message) => {
   return {
     type: ERRORS_GET,
     payload: {
-      message,
-      status,
-      id
+      message
     }
   };
 };

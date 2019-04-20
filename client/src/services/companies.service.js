@@ -1,33 +1,19 @@
-import Axios from 'axios'
-import { authHeader } from '../helpers/headers.js'
+import Axios from "axios";
+import { authHeader } from "../utils";
 
 export const CompanyService = {
-    getCompanies (queries) {
-        return Axios.request({
-            method: 'GET',
-            url: '/companies'+queries,
-        })
-    },
-    getCompanyById (id) {
-       return Axios.request({
-            method: 'GET',
-            url: '/companies/'+id,
-        })
-    },
-    editCompany (formData) {
-        return Axios.request({
-            method: 'PUT',
-            url: '/companies/'+formData.id,
-            data: formData,
-            headers: authHeader()
-        })
-    },
-    deleteCompany (formData) {
-        return Axios.request({
-            method: 'DELETE',
-            url: '/companies/'+formData.id,
-            data: formData,
-            headers: authHeader()
-        })
-    }
-}
+  getCompanies(queries) {
+    return Axios.get("/companies" + queries);
+  },
+  getCompanyById(id) {
+    return Axios.get("/companies/" + id);
+  },
+  getCompaniesAdmin(queries) {
+    return Axios.get("/companies/admin" + queries);
+  },
+  changeStatus(formData, id) {
+    return Axios.put(`/companies/${id}/block`, formData, {
+      headers: authHeader()
+    });
+  }
+};

@@ -1,12 +1,7 @@
 const router = require("express").Router();
 const controller = require(`./auth.controller`);
 const permit = require("../../middleware/permission");
-const jwt = require("../../middleware/activation");
-const {
-  authenticateGithub,
-  authenticateGoogle,
-  authenticateVkontakte
-} = require("../../config/passport");
+const { authenticateGoogle } = require("../../config/passport");
 
 const validation = require("../../middleware/validation");
 const schemasCompany = require("../../validation").company;
@@ -27,27 +22,7 @@ router.post(
 );
 router.get("/current", permit(), controller.getCurrent);
 router.post("/refresh-token", permit(), controller.refreshToken);
-router.post("/activation", permit(), controller.activation);
 
-router.post("/github", authenticateGithub());
-router.get(
-  "/github/redirect",
-  authenticateGithub(),
-  controller.authSocialNetwork
-);
-
-router.post("/google", authenticateGoogle());
-router.get(
-  "/google/redirect",
-  authenticateGoogle(),
-  controller.authSocialNetwork
-);
-
-router.post("/vk", authenticateVkontakte());
-router.get(
-  "/vk/redirect",
-  authenticateVkontakte(),
-  controller.authSocialNetwork
-);
+router.post("/google", authenticateGoogle(), controller.authSocialNetwork);
 
 module.exports = router;

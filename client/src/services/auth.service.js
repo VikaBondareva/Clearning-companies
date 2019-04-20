@@ -1,73 +1,42 @@
 import Axios from 'axios'
-import { authRefreshHeader, authHeader } from '../helpers'
+import { authRefreshHeader, authHeader, roles } from '../utils'
 
 export const AuthService = {
-    registration(formData) {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/register',
-            data: formData
-        })
+    registration(formData, role) {
+        if(role === roles.user) {
+            return Axios.post('/auth/register',formData )
+        } else if (role === roles.executor) {
+            return Axios.post('/auth/register/company',formData )
+        }
     },
-    authVkonkte(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/vkontakte',
-        })
+    confirmEmail({token, email, verificationCode}, role){
+        if(role === roles.user) {
+            return Axios.put(`/auth/confirm/code`,{email,verificationCode});
+        } else if (role === roles.executor) {
+            return Axios.post(`/auth/confirm/email`,{ headers: {'Authorization': 'Bearer ' + token}});
+        }
     },
-    confirmEmail(token, email){
-        return Axios.request({
-            method: 'POST',
-            url: `/auth/activation`,
-            data: {email},
-            headers: {'Authorization': 'Bearer ' + token}
-        })
+    createNewCode(email){
+        return Axios.post('/auth/confirm', {email});
     },
-    authGoogle(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/google',
-        })
+    changeEmail(){
+        return Axios.put('/auth/confirm', {headers: authRefreshHeader()})
     },
-    authGitHub(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/github',
-        })
-    },
-    registrationCompany(formData) {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/register/company',
-            data: formData
-        })
+    authSocial(provider, response){
+        if(provider==="google"){
+            return Axios.post('/auth/google',{access_token: response.accessToken} )
+        }
     },
     login(formData) {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/login',
-            data: formData
-        })
+        return Axios.post('/auth/login',formData )
     },
     refreshToken() {
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/refresh-token',
-            headers: authRefreshHeader()
-        })
+        return Axios.post( '/auth/refresh-token',{headers: authRefreshHeader()} )
     },
     getCurrentUser() {
-        return Axios.request({
-            method: 'GET',
-            url: '/auth/current',
-            headers: authHeader()
-        })
+        return Axios.get('/auth/current', {headers: authHeader()})
     },
     logout(){
-        return Axios.request({
-            method: 'POST',
-            url: '/auth/logout',
-            headers: authHeader()
-        })
+        return Axios.post('/auth/logout',{headers: authRefreshHeader()} )
     }
 }   
