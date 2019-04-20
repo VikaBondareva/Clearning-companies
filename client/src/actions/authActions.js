@@ -18,7 +18,7 @@ import { AuthService } from "../services";
 import { storeTokenUser, clearToken } from "../utils/authentication";
 import { roles } from "../utils";
 import { makeActionCreator } from "./makeCreatorAction";
-import { push } from "connected-react-router";
+import { push, goBack } from "connected-react-router";
 import { returnErrors, clearErrors } from "./errorActions";
 
 export const loginSuccess = user => ({
@@ -55,9 +55,11 @@ export function asyncLogin({ identifier, password }, isExecutor) {
         console.log(response.status);
         await storeTokenUser(response.data.tokens, response.data.user);
         dispatch(loginSuccess(response.data.user));
-        if (response.data.user.role !== roles.admin) {
+        if (response.data.user.role === roles.admin) {
+          dispatch(push("/profile"));
+        } else  if (response.data.user.role === roles.executor) {
           dispatch(push("/profile/orders"));
-        } else dispatch(push("/profile"));
+        } else dispatch(goBack());
         dispatch(clearErrors());
       })
       .catch(async error => {

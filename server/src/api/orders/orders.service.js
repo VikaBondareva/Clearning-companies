@@ -79,11 +79,8 @@ async function getOrders({ _id, role }, { page, perPage, status, service }) {
   };
   const query = {
     $or: [{ executor: _id }, { customer: _id }],
-    status: status || {
-      $all: [Status.Canceled, Status.Confirmed, Status.Pending, Status.Made]
-    },
-    service: service || { $regex: "" },
-    isDeleted: false
+    status: status || { $regex: "" },
+    service: service || { $regex: "" }
   };
   const orders = await Order.paginate(query, options);
   return orders;

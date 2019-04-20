@@ -1,29 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
 import TextField from "@material-ui/core/TextField";
-import Chip from "@material-ui/core/Chip";
 import withStyles from "@material-ui/core/styles/withStyles";
 import styles from "../style/styleForm";
+import ButtonsBooking from './ButtonsBooking';
+import {SelectChip} from '../common/select';
 import "./style.css";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
-    }
-  }
-};
 
 function BookingForm(props) {
   const {
@@ -32,20 +18,15 @@ function BookingForm(props) {
     classes,
     setFieldValue,
     touched,
+    isAuth,
+    minDate,
+    previously,
     handleChange,
     handleBlur,
     handleSubmit
   } = props;
 
-  function renderMenuItemsCheckbox(values, valesBooking) {
-    return values.map(value => (
-      <MenuItem key={value._id} value={value.name}>
-        <Checkbox checked={valesBooking.indexOf(value.name) > -1} />
-        <ListItemText primary={value.name} />
-      </MenuItem>
-    ));
-  }
-  function renderSelectMenu(values, nameValue ) {
+  function renderSelectMenu(values, nameValue) {
     return values.map(value => (
       <MenuItem key={value[nameValue]} value={value}>
         {value.name}
@@ -62,68 +43,13 @@ function BookingForm(props) {
     );
   }
 
-  const renderButtons = (isCompany, isAuh) => {
-    if (isCompany) {
-      return (
-        <>
-          {/* {isAuh
-                            ? */}
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            onClick={async () => {
-              await setFieldValue("action", "create");
-              handleSubmit();
-            }}
-          >
-            Заказать уборку
-          </Button>
-          {/* //     :  <>
-                        //         <p>Сначало войдите в систему</p>
-                        //         <Button
-                        //         variant="contained"
-                        //         color="primary"
-                        //         type="submit"
-                        //         onClick={async ()=>{
-                        //             await setFieldValue("action","login");
-                        //             handleSubmit();
-                        //         }}
-                        //         >
-                        //         Войти
-                        //         </Button>
-                        //     </>
+  async function handleClick (actionName) {
+      await setFieldValue("action", actionName);
+      handleSubmit();
+  }
 
-                        // } */}
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            onClick={async () => {
-              await setFieldValue("action", "pricing");
-              handleSubmit();
-            }}
-          >
-            Предваритульные цена и время уборки
-          </Button>
-        </>
-      );
-    }
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        onClick={async () => {
-          console.log("action chooseCompany");
-          await setFieldValue("action", "chooseCompany");
-          console.log(values);
-          handleSubmit();
-        }}
-      >
-        Рассмотреть предложения
-      </Button>
-    );
+  const renderButtons = () => {
+     return <ButtonsBooking isCompany={previously} isAuth={isAuth} onClick={handleClick}/>
   };
 
   const renderRecurrentSelect = recurrent => {
@@ -131,7 +57,6 @@ function BookingForm(props) {
       return (
         <div>
           <p>
-            {" "}
             Продолжительность сделки в месяцах (максимум пол года: 6 месяцев)
           </p>
           <FormControl margin="normal" required className={classes.inputLabel}>
@@ -181,9 +106,7 @@ function BookingForm(props) {
             id: "service"
           }}
         >
-          {renderSelectMenu(
-            values.servicesCompany,values.selectName
-          )}
+          {renderSelectMenu(values.servicesCompany, values.selectName)}
         </Select>
       </FormControl>
       <div>
@@ -234,28 +157,13 @@ function BookingForm(props) {
           />
         </FormControl>
       </div>
-      <FormControl margin="normal" fullWidth>
-        <InputLabel htmlFor="select-days">День, дни уборки</InputLabel>
-        <Select
-          multiple
-          value={values.days}
-          onChange={event => {
-            console.log(event.target.value);
-            setFieldValue("days", event.target.value);
-          }}
-          input={<Input id="select-days" />}
-          renderValue={selected => (
-            <div className={classes.chips}>
-              {selected.map(value => (
-                <Chip key={value} label={value} className={classes.chip} />
-              ))}
-            </div>
-          )}
-          MenuProps={MenuProps}
-        >
-          {renderMenuItemsCheckbox(values.daysSelect, values.days)}
-        </Select>
-      </FormControl>
+        <SelectChip 
+          services={values.days}
+          onChange={handleChange}
+          servicesTypes={values.daysSelect}
+          title={"День/ дни уборки"}
+          name="days"
+        />
       <div className={classes.grid}>
         <FormControl
           margin="normal"
@@ -269,6 +177,9 @@ function BookingForm(props) {
             label="Дата уборки"
             InputLabelProps={{
               shrink: true
+            }}
+            inputProps={{
+              min: minDate
             }}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -303,7 +214,6 @@ function BookingForm(props) {
           <Select
             value={values.regularity}
             onChange={async event => {
-              console.log(event);
               if (event.target.value._id !== 1) {
                 await setFieldValue("recurrent", true);
               } else {
@@ -331,13 +241,9 @@ function BookingForm(props) {
           <p>Предварительное время уборки: {values.time} минут</p>
         )}
       </div>
-      <div>{renderButtons(values.previously, values.isAuh)}</div>
+      <div>{renderButtons()}</div>
     </form>
   );
 }
-
-BookingForm.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(BookingForm);

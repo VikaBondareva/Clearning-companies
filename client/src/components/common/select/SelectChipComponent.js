@@ -60,7 +60,7 @@ function SelectChipComponent(props){
     const classFormControl = isSmall ? classes.formControlSmall : classes.formControlBig;
     return (
         <FormControl margin="normal" className={classFormControl}>
-            <InputLabel htmlFor={props.name}>Выберите услуги</InputLabel>
+            <InputLabel htmlFor={props.name}>{props.title}</InputLabel>
             <Select
                 multiple
                 name={props.name}

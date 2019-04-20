@@ -20,26 +20,9 @@ async function createReview(customer, { ratting, reviewText, company }) {
       mainNewReviewForCompany(companyFind.name, reviewText)
     );
     return review;
-  } catch {
+  } catch (err) {
     return false;
   }
-}
-
-async function getReviews({ _id }, { page, perPage }) {
-  const options = {
-    page: parseInt(page, 10) || 1,
-    limit: parseInt(perPage, 10) || 20,
-    populate: [
-      { path: "customer", select: "name surname email phone" },
-      { path: "company", select: "name email" }
-    ],
-    sort: "-updated_at"
-  };
-  const query = {
-    $or: [{ company: _id }, { customer: _id }]
-  };
-  const reviews = await Review.paginate(query, options);
-  return reviews;
 }
 
 async function getByIdReviewsCompany(_id, { page }) {
@@ -62,7 +45,6 @@ async function deleteReview(_id, customer) {
 
 module.exports = {
   createReview,
-  getReviews,
   deleteReview,
   getByIdReviewsCompany
 };

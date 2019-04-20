@@ -1,13 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import {Input, FilledInput} from "@material-ui/core";
+import { Input, Switch, FormControlLabel, Button } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { ButtonLink } from "../../../common/buttons";
 import { styles } from "../styleEdit";
-import classNames from 'classnames';
+import classNames from "classnames";
 
 function EditProfileUser(props) {
   const {
@@ -30,7 +26,6 @@ function EditProfileUser(props) {
           multiline
           name={`addresses[${i}]`}
           value={values.addresses[i]}
-          onBlur={handleBlur}
           error={
             touched.addresses &&
             touched.addresses[i] &&
@@ -78,21 +73,23 @@ function EditProfileUser(props) {
         />
       </div>
       <div className={classes.grid}>
-          <p>Email</p>
-          
-        <div>
-        
-        <Input
-          name="email"
-          className={classes.input}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.email}
-          error={touched.email && Boolean(errors.email)}
-        />
-        {values.notVerifiedEmail && <p className={classes.textError}> Потдтвердите: {values.notVerifiedEmail}</p>}
-        </div>
+        <p>Email</p>
 
+        <div>
+          <Input
+            name="email"
+            className={classes.input}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+            error={touched.email && Boolean(errors.email)}
+          />
+          {values.notVerifiedEmail && (
+            <p className={classes.textError}>
+              Потдтвердите: {values.notVerifiedEmail}
+            </p>
+          )}
+        </div>
       </div>
       <div className={classes.grid}>
         <p>Мобильный телефон</p>
@@ -101,7 +98,6 @@ function EditProfileUser(props) {
           className={classes.input}
           value={values.phone}
           onChange={handleChange}
-          onBlur={handleBlur}
           error={touched.phone && Boolean(errors.phone)}
         />
       </div>
@@ -112,7 +108,7 @@ function EditProfileUser(props) {
 
           <Button
             variant="contained"
-            className={classNames(classes.submit,classes.input )}
+            className={classNames(classes.submit, classes.input)}
             onClick={async () => {
               await setFieldValue("actionName", "addAddress");
               handleSubmit();

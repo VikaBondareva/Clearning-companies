@@ -15,4 +15,5 @@ router.put(
   // validation(schemas.companyPUT, "body"),
   controller.put
 );
+
 module.exports = router;

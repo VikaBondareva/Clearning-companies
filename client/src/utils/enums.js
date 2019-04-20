@@ -19,6 +19,7 @@ export const statusUsersEnum = {
 };
 
 export const statusOrdersArray = [
+  {value: "", name: "Все"},
   { value: orderStatusesEnum.Canceled, name: "Отказано" },
   { value: orderStatusesEnum.Pending, name: "Открытый" },
   { value: orderStatusesEnum.Confirmed, name: "Принят" },
@@ -26,6 +27,7 @@ export const statusOrdersArray = [
 ];
 
 export const statusUsersArray = [
+  {value: "", name: "Все"},
   { value: statusUsersEnum.notVerified, name: "Email не подтвержден" },
   { value: statusUsersEnum.verified, name: "Активный" },
   { value: statusUsersEnum.locked, name: "Заблокирован" }
@@ -90,6 +92,12 @@ export const getNameFormArray = (values, current, nameSearch) => {
   }
   return null;
 };
+
+export const toStringDate = date => {
+  const month = date.getMonth() < 10 ? "0"+date.getMonth() :  date.getMonth()
+  const formatDate = `${date.getFullYear()}-${month}-${date.getDate()}`;
+  return formatDate
+}
 
 export function preliminaryCalculation(rooms, countRooms, coefficient) {
   const time = pricingTime(rooms, countRooms, coefficient);

@@ -4,13 +4,13 @@ import BookingSchemaValid from "./BookingSchemaValid";
 import loadingHOC from "../common/loading/loadingHOC";
 import BookingForm from "./BookingForm";
 import PropTypes from "prop-types";
-import {Loader } from '../common/loading';
 import {
   serviceTypes,
   daysSelect,
   regularityTypes,
   preliminaryCalculation,
-  querySearch
+  querySearch,
+  toStringDate
 } from "../../utils";
 
 function BookingFormComponent(props) {
@@ -25,6 +25,7 @@ function BookingFormComponent(props) {
   const previously = props.company ? true : false;
   const executor = props.company ? props.company._id : "";
   let isConfirm = false;
+  const minDate = toStringDate(new Date());
   let initialOrder = {};
   if (props.order) {
       isConfirm = true;
@@ -38,19 +39,13 @@ function BookingFormComponent(props) {
         standart: 0,
         big: 0
       },
-      date: "",
+      date: minDate,
       days: [],
       regularity: 0,
       startTime: "07:30",
       service:{}
     };
   }
-  console.log(props);
-
-  if(props.isLoading){
-      return <Loader/>;
-  }
-
   return (
     <Formik
       initialValues={{
@@ -61,11 +56,8 @@ function BookingFormComponent(props) {
         servicesCompany,
         selectName,
         recurrent: false,
-        previously,
         daysSelect,
         action: "",
-        isConfirm,
-        isAuth: props.isAuth,
         executor
       }}
       validationSchema={BookingSchemaValid}
@@ -96,7 +88,7 @@ function BookingFormComponent(props) {
           changeLocation(values, "/login", props);
         }
       }}
-      component={BookingForm}
+      render={(dates)=><BookingForm isAuth={props.isAuth} isConfirm={isConfirm} minDate={minDate} previously={previously} {...dates}/>}
     />
   );
 }
@@ -104,7 +96,6 @@ function BookingFormComponent(props) {
 function getOrderSaveStore(values) {
   const {
     regularityTypes,
-    previously,
     recurrent,
     servicesCompany,
     daysSelect,
@@ -112,8 +103,6 @@ function getOrderSaveStore(values) {
     action,
     time,
     price,
-    isAuth,
-    isConfirm,
     ...order
   } = values;
   

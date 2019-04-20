@@ -52,7 +52,7 @@ function Registration(props) {
               error={touched.email && Boolean(errors.email)}
             />
           </FormControl>
-          <FormControl margin="normal" required>
+          <FormControl margin="normal">
             <InputLabel htmlFor="phone">Мобильный телефон</InputLabel>
             <Input
               name="phone"
