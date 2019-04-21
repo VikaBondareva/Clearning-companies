@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import CardCompanyComponent from './CompanyCard/CardCompanyComponent';
 import CardCompanyComponent from './CompanyCard/CardComponent';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -95,7 +94,7 @@ CompaniesList.propTypes = {
     page: PropTypes.number.isRequired,
     getCompanies: PropTypes.func.isRequired,
     loadCompany: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool,
 };
 
 export default withRouter(withStyles(styles)(CompaniesList));

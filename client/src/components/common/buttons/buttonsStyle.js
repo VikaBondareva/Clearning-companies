@@ -14,11 +14,13 @@ const styles = theme => ({
     btnLinkWhite: {
       background: theme.palette.common.white,
     },
+    btnLinkLight: {
+      background: theme.palette.primary.main,
+    },
     btnLinkDark: {
-      background: theme.palette.primary.dark,
+      background: theme.palette.primary.light,
     },
     btnMarginLeft:{
-      // marginLeft: 15,
       marginRight: 15
     },
     btnMarginTop: {

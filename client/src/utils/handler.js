@@ -1,27 +1,25 @@
-import {AuthService} from '../services'
+import { AuthService } from "../services";
+import { makeActionCreator } from "../actions/makeCreatorAction";
+import { asyncLogout,asyncRefreshToken } from "../actions/authActions.js";
+import {storeToken} from './authentication';
+import jwt from 'jwt-decode';
 
-export function handleResponse(response) {
-    return new Promise(function (resolve, reject) {
-        console.log("RESPONSE ERROR HANDLING")
-        console.log(response);
-        if (response.status === 401) {
-            AuthService.refreshToken()
-                .then(response => {
-                    console.log("SUCCESSFULLY REFRESH TOKEN");
-                    if (response.data.accessToken) {
-                        localStorage.setItem('user', JSON.stringify(response.data));
-                    }
-                    resolve("OK");
-                })
-                .catch(error => {
-                    console.log("ERROR REFRESH TOKEN");
-                    console.log(error);
-                    return reject("ERROR");
-                })
-        } else {
-            reject(response);
-        }
-    })
+export const jwtCheck = ({dispatch,getState }) => next => action => {
+    if (typeof action === "function") {
+      let tokens = JSON.parse(localStorage.getItem('tokens'));
+      if (
+        tokens 
+        && tokens.accessToken 
+        && isTokenExpired(tokens.accessToken)) {
+      	return asyncRefreshToken(dispatch).then(()=>next(action));
+      }
+    }
+    return next(action);
 }
 
-
+const isTokenExpired = token  => {
+  const tok =   jwt(token).exp;
+  const date  =  new Date().getTime()/1000 + 50
+  let isExpires = tok  < date  ; 
+  return isExpires;
+}

@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { authHeader } from "../utils";
 
 export const CompanyService = {
   getCompanies(queries) {
@@ -7,13 +6,5 @@ export const CompanyService = {
   },
   getCompanyById(id) {
     return Axios.get("/companies/" + id);
-  },
-  getCompaniesAdmin(queries) {
-    return Axios.get("/companies/admin" + queries);
-  },
-  changeStatus(formData, id) {
-    return Axios.put(`/companies/${id}/block`, formData, {
-      headers: authHeader()
-    });
   }
 };

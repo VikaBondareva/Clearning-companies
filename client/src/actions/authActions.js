@@ -1,10 +1,8 @@
 import {
   AUTH_REQUEST,
   AUTH_ERROR,
-  LOGIN_ERROR,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  REGISTER_ERROR,
   REGISTER_SUCCESS,
   SAVE_COMPANY_REGISTER,
   EMAIL_CONFIRM_ERROR,
@@ -15,16 +13,17 @@ import {
   SAVE_EMAIL_STORE
 } from "./actionTypes";
 import { AuthService } from "../services";
-import { storeTokenUser, clearToken } from "../utils/authentication";
+import { storeTokenUser, clearToken,storeToken } from "../utils/authentication";
 import { roles } from "../utils";
 import { makeActionCreator } from "./makeCreatorAction";
 import { push, goBack } from "connected-react-router";
 import { returnErrors, clearErrors } from "./errorActions";
 
-export const loginSuccess = user => ({
+export const loginSuccess = ({user, tokens}) => ({
   type: LOGIN_SUCCESS,
   payload: {
-    profile: user
+    profile: user,
+    tokens
   }
 });
 
@@ -54,7 +53,7 @@ export function asyncLogin({ identifier, password }, isExecutor) {
       .then(async response => {
         console.log(response.status);
         await storeTokenUser(response.data.tokens, response.data.user);
-        dispatch(loginSuccess(response.data.user));
+        dispatch(loginSuccess(response.data));
         if (response.data.user.role === roles.admin) {
           dispatch(push("/profile"));
         } else  if (response.data.user.role === roles.executor) {
@@ -83,7 +82,7 @@ export const asyncSocialAuth = (provider,token) => dispatch => {
     AuthService.authSocial(provider,token).then(async response => {
       console.log(response);
       await storeTokenUser(response.data.tokens, response.data.user);
-      dispatch(loginSuccess(response.data.user));
+      dispatch(loginSuccess(response.data));
       dispatch(push("/profile"));
     })
     .catch(error => {
@@ -116,6 +115,7 @@ export const asyncLogout = () => dispatch => {
   AuthService.logout();
   clearToken();
   dispatch(makeActionCreator(LOGOUT_SUCCESS));
+  dispatch(push("/"));
 };
 
 export const asyncConfirmEmail = (
@@ -127,7 +127,7 @@ export const asyncConfirmEmail = (
     .then(async response => {
       await storeTokenUser(response.data.tokens, response.data.user);
       dispatch(makeActionCreator(EMAIL_CONFIRM_SUCCESS));
-      dispatch(loginSuccess(response.data.user));
+      dispatch(loginSuccess(response.data));
     })
     .catch(error => {
       dispatch(makeActionCreator(EMAIL_CONFIRM_ERROR));
@@ -148,14 +148,14 @@ export const asyncSendNewVerificationCode = email => dispatch => {
     });
 };
 
-export const asyncRefreshToken = () => dispatch => {
-  dispatch(makeActionCreator("TOKEN_REFRESH_REQUEST"));
-  return AuthService.refreshToken()
-    .then(async response => {
-      await storeTokenUser(response.data.tokens, response.data.user);
-      dispatch(makeActionCreator("TOKEN_REFRESH_SUCCESS"));
-    })
-    .catch(() => {
-      dispatch(makeActionCreator("TOKEN_REFRESH_ERROR"));
-    });
-};
+export const asyncRefreshToken =async dispatch => {
+   dispatch(makeActionCreator("TOKEN_REFRESH_REQUEST"));
+        return await  AuthService.refreshToken().then(async (response) => {
+          await storeToken(response.data);
+          dispatch(makeActionCreator("TOKEN_REFRESH_SUCCESS"));
+        })
+        .catch(()=>{
+          dispatch(makeActionCreator("TOKEN_REFRESH_ERROR"));
+          dispatch(asyncLogout());
+        })
+}

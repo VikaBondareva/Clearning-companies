@@ -3,7 +3,7 @@ import rootReduce from '../reducers/index';
 import {createLogger} from 'redux-logger';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from "connected-react-router";
-import {history} from '../utils';
+import {history,jwtCheck} from '../utils';
 
 const composeEnhancers =
     process.env.NODE_ENV !== "production" &&
@@ -12,8 +12,8 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
 const getMiddleware = () => {
-    const  middlewareDev = [createLogger(),thunk, routerMiddleware(history)];
-    const middlewareProd = [thunk, routerMiddleware(history)];
+    const  middlewareDev = [createLogger(),jwtCheck,thunk, routerMiddleware(history)];
+    const middlewareProd = [jwtCheck,thunk, routerMiddleware(history)];
     if (process.env.REACT_APP_NODE_ENV === 'production') {
         return applyMiddleware(...middlewareProd);
     } else {

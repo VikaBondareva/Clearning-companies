@@ -28,7 +28,7 @@ export default function App(props) {
   return (
     <Switch>
       <Route path="/" exact component={WithLayout(Home)} />
-      <Route path="/:id" exact component={WithLayout(CompanyPage)} />
+      <Route path="/companies/:id" exact component={WithLayout(CompanyPage)} />
       {role !== roles.executor && (
         <Route path="/booking" exact component={WithLayout(Booking)} />
       )}

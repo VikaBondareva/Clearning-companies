@@ -18,7 +18,7 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.logout = (req, res, next) => {
-  authService.logout(req.refreshToken).then(result => {
+  authService.logout(req.user._id).then(result => {
     result
       ? res.status(httpStatus.OK).json("Ok")
       : res.status(httpStatus.INTERNAL_SERVER_ERROR).json("Internal Error");

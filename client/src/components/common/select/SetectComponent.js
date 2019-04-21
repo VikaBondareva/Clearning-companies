@@ -29,8 +29,8 @@ function SelectComponent(props){
     }
   
     function renderOptions(options){
-        return options.map(option=>(
-          <option value={option.value}>{option.name}</option>
+        return options.map((option,i)=>(
+          <option  key={i} value={option.value}>{option.name}</option>
         ))
     }
 

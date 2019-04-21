@@ -1,12 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "../../common/buttons";
 import './table.style.css';
 import {
   getNameFormArray,
-  statusUsersEnum,
   statusUsersArray,
-  roles
 } from "../../../utils";
 
 export default function TableUsers({ list, total,renderButton }) {
@@ -15,8 +12,8 @@ export default function TableUsers({ list, total,renderButton }) {
       <p>
          Пользователей {total}
       </p>
-        <div class="table-users">  
-            <table cellspacing="0" className="table">
+        <div className="table-users">  
+            <table className="table">
                 <tr className="table-users-tr">
                     <th className="table-users-th">Name Surname</th>
                     <th className="table-users-th">Email</th>
@@ -45,6 +42,6 @@ export default function TableUsers({ list, total,renderButton }) {
 
 TableUsers.propTypes = {
   list: PropTypes.array.isRequired,
-  total: PropTypes.string.isRequired,
-  role: PropTypes.number.isRequired
+  total: PropTypes.number.isRequired,
+  role: PropTypes.string
 };

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { ButtonLink, Button } from "../../common/buttons";
 import { WorkPlanCompany } from "../../common/company-forms";
@@ -58,7 +58,6 @@ export default function CardCompanyComponent(props) {
             )}
             <div>
               <p className="excerpt">
-                {" "}
                 Цена за маленькую конмнату: {rooms.standart.price} руб
               </p>
               <p className="excerpt">
@@ -74,14 +73,14 @@ export default function CardCompanyComponent(props) {
               <Button
                 name="Заказать услугу"
                 onClick={() => props.onClick(_id)}
-                to={`/${_id}`}
+                to={`/companies/${_id}`}
                 className="preview__btn-control btn-control"
               />
             )}
 
             <ButtonLink
               name="Подробнее"
-              to={`/${_id}`}
+              to={`/companies/${_id}`}
               className="preview__btn-control btn-control"
             />
           </div>

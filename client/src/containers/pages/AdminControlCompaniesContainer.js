@@ -1,5 +1,5 @@
 import { connect} from 'react-redux';
-import { asyncChangeStatusCompany, asyncGetControlCompanies} from '../../actions/adminActions';
+import { asyncChangeStatusUser, asyncGetControlUsers} from '../../actions/adminActions';
 import {ControlCompanies as ControlCompaniesComponent} from '../../components/Admin/ControlsAdmin';
 
 const mapStateToProps = (state) => ({
@@ -12,11 +12,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        changeStatusCompany: ({block, message}, id) => {
-            dispatch(asyncChangeStatusCompany({block, message}, id));
+        changeStatusCompany: ({block, message}, id,role) => {
+            dispatch(asyncChangeStatusUser({block, message}, id,role));
         },
-        getCompaniesControl: (query) => {
-            dispatch(asyncGetControlCompanies(query));
+        getCompaniesControl: (query,role) => {
+            dispatch(asyncGetControlUsers(query,role));
         }
     }
 };

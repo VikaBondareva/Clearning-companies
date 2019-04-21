@@ -8,8 +8,5 @@ export const ReviewsService = {
     getReviewsCompanyById (id,page) {
         const query = page? "?page="+page: "";
         return Axios.get(`/companies/${id}/reviews`+query );
-    },
-    // deleteReview (id) {
-    //     return Axios.delete('/companies/'+id, {headers: authHeader()})
-    // }
+    }
 }

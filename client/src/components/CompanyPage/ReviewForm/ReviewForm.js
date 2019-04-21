@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Star from '@material-ui/icons/Star';
@@ -7,8 +6,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {Link} from 'react-router-dom';
-
-import styles from './style.css';
+import './style.css';
 
 const style = {
     radioGroup: {
@@ -25,8 +23,8 @@ function ReviewForm(props) {
     return (
         <div className="container-review">
             <p >
-            We strive to provide the best possible service for our clients. Please leave a review
-            to let us know how we are doing and to share your experience with others.
+            Мы стремимся предоставить лучший сервис для наших клиентов. Пожалуйста, оставьте отзыв
+            чтобы сообщить нам, как у нас дела, и поделиться своим опытом с другими.
             </p>
             <form className="form-review" onSubmit={handleSubmit}>
                 <h2 className="title-review">Write Your Review</h2>
@@ -85,11 +83,11 @@ function ReviewForm(props) {
                         />
                 </RadioGroup> 
                 <span className="help-block">
-                    Click on a star to change your rating 1 - 5, where 5 = great! and 1 = really bad
+                    Нажмите на звездочку, чтобы изменить свой рейтинг 1 - 5, где 5 = отлично! и 1 = очень плохо
                 </span>
                 {errors.ratting && touched.ratting && <div className="error">{errors.ratting}</div>}
                 <FormControl margin="normal" required fullWidth>
-                    <label className="control-label" htmlFor="reviewText">Your Review:</label>
+                    <label className="control-label" htmlFor="reviewText">Ваш отзыв:</label>
                     <textarea 
                         className="control-textarea" 
                         rows="10" 
@@ -101,9 +99,6 @@ function ReviewForm(props) {
                     >
                     </textarea>
                 </FormControl>
-                {/* <span className="help-block help-block_right">
-                    999 Characters remaining
-               </span> */}
                 {errors.reviewText && touched.reviewText && <div className="error">{errors.reviewText}</div>}
                 {values.isAuth
                     ? <Button
