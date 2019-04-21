@@ -1,6 +1,7 @@
 const authHelper = require("../../config/authHelper");
 const { mailVerifiedEmail, mailSendVerifyCode } = require("../../config/email");
 const User = require("../../models").user;
+const Token = require("../../models").token;
 const Company = require("../../models").company;
 const Role = require("../../enums/roles.enum");
 const StatusUser = require("../../enums/status.user.enum");
@@ -37,7 +38,8 @@ async function authenticate({ identifier, password }) {
   }
 }
 
-async function logout() {
+async function logout(userId) {
+  await Token.deleteOne({ userId });
   return true;
 }
 

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import ProfileCompany from "./ProfileCompany";
 import ProfileUser from "./ProfileUser";
 import PropTypes from "prop-types";
@@ -25,7 +25,6 @@ export default function Profile(props) {
 }
 
 Profile.propTypes = {
-  classes: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
   role: PropTypes.string.isRequired
 };

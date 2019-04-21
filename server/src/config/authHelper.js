@@ -31,15 +31,14 @@ const generateRefreshToken = ({ _id, role }) => {
   const token = jwt.sign(payload, config.jwt.secret, {
     expiresIn: config.jwt.refresh.expiration
   });
-  Token.findOne({ userId: _id }, (err, data) => {
+  Token.findOne({ userId: _id }, async (err, data) => {
     if (data) {
       data.tokenId = tokenId;
-      data.createdAt = Date.now();
-      data.save();
+      await data.save();
     } else {
-      new Token({ tokenId, userId: _id }).save();
+      await new Token({ tokenId, userId: _id }).save();
     }
-  }).exec();
+  });
   return token;
 };
 

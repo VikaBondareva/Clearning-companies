@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { roles } from "../../../utils";
-import './styleNav.css';
+import "./styleNav.css";
 
-export function NavigationProfile({ role }) {
+export function NavigationProfile({ role, iSicoal }) {
   const renderButton = () => {
     if (role === roles.admin) {
       return (
@@ -11,7 +11,9 @@ export function NavigationProfile({ role }) {
           <NavLink exact to="/admin/companies" activeClassName="nav-active">
             Управление компаниями
           </NavLink>
-          <NavLink to="/admin/users" activeClassName="nav-active">Управление пользователями</NavLink>
+          <NavLink to="/admin/users" activeClassName="nav-active">
+            Управление пользователями
+          </NavLink>
         </>
       );
     } else {
@@ -32,9 +34,15 @@ export function NavigationProfile({ role }) {
         <NavLink to="/profile/edit" activeClassName="nav-active" exact>
           Редатировать профиль
         </NavLink>
-        <NavLink exact to="/profile/edit/password" activeClassName="nav-active">
-          Сменить пароль
-        </NavLink>
+        {!iSicoal && (
+          <NavLink
+            exact
+            to="/profile/edit/password"
+            activeClassName="nav-active"
+          >
+            Сменить пароль
+          </NavLink>
+        )}
         {renderButton()}
       </>
     );

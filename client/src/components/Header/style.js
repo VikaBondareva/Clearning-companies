@@ -44,6 +44,10 @@ const styles = theme => ({
     },
     menuHeader: {
       color: theme.palette.secondary.main
+    },
+    logo:{
+    	width: 100,
+    	height: 50
     }
   });
 

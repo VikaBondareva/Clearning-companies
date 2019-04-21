@@ -12,11 +12,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        changeStatusUser: ({block, message}, id) => {
-            dispatch(asyncChangeStatusUser({block, message}, id));
+        changeStatusUser: ({block, message}, id, role) => {
+            dispatch(asyncChangeStatusUser({block, message}, id,role));
         },
-        getUsersControl: (query) => {
-            dispatch(asyncGetControlUsers(query));
+        getUsersControl: (query,role) => {
+            dispatch(asyncGetControlUsers(query,role));
         }
     }
 };

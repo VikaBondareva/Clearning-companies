@@ -20,7 +20,7 @@ export const AuthService = {
         return Axios.post('/auth/confirm', {email});
     },
     changeEmail(){
-        return Axios.put('/auth/confirm', {headers: authRefreshHeader()})
+        return Axios.put('/auth/confirm', {headers: authHeader()})
     },
     authSocial(provider, response){
         if(provider==="google"){
@@ -31,12 +31,12 @@ export const AuthService = {
         return Axios.post('/auth/login',formData )
     },
     refreshToken() {
-        return Axios.post( '/auth/refresh-token',{headers: authRefreshHeader()} )
+        return Axios.post( '/auth/refresh-token',null,{headers: authRefreshHeader()} )
     },
     getCurrentUser() {
         return Axios.get('/auth/current', {headers: authHeader()})
     },
     logout(){
-        return Axios.post('/auth/logout',{headers: authRefreshHeader()} )
+        return Axios.post('/auth/logout',null,{headers: authHeader()} )
     }
 }   

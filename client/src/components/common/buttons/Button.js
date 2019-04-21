@@ -3,17 +3,18 @@ import ButtonUI from '@material-ui/core/Button';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from './buttonsStyle'
 
-function ButtonComponent(props){
+function ButtonComponent({isDark, onClick, name,classes}){
 
+    const classColor = !isDark ? classes.btnLinkLight : classes.btnLinkDark;
     return (
         <ButtonUI
-            // className={}
+            className={classColor}
             variant="contained"
             color='primary'
             type="submit"
-            onClick={props.onClick}
+            onClick={onClick}
             >
-            {props.name}
+            {name}
         </ButtonUI>
     );
 }

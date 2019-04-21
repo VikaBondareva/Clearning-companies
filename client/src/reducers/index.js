@@ -13,7 +13,6 @@ const rootReducer = combineReducers({
      companies,
      error,
      users: admin,
-     // isLoading,
      loading,
      orders,
      router: connectRouter(history)

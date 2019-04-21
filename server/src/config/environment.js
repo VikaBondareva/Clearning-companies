@@ -12,17 +12,17 @@ const schema = joi
     JWT_ENCRYPTION: joi
       .string()
       .default("e5a3388c-9731-my-secret-8b11-be602d8c54845"),
-    JWT_ACCESS_EXPIRATION: joi.number().default(28800),
+    JWT_ACCESS_EXPIRATION: joi.number().default(120),
     JWT_ACCESS_TYPE: joi.string().default("access"),
 
-    JWT_REFRESH_EXPIRATION: joi.string().default("32h"),
+    JWT_REFRESH_EXPIRATION: joi.number().default(107600),
     JWT_REFRESH_TYPE: joi.string().default("refresh"),
     JWT_VERIFIED_EXPIRATION: joi.number().default(28800),
 
     MONGODB_HOST: joi.string().default("mongodb://127.0.0.1:27017/example"),
 
     GMAIL_USER_NAME: joi.string().default("mega.cleaning.2019@gmail.com"),
-    GMAIL_USER_PASSWORD: joi.string(),
+    GMAIL_USER_PASSWORD: joi.string().default("125ZXS123CDF"),
     GMAIL_SERVER_HOST: joi.string().default("smtp.gmail.com"),
     EMAIL_SERVER_PORT: joi.number().default(587),
 

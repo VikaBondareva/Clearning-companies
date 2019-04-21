@@ -8,7 +8,7 @@ export const initializePreviousToken = async store => {
   const tokens = JSON.parse(localStorage.getItem(AUTH_TOKE_KEY));
   const user = JSON.parse(localStorage.getItem(USER_KEY));
   if (tokens) {
-    await store.dispatch(loginSuccess(user));
+    await store.dispatch(loginSuccess({user, tokens}));
     store.dispatch(asyncGetCurrentProfile());
   }
   

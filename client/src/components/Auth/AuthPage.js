@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Logo from '../../static/img/logo.png';
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -39,9 +38,7 @@ function AuthPage(props) {
         <CssBaseline />
         <Paper className={classes.paper}>
           <Link to="/">
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
+              <img className={classes.logo}  src={Logo} alt="Клининговые компании"/>
           </Link>
           <Typography component="h1" variant="h5">
             {title}

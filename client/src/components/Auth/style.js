@@ -36,7 +36,7 @@ const styles = theme => ({
       backgroundColor: theme.palette.secondary.main,
     },
     form: {
-      width: '100%', // Fix IE 11 issue.
+      width: '100%', 
     },
     formCode:{
       width: '100%',
@@ -76,7 +76,10 @@ const styles = theme => ({
         color: green[500],
       },
     },
-    checked: {},
+    logo:{
+    	width: 100,
+    	height: 80
+    }
   });
 
   export default styles;

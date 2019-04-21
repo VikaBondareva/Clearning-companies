@@ -22,7 +22,7 @@ export const ProfileWithLayout = Component => props=>{
     <ErrorBoundary>
       <Header/>
           <main className="main">
-              <NavigationProfile role={props.role} />
+              <NavigationProfile role={props.role} isSocial={props.isSocial}/>
               <Component {...props} />
           </main>
       <Footer/>

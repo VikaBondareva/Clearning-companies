@@ -30,12 +30,12 @@ class AdminPage extends Component {
 
   componentDidMount() {
     const search = this.props.location.search;
-    this.props.loadListControl(search);
+    this.props.loadListControl(search, this.props.role);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.location.search !== prevProps.location.search) {
-      this.props.loadListControl(this.props.location.search);
+      this.props.loadListControl(this.props.location.search, this.props.role);
     }
   }
 
@@ -64,7 +64,7 @@ class AdminPage extends Component {
     if (message) {
       data.message = message;
     }
-    this.props.changeStatus(data, this.state.id);
+    this.props.changeStatus(data, this.state.id, this.props.role);
     this.handleClickShowModal(nameIsOpen);
   }
 

@@ -2,8 +2,12 @@ import Axios from "axios";
 import { authHeader, roles } from "../utils";
 
 export const UserService = {
-  getUsers(queries) {
-    return Axios.get("/users" + queries, { headers: authHeader() });
+  getUsers(queries, role) {
+    if(role===roles.user){
+      return Axios.get("/users" + queries, { headers: authHeader() });
+    } else {
+        return Axios.get("/companies/admin" + queries,{ headers: authHeader() });
+    }
   },
   editUser(formData,role,isLogo) {
     if(role === roles.executor) {
@@ -24,7 +28,10 @@ export const UserService = {
       });
     }
   },
-  changeStatus(formData, id) {
-    return Axios.put(`/users/${id}/block`, formData, { headers: authHeader() })
+  changeStatus(formData, id, role) {
+    if(role===roles.user){
+      return Axios.put(`/users/${id}/block`, formData, { headers: authHeader() })
+    }
+    else return Axios.put(`/companies/${id}/block`, formData, { headers: authHeader() })
   }
 };

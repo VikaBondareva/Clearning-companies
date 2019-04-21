@@ -16,36 +16,10 @@ import {
 const initialState = {
   isAuthenticated: false,
   role: null,
+  tokens: {},
   isLoading: false,
   isSendEmail: false,
-  profile: {},
-  company: {
-    personal: {
-      name: "xfndfnsrt",
-      email: "company@dispostable.com",
-      description: "description 1mmm dfgn dg mgcnmdgcfndghndxfgnsfgngdhndgf",
-      address: {
-        city: "Mogilev",
-        country: "Belarus",
-        other: "dgndfg"
-      },
-      password: "123456Q"
-    },
-    rooms: {
-      toilet: {
-        price: 10,
-        time: 50
-      },
-      standart: {
-        price: 10,
-        time: 50
-      },
-      big: {
-        price: 10,
-        time: 50
-      }
-    }
-  }
+  profile: {}
 };
 
 function loginAuth(state, payload) {
@@ -54,6 +28,7 @@ function loginAuth(state, payload) {
     isLoading: false,
     isAuthenticated: true,
     profile: payload.profile,
+    tokens: payload.tokens,
     role: payload.profile.role
   };
 }
@@ -63,7 +38,8 @@ function setNewUserState(state, payload) {
     ...state,
     isLoading: false,
     isAuthenticated: true,
-    profile: payload.profile
+    profile: payload.profile,
+    role: payload.profile.role
   };
 }
 

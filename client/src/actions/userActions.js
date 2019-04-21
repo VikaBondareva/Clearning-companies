@@ -43,11 +43,13 @@ export const asyncEditProfile = (changedUser,role,isLogo = false)  => dispatch =
   dispatch(makeActionCreator("USER_EDIT_REQUEST"));
   return UserService.editUser(changedUser,role,isLogo)
     .then(response => {
+      dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
       if(!isLogo){
         dispatch(getProfileSuccess(changedUser));
-        dispatch(push('/profile'));
+      } else {
+        dispatch(asyncGetCurrentProfile());
       }
-      dispatch(makeActionCreator("USER_EDIT_SUCCESS"));
+      dispatch(push('/profile'));
        dispatch(clearErrors());
     })
     .catch((error) => {

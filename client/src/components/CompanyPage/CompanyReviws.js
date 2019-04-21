@@ -44,4 +44,4 @@ CompanyReviewsComponent.propTypes = {
   isLoading: PropTypes.bool
 };
 
-export default loadingHOC("isLoading")(CompanyReviewsComponent);
+export default loadingHOC("isLoading",true)(CompanyReviewsComponent);

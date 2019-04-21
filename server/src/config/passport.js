@@ -18,12 +18,15 @@ function jwtStrategy() {
     new Strategy(opts, async (token, done) => {
       let user;
       let userId;
-
       if (token.type !== config.jwt.refresh.type) {
         userId = token.id;
       } else {
         const tokenId = await Token.findOne({ tokenId: token.id });
-        userId = tokenId.userId;
+        if (tokenId) {
+          userId = tokenId.userId;
+        } else {
+          return done(null, false);
+        }
       }
       if (token.role === Role.Executor) {
         user = await Company.findById(userId);
@@ -31,7 +34,6 @@ function jwtStrategy() {
         user = await User.findById(userId);
       }
       const data = user;
-      console.log(data);
       if (data) {
         return done(null, data);
       } else {
@@ -51,7 +53,6 @@ function googleStrategy() {
       (accessToken, refreshToken, profile, done) => {
         User.findOne({ googleId: profile.id }).then(user => {
           if (user) {
-            console.log(`user is: ${user}`);
             done(null, user);
           } else {
             new User({
@@ -64,7 +65,6 @@ function googleStrategy() {
             })
               .save()
               .then(user => {
-                console.log(`new user: ${user}`);
                 done(null, user);
               });
           }
