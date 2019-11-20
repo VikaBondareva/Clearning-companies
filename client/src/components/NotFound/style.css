@@ -1,0 +1,15 @@
+  .not-found {
+    font-size: 25px;
+    background: radial-gradient(
+      circle,
+      #480000,
+      black
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    height: 100%;
+    flex-direction: column;
+    text-align: center;
+  }

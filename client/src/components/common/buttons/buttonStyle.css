@@ -1,0 +1,20 @@
+.btn-link_white{
+    background: wheat;
+}
+.btn-link_dark {
+    background: #138462;
+}
+.btn_margin-left{
+    margin-left:15px;
+    margin-right:15px;
+}
+
+.btn_margin-top{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.link-menu{
+    color: #49344f;
+    text-decoration: none;
+    
+}

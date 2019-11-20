@@ -1,0 +1,25 @@
+.quoteSlides {
+    padding: 5px 0;
+}
+.slideshow-container {
+    padding: 0 10px;
+    margin: 20px 0;
+    background-color: #e7eff7;
+}
+.active {
+    background-color: #fff;
+}
+.author {
+    font-style: italic;
+    color: #1D5595;
+    font-size: 0.9em;
+}
+.fa-star_checked {
+    color: #ff9900;
+}
+.fa-star_nonactive {
+    color: #ada394;
+}
+.fa-star{
+    font-size: 20px;
+}

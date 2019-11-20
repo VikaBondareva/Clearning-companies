@@ -1,0 +1,36 @@
+.stars {
+  display: inline-block;
+  font-size: 35px;
+  line-height: z5px;
+  position: relative;
+  text-align: left;
+  vertical-align: top;
+  margin-top: 4px;
+  color: goldenrod;
+}
+.card-ratting {
+  display: flex;
+  align-items: baseline;
+}
+.stars:after {
+  content: "☆☆☆☆☆";
+}
+.stars--large {
+  font-size: 25px;
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .stars--large {
+    width: 230px;
+  }
+}
+.stars span {
+  display: block;
+  left: 0;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.stars span:after {
+  content: "★★★★★";
+}
