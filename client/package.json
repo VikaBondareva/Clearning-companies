@@ -13,7 +13,7 @@
     "history": "^4.9.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "material-ui-pickers": "^2.2.4",
     "prop-types": "^15.7.2",
     "query-string": "^6.4.2",
