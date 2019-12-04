@@ -83,7 +83,7 @@ class SearchMenuComponent extends Component{
             className={classes.main}
             >
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
+              {/* <div className={classes.searchIcon}>
                 <SearchIcon />
                 </div>
                 <InputBase
@@ -96,7 +96,7 @@ class SearchMenuComponent extends Component{
                       root: classes.inputRoot,
                       input: classes.inputInput,
                     }}
-                />
+                /> */}
               </div>
               <div className={classes.fromFilter}>
                 <Select 
@@ -113,20 +113,20 @@ class SearchMenuComponent extends Component{
                     onChange={this.handleChange}
                     options={selectCountCard}
                 />
-                <Select 
+                {/* <Select 
                     value={city} 
                     targetValue="city"
                     name="Город"
                     onChange={this.handleChange}
                     options={selectCity}
-                />
-                 <Select 
+                /> */}
+                 {/* <Select 
                     value={day} 
                     targetValue="day"
                     name="День недели работы"
                     onChange={this.handleChange}
                     options={selectDays}
-                />
+                /> */}
                 <FormControl className={classes.formControl}>
                     <InputLabel shrink htmlFor="minPrice" >Минимальная цена</InputLabel>
                     <Input 
@@ -153,13 +153,13 @@ class SearchMenuComponent extends Component{
                         }}
                     />
                 </FormControl>
-                <SelectChip 
+                {/* <SelectChip 
                   services={services}
                   onChange={this.handleChange}
                   servicesTypes={serviceTypes}
                   isSmall={true}
                   name="services"
-                />
+                /> */}
                 <Button size="small" variant="contained" color="primary" onClick={this.handleClick}>
                     Найти
                 </Button>

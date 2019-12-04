@@ -39,7 +39,7 @@ const schema = new mongoose.Schema(
       validate: pnumberValidator
     },
     password: { type: String, select: false, validate: passwordValidator },
-    addresses: [{ type: String, required: true }],
+    // addresses: [{ type: String, required: true, }],
     status: { type: Number, required: true, default: StatusUser.notVerified },
     googleId: { type: String },
     role: { type: String, required: true, lowercase: true },

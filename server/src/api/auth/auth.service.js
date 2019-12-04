@@ -58,7 +58,7 @@ async function register(
       email,
       phone
     };
-    newUser.addresses = [address];
+    // newUser.addresses = [];
     const user = new User({ ...newUser });
     await user.save();
     user.sendMailMessage(mailSendVerifyCode(user, verificationCode));

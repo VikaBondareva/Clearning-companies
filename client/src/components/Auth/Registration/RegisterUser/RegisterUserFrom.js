@@ -64,7 +64,7 @@ function Registration(props) {
             />
           </FormControl>
         </div>
-        <FormControl
+        {/* <FormControl
           margin="normal"
           required
           fullWidth
@@ -77,7 +77,7 @@ function Registration(props) {
             onBlur={handleBlur}
             error={touched.address && Boolean(errors.address)}
           />
-        </FormControl>
+        </FormControl> */}
         <div className={classes.grid}>
           <FormControl margin="normal" required>
             <InputLabel htmlFor="password">Пароль</InputLabel>

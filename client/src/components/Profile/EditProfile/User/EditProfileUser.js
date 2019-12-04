@@ -101,7 +101,7 @@ function EditProfileUser(props) {
           error={touched.phone && Boolean(errors.phone)}
         />
       </div>
-      <div className={classes.grid}>
+      {/* <div className={classes.grid}>
         <p>Адреса</p>
         <div className={classes.flexColumn}>
           {values.addresses.map(renderAddress)}
@@ -117,7 +117,7 @@ function EditProfileUser(props) {
             Добавить адрес
           </Button>
         </div>
-      </div>
+      </div> */}
       <div className={classes.flex}>
         <p>Вы хотите получать оповещания на Email?</p>
         <FormControlLabel

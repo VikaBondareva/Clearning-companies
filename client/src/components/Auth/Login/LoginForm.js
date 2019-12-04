@@ -42,7 +42,7 @@ function LoginForm(props) {
         {errors.password && touched.password && (
           <div className={classes.error}>{errors.password}</div>
         )}
-        <FormControlLabel
+        {/* <FormControlLabel
           control={
             <Checkbox
               checked={values.isExecutor}
@@ -56,7 +56,7 @@ function LoginForm(props) {
             />
           }
           label="Войти как компания ?"
-        />
+        /> */}
         <Button
           type="submit"
           fullWidth

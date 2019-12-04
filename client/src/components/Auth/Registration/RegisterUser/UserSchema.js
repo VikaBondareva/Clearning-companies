@@ -14,9 +14,9 @@ const UserSchema = object().shape({
     .required("Enter is email"),
   phone: string()
     .matches(/\+375(29|33|44|25)\d{7}$/),
-  address: string()
-    .required("Enter your address")
-    .min(10),
+  // address: string()
+  //   .required("Enter your address")
+  //   .min(10),
   password: string()
     .required("Enter your password")
     .min(6)

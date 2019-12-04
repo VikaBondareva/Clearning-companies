@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Logo from '../../static/img/logo.png';
+// import Logo from '../../static/img/logo.jpg';
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -28,8 +28,8 @@ function AuthPage(props) {
     link,
     nameAction,
     isSendEmail,
-    otherRegisterLink,
-    otherRegisterText
+    // otherRegisterLink,
+    // otherRegisterText
   } = props;
   let classSize = size === "big" ? classes.mainBig : classes.mainSmall;
   return (
@@ -38,7 +38,7 @@ function AuthPage(props) {
         <CssBaseline />
         <Paper className={classes.paper}>
           <Link to="/">
-              <img className={classes.logo}  src={Logo} alt="Клининговые компании"/>
+              {/* <img className={classes.logo}  src={Logo} alt="Клининговые компании"/> */}
           </Link>
           <Typography component="h1" variant="h5">
             {title}
@@ -53,9 +53,9 @@ function AuthPage(props) {
           <p>
             {titleDown} <Link to={link}>{nameAction}</Link>
           </p>
-          {otherRegisterLink && otherRegisterText && (
+          {/* {otherRegisterLink && otherRegisterText && (
             <Link to={otherRegisterLink}>{otherRegisterText}</Link>
-          )}
+          )} */}
         </Paper>
         {isSendEmail && (
           <Modal

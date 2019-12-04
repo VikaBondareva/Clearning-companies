@@ -11,7 +11,7 @@ const schemas = {
       .required()
       .min(3)
       .max(50),
-    address: Joi.string().required(),
+    // address: Joi.string().required(),
     email: Joi.string()
       .email()
       .required(),

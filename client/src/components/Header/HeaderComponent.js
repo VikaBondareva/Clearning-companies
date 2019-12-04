@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Logo from '../../static/img/logo.png';
+import Logo from '../../static/img/logo.jpg';
 import {
   Notifications,
   AccountCircle,
@@ -155,7 +155,7 @@ function HeaderComponent(props) {
           {(role === roles.user || !role) && (
             <Link to="/booking" className={classes.linkMenu}>
               <Button size="small" className={classes.btnLink}>
-                Забронировать уборку
+                Забронировать номер
               </Button>
             </Link>
           )}

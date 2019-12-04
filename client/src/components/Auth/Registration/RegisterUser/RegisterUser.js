@@ -11,7 +11,7 @@ export default function RegisterUser({registerUser,isSendCode, error }){
 
     return (
         <AuthPage 
-            title='Зарегестрироваться в качетсве пользователя'
+            title='Зарегестрироваться'
             titleDown="У Вас уже есть аккаунт?"
             link='/login'
             size='big'
@@ -26,7 +26,7 @@ export default function RegisterUser({registerUser,isSendCode, error }){
                     surname: '',
                     email: '',
                     phone: '',
-                    address: '',
+                    // address: '',
                     password: '',
                     confirmPassword: '',
                 }}   
